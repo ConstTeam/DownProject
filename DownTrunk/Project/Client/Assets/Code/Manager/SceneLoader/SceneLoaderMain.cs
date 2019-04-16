@@ -19,10 +19,6 @@ namespace MS
 		public GameObject	battleUICanvas;
 		public Camera		battleUICamera;
 		public Transform	battleUIRoot;
-		public Transform	battleUIRootSub;
-		public Transform    battleFunctionRoot;
-		public Transform	sceneRoot;
-		public Transform	battleRoot;
 
 		private void Awake()
 		{

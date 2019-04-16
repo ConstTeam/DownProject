@@ -20,7 +20,7 @@ namespace MS
 
 			SocketHandler.ShortSendExcuteFun	= Show;
 			SocketHandler.ShortSendBackFun		= Hide;
-			SocketHandler.LongSendExcuteFun		= Show;
+			//SocketHandler.LongSendExcuteFun		= Show;
 		}
 
 		void OnDestroy()

@@ -39,12 +39,12 @@ namespace MS
 			//--大厅服---------------------------------------------------------------------------------------
 			//登录
 			C2S_LOGIN_LONG			= new ArrayList() { "sssssss",	ModuleDataFirst.MODULE_LOGIN, (byte)1 };
-			C2S_LOGIN_PVP_REQUEST	= new ArrayList() { "I",		ModuleDataFirst.MODULE_LOGIN, (byte)2 };
+			C2S_LOGIN_PVP_REQUEST	= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN, (byte)2 };
 
 			//--战斗服---------------------------------------------------------------------------------------
 			C2S_BATTLE_LOGIN		= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN, (byte)1 };
 
-			C2S_BATTLE_SYNC_POS		= new ArrayList() { "II",		ModuleDataFirst.MODULE_BATTLE, (byte)250 };
+			C2S_BATTLE_SYNC_POS		= new ArrayList() { "IIII",		ModuleDataFirst.MODULE_BATTLE, (byte)2 };
 		}
 	}
 }
