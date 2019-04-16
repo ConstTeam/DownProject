@@ -1,0 +1,8 @@
+{
+	"BundleId":"com.moshine.rb.static",
+	"BundleVer":"1.0.0",
+	"SvnVer":"0",
+	"PlatformID":"NONE",
+	"ChannelID":"static",
+	"CdnUrl":["http://download.msplay.cn/MoshineRes/{0}/ChannelInfo?t={1}"],
+}

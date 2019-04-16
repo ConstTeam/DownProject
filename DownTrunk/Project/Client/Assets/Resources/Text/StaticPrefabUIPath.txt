@@ -1,0 +1,104 @@
+{
+    "Paths": [
+		{
+    		"PrefabPath": "PrefabUI/Main/MainPanel",
+			"UIType": "MainPanel",
+			"UIRoot": "MainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/Card/CardDetail/CardDetailPanel",
+			"UIType": "CardDetailPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+			"PrefabPath": "PrefabUI/Main/Card/CardSearch/CardSearchFilterPanel",
+			"UIType": "CardSearchFilterPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+			"PrefabPath": "PrefabUI/Main/PVPSelectCardGroup/PVPSelectCardGroupPanel",
+			"UIType": "PVPSelectCardGroupPanel",
+			"UIRoot": "MainUIRoot"
+		},
+		{
+			"PrefabPath": "PrefabUI/Main/PVPSelectCardGroup/PVPSelectModePanel",
+			"UIType": "PVPSelectModePanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+			"PrefabPath": "PrefabUI/Main/PVPSelectCardGroup/MatchPlayerPanel",
+			"UIType": "MatchPlayerPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+			"PrefabPath": "PrefabUI/Main/Card/CardGroup/DeckBuilderPanel",
+			"UIType": "DeckBuilderPanel",
+			"UIRoot": "MainUIRoot"
+		},
+		{
+			"PrefabPath": "PrefabUI/Main/Card/CardGroup/CardCostDistributionPanel",
+			"UIType": "CardCostDistribution",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+			"PrefabPath": "PrefabUI/Main/Card/CardPackage/CardPackagePanel",
+			"UIType": "CardPackagePanel",
+			"UIRoot": "MainUIRoot"
+		},
+		{
+			"PrefabPath": "PrefabUI/Main/Card/CardPackage/OpenPackagePanel",
+			"UIType": "OpenPackagePanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/Shop/BuyPanel",
+			"UIType": "BuyPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/Shop/ShopPanel",
+			"UIType": "ShopPanel",
+			"UIRoot": "MainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/Task/TaskPanel",
+			"UIType": "TaskPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/Task/ChangeTaskPanel",
+			"UIType": "ChangeTaskPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/Task/SignInTaskPanel",
+			"UIType": "SignInTaskPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Common/GetAwardPanel",
+			"UIType": "GetAwardPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/SearchingPanel",
+			"UIType": "SearchingPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Battle/BattleResultPanel",
+			"UIType": "BattleResultPanelCtrl",
+			"UIRoot": "battleUIRootSub"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/Role/ChangeHeadIconPanel",
+			"UIType": "ChangeHeadIconPanel",
+			"UIRoot": "SubMainUIRoot"
+		},
+		{
+    		"PrefabPath": "PrefabUI/Main/Card/CardGroup/ElementAbout/ElementSetPanel",
+			"UIType": "ElementSetPanel",
+			"UIRoot": "SubMainUIRoot"
+		}
+    ]
+}
