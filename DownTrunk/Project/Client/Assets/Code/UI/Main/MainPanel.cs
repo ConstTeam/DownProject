@@ -15,7 +15,7 @@ namespace MS
 
 		private void OnClickPVP()
 		{
-			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_PVP_REQUEST, new ArrayList() { 565 });
+			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_PVP_REQUEST, new ArrayList() { });
 		}
 	}
 }

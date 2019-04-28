@@ -26,8 +26,9 @@ namespace MS
 		public const int MODULE_BATTLE_LOGIN_SERVICE	= 101;
 		public const int MODULE_BATTLE_SERVICE			= 102;
 	
-
-		public static Queue<ServerData> m_lstData = new Queue<ServerData>();
+		public static Queue<ByteBuffer> m_queUdpData	= new Queue<ByteBuffer>();
+		public static Queue<ServerData> m_lstData		= new Queue<ServerData>();
+		private static Object m_LockerUdp;
 		private static Object m_Locker;
 		private static Dictionary<int, IService> m_ServiceDic = new Dictionary<int, IService>();
 
@@ -46,6 +47,7 @@ namespace MS
 		void Awake()
 		{
 			m_Locker = new Object();
+			m_LockerUdp = new Object();
 			m_Inst = (ServiceManager)(MonoBehaviour)this;
 
 			m_ServiceDic.Add(MODULE_MAIN_THREAD_SERVICE,	new MainThreadService());
@@ -70,9 +72,9 @@ namespace MS
 
 		void Update()
 		{
-			lock (m_Locker)
+			lock(m_Locker)
 			{
-				if (m_lstData.Count > 0)
+				if(m_lstData.Count > 0)
 				{
 					ServerData temp = m_lstData.Dequeue();
 					MessageArrived(temp.conn, temp.buff);
@@ -80,11 +82,24 @@ namespace MS
 						SocketHandler.ShortSendBackFun();
 				}
 			}
+
+			lock(m_LockerUdp)
+			{
+				if(m_queUdpData.Count > 0)
+				{
+					ByteBuffer data = m_queUdpData.Dequeue();
+					int roleId = data.readInt();
+					float roleX = data.readInt() / 1000f;
+					float roleY = data.readInt() / 1000f;
+					float fieldY = data.readInt() / 1000f;
+					BattleMgrE.GetInst().SetPos(roleX, roleY, fieldY);
+				}
+			}
 		}
 
 		public static void PostMessageShort(ConnectBase conn, ByteBuffer buff)
 		{
-			lock (m_Locker)
+			lock(m_Locker)
 			{
 				SocketHandler.GetInst().ShortClose((ConnectShort)conn);
 				ServerData data = new ServerData(conn, buff, true);
@@ -94,10 +109,18 @@ namespace MS
 
 		public static void PostMessageLong(ConnectBase conn, ByteBuffer buff)
 		{
-			lock (m_Locker)
+			lock(m_Locker)
 			{
 				ServerData data = new ServerData(conn, buff, false);
 				m_lstData.Enqueue(data);
+			}
+		}
+
+		public static void PostMessageUdp(ByteBuffer buff)
+		{
+			lock(m_LockerUdp)
+			{
+				m_queUdpData.Enqueue(buff);
 			}
 		}
 	}

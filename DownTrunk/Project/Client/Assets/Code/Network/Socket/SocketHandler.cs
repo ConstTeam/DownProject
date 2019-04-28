@@ -22,6 +22,7 @@ namespace MS
 
 		private ConnectLong[]			_arrLongConn;
 		private string[][]				_arrIpInfo;
+		private ConnectUdp				_Udp;
 
 		private static int m_iMultiCode = 0;
 		public static int GetMultiCode()
@@ -29,7 +30,7 @@ namespace MS
 			return ++m_iMultiCode;
 		}
 
-		private static SocketHandler	m_Inst	= null;
+		private static SocketHandler m_Inst = null;
 		public static SocketHandler GetInst()
 		{
 			return m_Inst;
@@ -42,6 +43,8 @@ namespace MS
 				if(null != _arrLongConn[i])
 					_arrLongConn[i].Close();
 			}
+
+			UdpEnd();
 
 			m_Inst = null;
 		}
@@ -155,6 +158,25 @@ namespace MS
 		public void LongReconnect(int type)
 		{
 			_arrLongConn[type].Reconnect();
+		}
+
+		public void UdpStart()
+		{
+			_Udp = new ConnectUdp("192.168.1.49", 8801);
+		}
+
+		public void UdpEnd()
+		{
+			if(_Udp != null)
+			{
+				_Udp.Close();
+				_Udp = null;
+			}
+		}
+
+		public void UdpSend(ByteBuffer data)
+		{
+			_Udp.Send(data);
 		}
 	}
 }
