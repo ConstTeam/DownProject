@@ -182,6 +182,12 @@ namespace MS
 			SocketHandler.GetInst().LongSend(data, 1);
 		}
 
+		static public void ExecuteUdp(ArrayList paramList1, ArrayList paramList2)
+		{
+			ByteBuffer data = PackData(paramList1, paramList2, false);
+			SocketHandler.GetInst().UdpSend(data);
+		}
+
 		static public void ExecuteLog(int iRoleId, string sLog, int iType, int platform, int communication, string bundleVersion, string svnVersion)
 		{
 			ByteBuffer data = new ByteBuffer();

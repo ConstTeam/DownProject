@@ -60,9 +60,9 @@ public class LoginPanel : MonoBehaviour
 
 	private void OnLogin()
 	{
-        if (!PlatformBase.sdkInterface.OnLogin())
-            OnDefaultLogin();
-    }
+		 if (!PlatformBase.sdkInterface.OnLogin())
+		     OnDefaultLogin();
+	}
 
     private void OnDefaultLogin()
 	{

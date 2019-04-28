@@ -17,7 +17,6 @@ namespace MS
 
 		//--战斗服---------------------------------------------------------------------------------------
 		public ArrayList C2S_BATTLE_LOGIN;
-		public ArrayList C2S_BATTLE_SYNC_POS;
 
         //*******************************************************************************************
 
@@ -43,8 +42,6 @@ namespace MS
 
 			//--战斗服---------------------------------------------------------------------------------------
 			C2S_BATTLE_LOGIN		= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN, (byte)1 };
-
-			C2S_BATTLE_SYNC_POS		= new ArrayList() { "IIII",		ModuleDataFirst.MODULE_BATTLE, (byte)2 };
 		}
 	}
 }

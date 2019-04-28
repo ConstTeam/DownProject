@@ -34,13 +34,17 @@ namespace MS
 		private void Update()
 		{
 			_t += Time.deltaTime;
-			if(_t > 0.02f)
+			if(_t > 0.03f)
 			{
 				int roleX	= (int)(m_RoleM.m_Transform.localPosition.x * 1000);
 				int roleY	= (int)(m_RoleM.m_Transform.localPosition.y * 1000);
-				int filedX	= (int)(m_BattleFiledM.m_Transform.localPosition.x * 1000);
 				int filedY	= (int)(m_BattleFiledM.m_Transform.localPosition.y * 1000);
-				CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_SYNC_POS, new ArrayList() { roleX, roleY, filedX, filedY });
+				ByteBuffer buff = new ByteBuffer(4);
+				buff.writeInt(RoleData.RoleID);
+				buff.writeInt(roleX);
+				buff.writeInt(roleY);
+				buff.writeInt(filedY);
+				SocketHandler.GetInst().UdpSend(buff);
 				_t = 0f;
 			}
 		}

@@ -28,10 +28,10 @@ namespace MS
 			m_BattleFiledE.Load();
 		}
 
-		public void SetPos(float roleX, float roleY, float fieldX, float fieldY)
+		public void SetPos(float roleX, float roleY, float fieldY)
 		{
 			m_RoleE.SetPos(roleX, roleY);
-			m_BattleFiledE.SetPos(fieldX, fieldY);
+			m_BattleFiledE.SetPos(fieldY);
 		}
 	}
 }

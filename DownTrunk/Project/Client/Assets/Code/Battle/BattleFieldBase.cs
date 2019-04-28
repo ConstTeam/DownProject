@@ -16,9 +16,8 @@ namespace MS
 		}
 
 		private Vector3 _tempPos = new Vector3();
-		public void SetPos(float x, float y)
+		public void SetPos(float y)
 		{
-			_tempPos.x = x;
 			_tempPos.y = y;
 			m_Transform.localPosition = _tempPos;
 		}
