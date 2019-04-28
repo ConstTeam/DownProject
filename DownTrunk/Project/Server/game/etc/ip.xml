@@ -1,0 +1,8 @@
+﻿<root>
+	<GameServer Id="Game_trunk" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.10" InternetPort="7861" ManagePort="27861" />
+	<HallServer Id="Hall_trunk" Name="本地测试服" Ip="127.0.0.1" InternetPort="7860" ManagePort="27860" />
+
+	<GMServer Id="GM_trunk" Ip="127.0.0.1" InternetPort="8056" ManagePort="28056" />
+	<DataServer Id="DataCenter" Ip="127.0.0.1" InternetPort="9004" ManagePort="29004" />
+	<ChainServer Id="ChainServer" Ip="127.0.0.1" InternetPort="3001"/>
+</root>

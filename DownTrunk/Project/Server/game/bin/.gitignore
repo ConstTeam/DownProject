@@ -1,0 +1,11 @@
+/app/
+/db/
+/handler/
+/memory/
+/message/
+/module/
+/platform/
+/quest/
+/redis/
+/skill/
+/sys/

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/foundation/lib/org.springframework.beans-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/org.springframework.core-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/dom4j-2.0.0-ALPHA-2.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/poi-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/xmlbeans-2.3.0.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/poi-ooxml-schemas-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/fastjson-1.0.4.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/poi-ooxml-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/slf4j-api-1.7.7.jar"/>
+	<classpathentry kind="lib" path="/foundation/lib/slf4j-log4j12-1.6.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

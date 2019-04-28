@@ -1,0 +1,8 @@
+package config.model.card;
+
+public class InitCardModel {
+	/** ¿¨ÅÆid */
+	public int ID;
+	/** ÊýÁ¿ */
+	public int Count;
+}

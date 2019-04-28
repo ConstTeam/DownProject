@@ -1,0 +1,12 @@
+AppId=100691822
+AppKey=759ffc12d07b644ad7b0c84dcd1db61a
+AppTest=true
+TestIp=119.147.19.43
+TestPort=80
+OpenIp=openapi.tencentyun.com
+OpenPort=80
+GoodsPicUrl=
+ZoneId=1
+DeliverIp=
+DeliverPort=12315
+DeliverRelativeUrl=/callback
