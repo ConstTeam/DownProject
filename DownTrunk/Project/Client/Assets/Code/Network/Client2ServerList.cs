@@ -6,17 +6,14 @@ namespace MS
 	public class Client2ServerList
 	{
 		//--大厅服---------------------------------------------------------------------------------------
-		/**登录消息---*/
 		public ArrayList C2S_LOGIN_LONG;
 		public ArrayList C2S_LOGIN_PVP_REQUEST;
-        public ArrayList C2S_CANCEL_ASSIGN;
-		public ArrayList C2S_ASSIGN_GUIDE_INSTANCE_SERVER;
 
 		public ArrayList C2S_GM;
 
-
 		//--战斗服---------------------------------------------------------------------------------------
 		public ArrayList C2S_BATTLE_LOGIN;
+		public ArrayList C2S_BATTLE_LOADED;
 
         //*******************************************************************************************
 
@@ -41,7 +38,8 @@ namespace MS
 			C2S_LOGIN_PVP_REQUEST	= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN, (byte)2 };
 
 			//--战斗服---------------------------------------------------------------------------------------
-			C2S_BATTLE_LOGIN		= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN, (byte)1 };
+			C2S_BATTLE_LOGIN		= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN,	(byte)1 };
+			C2S_BATTLE_LOADED		= new ArrayList() { "",			ModuleDataFirst.MODULE_BATTLE,			(byte)1 };
 		}
 	}
 }
