@@ -43,9 +43,9 @@ namespace MS
 		{
 			_fDis = Input.mousePosition.x - _beginPos.x;
 			if(_fDis < -10)
-				BattleMgrM.GetInst().MoveLeft();
+				BattleManager.GetInst().m_RoleM.MoveLeft();
 			else if(_fDis > 10)
-				BattleMgrM.GetInst().MoveRight();
+				BattleManager.GetInst().m_RoleM.MoveRight();
 		}
 
 		private void OnMouseUp()
