@@ -7,10 +7,8 @@ package message.game.fight;
 public class FightMsgConst {
 
 	/* ------------------ 接收 ------------------ */
-	/** 选择先手或后手 */
-	public static final int FIRST_CHOOSE = 1;
 	/** 开局换牌完成 */
-	public static final int READY = 2;
+	public static final int READY = 1;
 	/** 结束回合 */
 	public static final int END_TURN = 3;
 	/** 打出部队牌 */
@@ -47,10 +45,10 @@ public class FightMsgConst {
 	public static final int OTHER = 2;
 
 	/* ------------------ 发送 ------------------ */
-	/** 开局 */
-	public static final int START_GAME = 1;
-	/** 初始牌 */
-	public static final int FIRST_DEAL = 2;
+	/** 进入房间 */
+	public static final int INTO_ROOM = 1;
+	/** 开始游戏 */
+	public static final int START_GAME = 2;
 	/** 开局换牌结果 */
 	public static final int REPLACE_FIRST_DEAL_RESULT = 3;
 	/** 已方准备成功 */

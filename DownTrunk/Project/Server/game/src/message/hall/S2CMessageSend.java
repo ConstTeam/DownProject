@@ -70,6 +70,9 @@ public class S2CMessageSend {
 	}
 	
 	public static void sendMultiMessage(Collection<ISession> sessions, IByteBuffer data) {
+		if (sessions == null || sessions.size() == 0) {
+			return;
+		}
 		sendMultiMessage(sessions, data, null);
 	}
 	

@@ -1,141 +1,110 @@
 package sys;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import app.ServerStaticInfo;
-import module.scene.GameRoom;
 import net.ByteBufferFactory;
 import net.IByteBuffer;
-import redis.RedisProxy;
-import redis.data.PlayerInfo;
 import util.ErrorPrint;
 
-public class GameSyncManager implements Runnable, UncaughtExceptionHandler {
+public class GameSyncManager {
 
 	private static final Logger logger = LoggerFactory.getLogger(GameSyncManager.class);
 
+	public static final int INTERVAL = 30;
 	
-	private static HashMap<Integer, InetAddress> ips = new HashMap<>();
-	private static HashMap<Integer, Integer> ports = new HashMap<>();
-
-	private static GameSyncManager instance;
-
+	private IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+	
+	private HashMap<Integer, DatagramPacket> players = new HashMap<>();
+	
+	private String roomId = "";
+	
+	private int count = 0;
+	
+	private int frame = 0;
+	
+	ScheduledFuture<?> future;
+	
 	public static GameSyncManager getInstance() {
-		if (instance == null) {
-			instance = new GameSyncManager();
-		}
-
-		return instance;
+		return new GameSyncManager();
 	}
 
-	public static void start() {
-		GameSyncManager manager = GameSyncManager.getInstance();
-		Thread thread = new Thread(manager, "GameSyncManager");
-		thread.setUncaughtExceptionHandler(manager);
-		thread.start();
+	public void start(String roomId) {
+		this.roomId = roomId;
+		logger.info("房间Id：{}。游戏位置同步开始。", roomId);
+		future = GameTimer.getScheduled().scheduleAtFixedRate(() -> run(), INTERVAL, INTERVAL, TimeUnit.MILLISECONDS);
 	}
 
-	@Override
 	public void run() {
-
-		DatagramSocket datagramSocket = null;
-		byte[] buf = new byte[1024];
-
 		try {
-			datagramSocket = new DatagramSocket(8801);
+			IByteBuffer tempDate = null;
+			int count = 0;
+			if (this.count != 0) {
+				synchronized (roomId) {
+					tempDate = this.data;
+					count = this.count;
+					this.data = ByteBufferFactory.getNewByteBuffer();
+					this.count = 0;
+				}
+			}
+			IByteBuffer sendData = ByteBufferFactory.getNewByteBuffer();
+			sendData.writeInt(frame);
+			sendData.writeByte(count);
+			if (count != 0) {
+				sendData.writeBytes(tempDate.getBytes());
+			}
+			other(sendData);
+			frame++;
 		} catch (Exception e) {
 			ErrorPrint.print(e);
 		}
-		logger.info("服务器开启，游戏位置同步线程开始。");
-
-		while (true) {
-			if (!ServerStaticInfo.opened) {
-				logger.info("服务器关闭，游戏位置同步线程结束。");
-				break;
-			}
-			try {
-				// 定义接收数据的数据包
-				DatagramPacket datagramPacket = new DatagramPacket(buf, 0, buf.length);
-				datagramSocket.receive(datagramPacket);
-				byte[] byteData = datagramPacket.getData();
-				IByteBuffer data = ByteBufferFactory.getNewByteBuffer(byteData);
-				IByteBuffer sendData = ByteBufferFactory.getNewByteBuffer();
-				int playerId = data.readInt();
-				sendData.writeInt(playerId);
-				sendData.writeInt(data.readInt());
-				sendData.writeInt(data.readInt());
-				sendData.writeInt(data.readInt());
-				ports.put(playerId, datagramPacket.getPort());
-				ips.put(playerId, datagramPacket.getAddress());
-				other(playerId, sendData, datagramPacket);
-			} catch (Exception e) {
-				ErrorPrint.print(e);
-			}
+	}
+	
+	public void stop() {
+		if (future != null) {
+			future.cancel(false);
 		}
-		try {
-			datagramSocket.close();
-		} catch (Exception e) {
-			ErrorPrint.print(e);
-		}
-		logger.info("游戏位置同步线程结束。");
 	}
 
-	@Override
-	public void uncaughtException(Thread t, Throwable e) {
-		ErrorPrint.print(e);
-		System.err.println("	at sys.GameSyncManager(GameSyncManager.class:0)");
-		start();
+	public void addPlayer(int playerId) {
+		players.put(playerId, new DatagramPacket(new byte[0], 0));
+	}
+	
+	public void addData(IByteBuffer data, int roomId, int playerId) {
+		synchronized (this.roomId) {
+//			logger.debug("房间Id：{}，玩家Id：{}", roomId, playerId);
+			this.data.writeInt(playerId);
+			this.data.writeInt(data.readInt());
+			this.data.writeInt(data.readInt());
+			count++;
+		}
 	}
 
-	private void other(int playerId, IByteBuffer data, DatagramPacket datagramPacket) {
-		PlayerInfo playerInfo = RedisProxy.getInstance().getPlayerInfo(playerId);
-		if (playerInfo == null) {
-			logger.error("玩家：{}，同步位置信息失败。获取玩家信息失败。", playerId);
-			return;
-		}
-		if (playerInfo.getRoomId() == 0) {
-			logger.error("玩家：{}，同步位置失败。未在游戏房间内。", playerId);
-			return;
-		}
-		int roomId = playerInfo.getRoomId();
-
-		GameRoomManager.getInstance().getLock().lock(roomId);
+	private void other(IByteBuffer data) {
 		try {
-			GameRoom room = GameRoomManager.getInstance().getRoom(roomId);
-			if (room == null) {
-				logger.error("玩家：{}，房间Id：{}，同步位置失败。游戏房间不存在。", playerId, roomId);
-				return;
-			}
-			if (!room.isInRoom(playerId)) {
-				logger.error("玩家：{}，房间Id：{}，同步位置失败。未在游戏房间内。", playerId, roomId);
-				return;
-			}
-
-			int enemyId = room.getEnemyId(playerId);
-			if (ports.get(enemyId) == null) {
-				return;
-			}
-			int port = ports.get(enemyId);
-			// 准备数据，把数据封装到数据包中。
 			// 创建了一个数据包
-			DatagramPacket packet = new DatagramPacket(data.getBytes(), data.length(), ips.get(enemyId), port);
-			DatagramSocket datagramSocket = new DatagramSocket();
-			// 调用udp的服务发送数据包
-			datagramSocket.send(packet);
-			// 关闭资源 ---实际上就是释放占用的端口号
-			datagramSocket.close();
-			logger.error("玩家：{}，房间Id：{}，ip:{} 端口:{} 同步位置。", playerId, roomId, packet.getAddress().getHostAddress(), packet.getPort());
+			for (int playerId : players.keySet()) {
+				InetAddress ip = UDPMsgManager.getIp(playerId);
+				if (ip == null) {
+					continue;
+				}
+				DatagramPacket packet = players.get(playerId);
+				int port = UDPMsgManager.getPort(playerId);
+				packet.setData(data.getBytes());
+				packet.setAddress(ip);
+				packet.setPort(port);
+				// 调用udp的服务发送数据包
+				UDPMsgManager.getDatagramSocket().send(packet);
+				logger.debug("房间Id：{}，ip:{} 端口:{} 同步位置。", roomId, packet.getAddress().getHostAddress(), packet.getPort());
+			}
 		} catch (Exception e) {
 			ErrorPrint.print(e);
-		} finally {
-			GameRoomManager.getInstance().getLock().unlock(roomId);
 		}
 	}
 }
