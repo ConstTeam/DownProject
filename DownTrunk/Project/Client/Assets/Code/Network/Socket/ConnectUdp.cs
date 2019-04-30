@@ -50,13 +50,13 @@ namespace MS
 				_connect.Close();
 		}
 
-		byte[] recvData;
+		byte[] recvData = new byte[32 * 4];
 		private int _iReceLen = 0;
         private void ReceiveData()
         {
-			while(true)
+			while (true)
             {
-				recvData = new byte[1024];
+				recvData = new byte[32 * 4];
 				try
                 {
 					_iReceLen = _connect.ReceiveFrom(recvData, ref _serverEnd);
