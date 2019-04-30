@@ -66,7 +66,7 @@ namespace MS
 			{
 				x = _rand.Next(-5, 6) / 2f;
 				y = lastY - _rand.Next(2, 7) / 2f;
-				type = _rand.Next(0, 3);
+				type = _rand.Next(0, 4);
 				lastY = y;
 
 				data = new BattleFieldData(x, y, type);
@@ -89,6 +89,11 @@ namespace MS
 		{
 			if(RoleData.RoleID != roleId)
 				m_dicRoles[roleId].SetPos(x, y);
+		}
+
+		public void RemovePlat(PlatBase plat)
+		{
+			m_lstFields[0].RemovePlat(plat);
 		}
 	}
 }

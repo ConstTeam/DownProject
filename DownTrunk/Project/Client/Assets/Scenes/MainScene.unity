@@ -217,7 +217,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 87528541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b72acf0a76c5a3c419099b024f7ce570, type: 3}
+  m_Script: {fileID: 11500000, guid: b3f52cbec18dfa147a6ece05bb6fd313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &207509361
@@ -322,27 +322,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac9ed459a567c6b4f9b5f026ef923430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topUICanvas: {fileID: 0}
-  topUICamera: {fileID: 0}
-  topUIRoot: {fileID: 0}
   mainUICanvas: {fileID: 87528541}
   mainUICamera: {fileID: 1527171488}
   mainUIRoot: {fileID: 852023473}
-  subMainUICanvas: {fileID: 0}
-  subMainUICamera: {fileID: 0}
-  subMainUIRoot: {fileID: 0}
   battleUICanvas: {fileID: 800804391}
   battleUICamera: {fileID: 784033462}
   battleUIRoot: {fileID: 1869831817}
-  battleUIRootSub: {fileID: 0}
-  battleFunctionRoot: {fileID: 0}
-  sceneRoot: {fileID: 0}
-  battleRoot: {fileID: 0}
-  battleBottomUICanvas: {fileID: 0}
-  battleBottomUIRoot: {fileID: 0}
-  postProcess: {fileID: 0}
-  cardRoot: {fileID: 0}
-  cardCamera: {fileID: 0}
 --- !u!1 &784033461
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +373,7 @@ Camera:
   m_Depth: 2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 131104
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -447,7 +432,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 800804391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b72acf0a76c5a3c419099b024f7ce570, type: 3}
+  m_Script: {fileID: 11500000, guid: b3f52cbec18dfa147a6ece05bb6fd313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &800804393

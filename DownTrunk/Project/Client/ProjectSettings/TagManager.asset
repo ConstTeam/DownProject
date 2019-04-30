@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Canvas
+  - Plat1
+  - Plat2
+  - Plat3
+  - Plat0
   layers:
   - Default
   - TransparentFX
@@ -14,7 +19,7 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - Plat
   - 
   - 
   - 

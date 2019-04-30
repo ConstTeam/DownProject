@@ -5,14 +5,16 @@ namespace MS
 {
 	public class ResourceMgr
 	{
-		private static Object[] _boxes = new Object[3];
+		private static int _iPlatTypeCount = 4;
+		private static Object[] _boxes = new Object[_iPlatTypeCount];
 		private static Dictionary<int, Stack<PlatBase>> _dicBoxes = new Dictionary<int, Stack<PlatBase>>();
 
 		public static void Init()
 		{
-			_boxes[0] = ResourceLoader.LoadAssets("Prefab/BoxR");
-			_boxes[1] = ResourceLoader.LoadAssets("Prefab/BoxG");
-			_boxes[2] = ResourceLoader.LoadAssets("Prefab/BoxY");
+			for(int i = 0; i < _iPlatTypeCount; ++i)
+			{
+				_boxes[i] = ResourceLoader.LoadAssets(string.Format("Prefab/Plat{0}", i));
+			}
 		}
 
 		public static PlatBase PopBox(int type)
@@ -30,7 +32,8 @@ namespace MS
 
 		public static void PushBox(int type, PlatBase plat)
 		{
-			_dicBoxes[type].Push(plat);
+			if(!_dicBoxes[type].Contains(plat))
+				_dicBoxes[type].Push(plat);
 		}
 	}
 }
