@@ -21,10 +21,16 @@ GameObject:
   - component: {fileID: 4950381348530358}
   - component: {fileID: 212136342153878636}
   - component: {fileID: 61973547413269078}
+<<<<<<< HEAD:DownTrunk/Project/Client/Assets/Resources/Prefab/Plat3.prefab
   - component: {fileID: 114188367357831000}
   m_Layer: 9
   m_Name: Plat3
   m_TagString: Plat3
+=======
+  m_Layer: 0
+  m_Name: BoxY
+  m_TagString: Untagged
+>>>>>>> e5a4dd6ca2269b0f23caf04583f63c3f51491d09:DownTrunk/Project/Client/Assets/Resources/Prefab/BoxY.prefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,18 +73,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 0.3}
   m_EdgeRadius: 0
---- !u!114 &114188367357831000
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1460957904529684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb08ef45adae8cd478544eb943492fde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Transform: {fileID: 0}
 --- !u!212 &212136342153878636
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -123,5 +117,5 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0

@@ -57,7 +57,6 @@ public class ApplicationEntry : MonoBehaviour
 	public void OnConfigLoadEnd()
 	{
 		_appConst.OnConfigLoadEnd();
-		ResourceMgr.Init();
 	}
 
 	public static void HandleExit()
