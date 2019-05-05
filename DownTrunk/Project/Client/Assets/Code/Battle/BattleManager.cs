@@ -7,6 +7,18 @@ namespace MS
 	public class BattleManager : MonoBehaviour
 	{
 		public Transform BattleRootTran;
+		public Transform BattlePoorTran;
+
+		public int RoomId		{ get; set; }
+		public int Frequency	{ get; set; }
+		public int Stairs		{ get; set; }
+
+		public List<BattleField> m_lstFields = new List<BattleField>();
+		public Dictionary<int, BattleRoleBase> m_dicRoles = new Dictionary<int, BattleRoleBase>();
+		public BattleRoleM m_RoleM;
+
+		private System.Random _rand;
+		private List<BattleFieldData> _lstFieldData = new List<BattleFieldData>();
 
 		private static BattleManager _inst;
 		public static BattleManager GetInst()

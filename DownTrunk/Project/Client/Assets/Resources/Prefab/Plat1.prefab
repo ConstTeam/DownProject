@@ -9,51 +9,45 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1272361235813750}
+  m_RootGameObject: {fileID: 1503759021132286}
   m_IsPrefabAsset: 1
---- !u!1 &1272361235813750
+--- !u!1 &1503759021132286
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4574888532103944}
-  - component: {fileID: 212272422688992944}
-  - component: {fileID: 61138159650079494}
-<<<<<<< HEAD:DownTrunk/Project/Client/Assets/Resources/Prefab/Plat1.prefab
-  - component: {fileID: 114985688029721394}
-  m_Layer: 9
-  m_Name: Plat1
-  m_TagString: Plat1
-=======
+  - component: {fileID: 4193021595142862}
+  - component: {fileID: 212120991262904194}
+  - component: {fileID: 61417050611076506}
+  - component: {fileID: 114105548723068608}
   m_Layer: 0
-  m_Name: BoxR
+  m_Name: Plat1
   m_TagString: Untagged
->>>>>>> e5a4dd6ca2269b0f23caf04583f63c3f51491d09:DownTrunk/Project/Client/Assets/Resources/Prefab/BoxR.prefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4574888532103944
+--- !u!4 &4193021595142862
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1272361235813750}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 1503759021132286}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61138159650079494
+--- !u!61 &61417050611076506
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1272361235813750}
+  m_GameObject: {fileID: 1503759021132286}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -73,12 +67,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 0.3}
   m_EdgeRadius: 0
---- !u!212 &212272422688992944
+--- !u!114 &114105548723068608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1503759021132286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb08ef45adae8cd478544eb943492fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Transform: {fileID: 0}
+--- !u!212 &212120991262904194
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1272361235813750}
+  m_GameObject: {fileID: 1503759021132286}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0

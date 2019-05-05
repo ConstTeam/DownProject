@@ -181,25 +181,5 @@ namespace MS
 			ByteBuffer data = PackData(paramList1, paramList2, false);
 			SocketHandler.GetInst().LongSend(data, 1);
 		}
-
-		static public void ExecuteUdp(ArrayList paramList1, ArrayList paramList2)
-		{
-			ByteBuffer data = PackData(paramList1, paramList2, false);
-			SocketHandler.GetInst().UdpSend(data);
-		}
-
-		static public void ExecuteLog(int iRoleId, string sLog, int iType, int platform, int communication, string bundleVersion, string svnVersion)
-		{
-			ByteBuffer data = new ByteBuffer();
-			data.writeByte(5);
-			data.writeInt(iRoleId);
-			data.writeUTF(sLog);
-			data.writeByte(iType);
-			data.writeByte(platform);
-			data.writeByte(communication);
-			data.writeUTF(bundleVersion);
-			data.writeInt(int.Parse(svnVersion));
-			//SocketHandler.GetInst().LogSend(data);
-		}
 	}
 }
