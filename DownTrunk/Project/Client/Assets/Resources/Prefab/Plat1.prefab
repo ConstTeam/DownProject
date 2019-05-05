@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 212120991262904194}
   - component: {fileID: 61417050611076506}
   - component: {fileID: 114105548723068608}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Plat1
-  m_TagString: Untagged
+  m_TagString: Plat1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

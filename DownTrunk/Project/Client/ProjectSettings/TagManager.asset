@@ -8,7 +8,6 @@ TagManager:
   - Plat1
   - Plat2
   - Plat3
-  - Plat0
   layers:
   - Default
   - TransparentFX

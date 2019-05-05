@@ -31,6 +31,7 @@ namespace MS
 				{
 					BattleMainPanel.GetInst().ShowPanel();
 					SocketHandler.GetInst().UdpStart();
+					BattleManager.GetInst().m_RoleM.IsRunning = true;
 					break;
 				}
 			}
