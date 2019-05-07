@@ -5,14 +5,17 @@ namespace MS
 	public class BattleField : MonoBehaviour
 	{
 		public Transform Background;
+		public SpriteRenderer BgSp;
 		public DisappearTrigger DisTrigger;
 
 		private Transform _transform;
+		private Material _matBg;
 		private Vector3 _tempPos = new Vector3();
 
 		private void Awake()
 		{
 			_transform = transform;
+			_matBg = BgSp.material;
 			DisTrigger.TriggerCbFunc = RemovePlat;
 		}
 
@@ -20,6 +23,9 @@ namespace MS
 		{
 			_tempPos.y = y;
 			Background.localPosition = _tempPos;
+
+			_tempPos.y = y / -30f;
+			_matBg.mainTextureOffset = _tempPos;
 		}
 
 		public void RemovePlat(PlatBase plat)
