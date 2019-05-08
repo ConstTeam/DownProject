@@ -46,11 +46,13 @@ namespace MS
 				BattleManager.GetInst().m_RoleM.RunLeft();
 			else if(_fDis > 10)
 				BattleManager.GetInst().m_RoleM.RunRight();
+			else
+				BattleManager.GetInst().m_RoleM.Idle();
 		}
 
 		private void OnMouseUp()
 		{
-
+			BattleManager.GetInst().m_RoleM.Idle();
 		}
 	}
 }

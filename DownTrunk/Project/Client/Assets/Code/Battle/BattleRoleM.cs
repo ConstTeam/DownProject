@@ -7,47 +7,66 @@ namespace MS
 	{
 		public bool		IsRunning	{ get; set; }
 		public float	RunSpeed	{ get; set; }
-		public float	MoveSpeed	{ get; set; }
+		public float	SlipSpeed	{ get; set; }
+
+		private Vector3 _vecRunLeft;
+		private Vector3 _vecRunRight;
+		private Vector3 _vecSlipLeft;
+		private Vector3 _vecSlipRight;
 
 		protected override void OnAwake()
 		{
-			IsRunning	= false;
-			RunSpeed	= 0.04f;
-			MoveSpeed	= 0.02f;
+			IsRunning		= false;
+			RunSpeed		= 0.04f;
+			SlipSpeed		= 0.02f;
+			_vecRunLeft		= Vector3.left * RunSpeed;
+			_vecRunRight	= Vector3.right * RunSpeed;
+			_vecSlipLeft	= Vector3.left * SlipSpeed;
+			_vecSlipRight	= Vector3.right * SlipSpeed;
 		}
 
 		public void RunLeft()
 		{
-			m_Transform.localPosition += Vector3.left * RunSpeed;
+			_spRenderer.flipX = false;
+			_animType = BattleEnum.RoleAnimType.RunLeft;
+			m_Transform.localPosition += _vecRunLeft;
 		}
 
 		public void RunRight()
 		{
-			m_Transform.localPosition += Vector3.right * RunSpeed;
+			_spRenderer.flipX = true;
+			_animType = BattleEnum.RoleAnimType.RunRight;
+			m_Transform.localPosition += _vecRunRight;
+		}
+
+		public void Idle()
+		{
+			_spRenderer.flipX = false;
+			_animType = BattleEnum.RoleAnimType.Idle;
 		}
 
 		public void MoveLeft()
 		{
-			m_Transform.localPosition += Vector3.left * MoveSpeed;
+			m_Transform.localPosition += _vecSlipLeft;
 		}
 
 		public void MoveRight()
 		{
-			m_Transform.localPosition += Vector3.right * MoveSpeed;
+			m_Transform.localPosition += _vecSlipRight;
 		}
 
 		private int _lastX = 0, _lastY = 0;
 		private int _roleX = 0, _roleY = 0;
 		private float _t = 0f;
 		private RaycastHit2D _hit;
-		private Vector3 _vecOffset = Vector3.left * 0.1f;
-		private void Update()
+		private Vector3 _vecOffset = Vector3.left * 0.16f;
+		protected override void OnUpdate()
 		{
-			//Debug.DrawLine(m_Transform.position + _vecOffset, m_Transform.position + _vecOffset + Vector3.down * 0.2f, Color.red);
+			Debug.DrawLine(m_Transform.position + _vecOffset, m_Transform.position + _vecOffset + Vector3.down * 0.2f, Color.red);
 			_hit = Physics2D.Raycast(m_Transform.position + _vecOffset, Vector3.down, 0.2f, 1 << LayerMask.NameToLayer("Plat"));
 			if(!CheckHit())
 			{
-				//Debug.DrawLine(m_Transform.position - _vecOffset, m_Transform.position - _vecOffset + Vector3.down * 0.2f, Color.red);
+				Debug.DrawLine(m_Transform.position - _vecOffset, m_Transform.position - _vecOffset + Vector3.down * 0.2f, Color.red);
 				_hit = Physics2D.Raycast(m_Transform.position - _vecOffset, Vector3.down, 0.2f, 1 << LayerMask.NameToLayer("Plat"));
 				CheckHit();
 			}
