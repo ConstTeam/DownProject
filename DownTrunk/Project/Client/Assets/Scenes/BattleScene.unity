@@ -223,6 +223,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BattleRootTran: {fileID: 1125660363}
+  BattlePoorTran: {fileID: 0}
+  m_lstFields: []
+  m_RoleM: {fileID: 0}
 --- !u!1 &1125660362
 GameObject:
   m_ObjectHideFlags: 0
