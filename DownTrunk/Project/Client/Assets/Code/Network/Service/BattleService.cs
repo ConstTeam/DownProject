@@ -45,6 +45,7 @@ namespace MS
 				{
 					int playerId = data.readInt();
 					int hp = data.readByte();
+					BattleManager.GetInst().SyncHp(playerId, hp);
 					break;
 				}
 			}
