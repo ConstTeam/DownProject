@@ -154,6 +154,11 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		}
 	}
 	
+	public void roleHpSync(ISession session, int playerId, int hp) {
+		Collection<ISession> sessions = this.sessions.values();
+		FightMsgSend.hpSync(sessions, session, playerId, hp);
+	}
+	
 	private void pvpStart() {
 		interruptTimer();
 		Collection<ISession> sessions = this.sessions.values();

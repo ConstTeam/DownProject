@@ -90,4 +90,17 @@ public class FightMsgSend {
 		S2CMessageSend.sendMultiMessage(sessions, data);
 		logger.debug("{} - {}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.START_GAME);
 	}
+	
+	public static void hpSync(Collection<ISession> sessions, ISession exSession, int playerId, int hp) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		
+		data.writeByte(GameMsgModuleConst.FIGHT_RESPONSE);
+		data.writeByte(FightMsgConst.HP_SYNC);
+		
+		data.writeInt(playerId);
+		data.writeByte(hp);
+		
+		S2CMessageSend.sendMultiMessage(sessions, data, exSession);
+		logger.debug("{} - {}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.HP_SYNC);
+	}
 }

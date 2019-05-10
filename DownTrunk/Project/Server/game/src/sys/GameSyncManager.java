@@ -101,7 +101,7 @@ public class GameSyncManager {
 				packet.setPort(port);
 				// 调用udp的服务发送数据包
 				UDPMsgManager.getDatagramSocket().send(packet);
-				logger.debug("房间Id：{}，ip:{} 端口:{} 同步位置。", roomId, packet.getAddress().getHostAddress(), packet.getPort());
+//				logger.debug("房间Id：{}，ip:{} 端口:{} 同步位置。", roomId, packet.getAddress().getHostAddress(), packet.getPort());
 			}
 		} catch (Exception e) {
 			ErrorPrint.print(e);

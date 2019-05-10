@@ -20,7 +20,6 @@ import db.UseCountDao;
 import db.log.LogDao;
 import db.module.player.Player;
 import memory.SessionMemory;
-import message.game.fight.FightMsgSend;
 import message.hall.S2CMessageSend;
 import message.hall.role.RoleMsgSend;
 import module.Account;
@@ -222,7 +221,6 @@ public class LoginService extends Servicelet {
 		try {
 			if (!GameRoomAssign.getInstance().removePlayerInfo(playerId)) {
 				logger.error("ÕÊº“£∫{}£¨»°œ˚∆•≈‰ ß∞‹°£", player.getPlayerId());
-				FightMsgSend.messageBox(session, "");
 				return;
 			}
 			LoginMessageSend.cancelAssign(session);
