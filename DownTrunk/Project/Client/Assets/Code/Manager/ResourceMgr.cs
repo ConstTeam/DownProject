@@ -5,35 +5,40 @@ namespace MS
 {
 	public class ResourceMgr
 	{
+		private static int _iSceneTypeCount = 1;
 		private static int _iPlatTypeCount = 4;
-		private static Object[] _boxes = new Object[_iPlatTypeCount];
-		private static Dictionary<int, Stack<PlatBase>> _dicBoxes = new Dictionary<int, Stack<PlatBase>>();
+		private static Object[,] _boxes = new Object[_iSceneTypeCount, _iPlatTypeCount];
+		private static Dictionary<int, Dictionary<int, Stack<PlatBase>>> _dicBoxes = new Dictionary<int, Dictionary<int, Stack<PlatBase>>>();
 
 		public static void Init()
 		{
-			for(int i = 0; i < _iPlatTypeCount; ++i)
+			for(int i = 0; i < _iSceneTypeCount; ++i)
 			{
-				_boxes[i] = ResourceLoader.LoadAssets(string.Format("Prefab/Plat{0}", i));
+				for(int j = 0; j < _iPlatTypeCount; ++j)
+					_boxes[i, j] = ResourceLoader.LoadAssets(string.Format("Prefab/Scene/{0}/Plat{0}", i, j));
 			}
 		}
 
-		public static PlatBase PopBox(int type)
+		public static PlatBase PopBox(int scene, int type)
 		{
-			if(!_dicBoxes.ContainsKey(type))
-				_dicBoxes.Add(type, new Stack<PlatBase>());
+			if(!_dicBoxes.ContainsKey(scene))
+				_dicBoxes.Add(scene, new Dictionary<int, Stack<PlatBase>>());
 
-			if(_dicBoxes[type].Count > 0)
-				return _dicBoxes[type].Pop();
+			if(!_dicBoxes[scene].ContainsKey(type))
+				_dicBoxes[scene].Add(type, new Stack<PlatBase>());
 
-			PlatBase plat = (Object.Instantiate(_boxes[type]) as GameObject).GetComponent<PlatBase>();
+			if(_dicBoxes[scene][type].Count > 0)
+				return _dicBoxes[scene][type].Pop();
+
+			PlatBase plat = (Object.Instantiate(_boxes[scene, type]) as GameObject).GetComponent<PlatBase>();
 			plat.Type = type;
 			return plat;
 		}
 
-		public static void PushBox(int type, PlatBase plat)
+		public static void PushBox(int scene, int type, PlatBase plat)
 		{
-			if(!_dicBoxes[type].Contains(plat))
-				_dicBoxes[type].Push(plat);
+			if(!_dicBoxes[scene][type].Contains(plat))
+				_dicBoxes[scene][type].Push(plat);
 		}
 	}
 }

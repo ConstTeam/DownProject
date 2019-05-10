@@ -36,21 +36,25 @@ namespace MS
 			_inst = null;
 		}
 
-		public void Load(int roomId, int seed, int frequency, int stairs, List<int> otherIds)
+		public void Load(int roomId, int seed, int frequency, int stairs, List<BattlePlayer> others)
 		{
 			RoomId = roomId;
 			Frequency = frequency;
 			Stairs = stairs;
 			_rand = new System.Random(seed);
 			LoadFieldData();
-			m_lstFields.Add(ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosM).GetComponent<BattleField>());
+			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosM).GetComponent<BattleField>();
+			field.SceneId = RoleData.CurScene;
+			m_lstFields.Add(field);
 			m_lstFields[0].Load();
-			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleRoleM", m_lstFields[0].Background).GetComponent<BattleRoleM>();
-			for(int i = 0; i < otherIds.Count; ++i)
+			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleRoleM", m_lstFields[0].Foreground).GetComponent<BattleRoleM>();
+			for(int i = 0; i < others.Count; ++i)
 			{
-				m_lstFields.Add(ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosE).GetComponent<BattleField>());
+				field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosE).GetComponent<BattleField>();
+				field.SceneId = others[i].SceneId;
+				m_lstFields.Add(field);
 				m_lstFields[i + 1].Load();
-				m_dicRoles.Add(otherIds[i], ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleRoleE", m_lstFields[i + 1].Background).GetComponent<BattleRoleBase>());
+				m_dicRoles.Add(others[i].PlayerId, ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleRoleE", m_lstFields[i + 1].Foreground).GetComponent<BattleRoleBase>());
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){ });
 		}
