@@ -45,7 +45,7 @@ namespace MS
 			_rand = new System.Random(seed);
 			LoadFieldData();
 			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosM).GetComponent<BattleField>();
-			field.InitData(PlayerData.CurSceneId, 0, PlayerData.Nickname, PlayerData.CurHP);
+			field.InitData(PlayerData.CurSceneId, PlayerData.CurSceneId, PlayerData.Nickname, PlayerData.CurHP);
 			_lstFields.Add(field);
 			_lstFields[field.PlayerIndex].Load();
 			_dicPlayerIndex.Add(PlayerData.PlayerId, field.PlayerIndex);
