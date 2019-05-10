@@ -16,6 +16,7 @@ namespace MS
 		//--战斗服---------------------------------------------------------------------------------------
 		public ArrayList C2S_BATTLE_LOGIN;
 		public ArrayList C2S_BATTLE_LOADED;
+		public ArrayList C2S_BATTLE_SYNC_HP;
 
 		//*******************************************************************************************
 
@@ -43,6 +44,7 @@ namespace MS
 			C2S_BATTLE_LOGIN		= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN,	(byte)1 };
 
 			C2S_BATTLE_LOADED		= new ArrayList() { "",			ModuleDataFirst.MODULE_BATTLE,			(byte)1 };
+			C2S_BATTLE_SYNC_HP		= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)2 };
 		}
 	}
 }

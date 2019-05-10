@@ -4,8 +4,9 @@ namespace MS
 {
 	public class BattleService : IService
 	{
-		private const int LOAD	= 1;
-		private const int START = 2;
+		private const int LOAD		= 1;
+		private const int START		= 2;
+		private const int SYNC_HP	= 3;
 
 		public override void ProcessMessage(ConnectBase conn, ByteBuffer data)
 		{
@@ -19,10 +20,10 @@ namespace MS
 					int frequency = data.readByte();
 					int stairs = data.readInt();
 					int size = data.readByte();
-					List<BattlePlayer> others = new List<BattlePlayer>();
+					List<BattlePlayerData> others = new List<BattlePlayerData>();
 					for(int i = 0; i < size; ++i)
 					{
-						BattlePlayer player = new BattlePlayer();
+						BattlePlayerData player = new BattlePlayerData();
 						player.PlayerId = data.readInt();
 						player.PlayerName = string.Format("Player-{0}", player.PlayerId);
 						player.HeroId = 0;
@@ -38,6 +39,12 @@ namespace MS
 					BattleMainPanel.GetInst().ShowPanel();
 					SocketHandler.GetInst().UdpStart();
 					BattleManager.GetInst().m_RoleM.IsRunning = true;
+					break;
+				}
+				case SYNC_HP:
+				{
+					int playerId = data.readInt();
+					int hp = data.readByte();
 					break;
 				}
 			}

@@ -90,13 +90,4 @@ public class ApplicationEntry : MonoBehaviour
 #endif
         PlatformBase.Init();
     }
-
-#if !UNITY_EDITOR
-	private void LogSet()
-	{
-		string s = ConfigData.GetValue("InitValues_Common", "UPLOAD_LOG", "Value");
-		if(s != null && s.Length > 0 && s != "0")
-			_gameObject.AddComponent<RLog>().Init(s);
-	}
-#endif
 }

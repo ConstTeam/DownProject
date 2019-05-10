@@ -10,6 +10,7 @@ TagManager:
   - Plat3
   - Plat4
   - Plat5
+  - Role
   layers:
   - Default
   - TransparentFX

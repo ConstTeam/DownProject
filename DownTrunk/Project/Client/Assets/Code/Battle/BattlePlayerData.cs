@@ -1,6 +1,6 @@
 namespace MS
 {
-	public class BattlePlayer
+	public struct BattlePlayerData
 	{
 		public int		PlayerId	{ get; set; }
 		public string	PlayerName	{ get; set; }

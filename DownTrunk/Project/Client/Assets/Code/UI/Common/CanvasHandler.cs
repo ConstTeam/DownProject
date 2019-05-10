@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasHandler : MonoBehaviour
+namespace MS
 {
-	void Start()
+	public class CanvasHandler : MonoBehaviour
 	{
-		gameObject.GetComponent<CanvasScaler>().matchWidthOrHeight = ApplicationConst.matchWidthOrHeight;
+		void Start()
+		{
+			gameObject.GetComponent<CanvasScaler>().matchWidthOrHeight = ApplicationConst.matchWidthOrHeight;
+		}
 	}
 }

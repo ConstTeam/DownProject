@@ -9,13 +9,15 @@ namespace MS
 		public float	RunSpeed	{ get; set; }
 		public float	SlipSpeed	{ get; set; }
 
-		private Vector3 _vecRunLeft;
-		private Vector3 _vecRunRight;
-		private Vector3 _vecSlipLeft;
-		private Vector3 _vecSlipRight;
+		private Rigidbody2D	_rigidbody;
+		private Vector3		_vecRunLeft;
+		private Vector3		_vecRunRight;
+		private Vector3		_vecSlipLeft;
+		private Vector3		_vecSlipRight;
 
 		protected override void OnAwake()
 		{
+			_rigidbody		= gameObject.GetComponent<Rigidbody2D>();
 			IsRunning		= false;
 			RunSpeed		= 0.04f;
 			SlipSpeed		= 0.02f;
@@ -62,11 +64,11 @@ namespace MS
 		private Vector3 _vecOffset = Vector3.left * 0.16f;
 		protected override void OnUpdate()
 		{
-			Debug.DrawLine(m_Transform.position + _vecOffset, m_Transform.position + _vecOffset + Vector3.down * 0.2f, Color.red);
+			//Debug.DrawLine(m_Transform.position + _vecOffset, m_Transform.position + _vecOffset + Vector3.down * 0.2f, Color.red);
 			_hit = Physics2D.Raycast(m_Transform.position + _vecOffset, Vector3.down, 0.2f, 1 << LayerMask.NameToLayer("Plat"));
 			if(!CheckHit())
 			{
-				Debug.DrawLine(m_Transform.position - _vecOffset, m_Transform.position - _vecOffset + Vector3.down * 0.2f, Color.red);
+				//Debug.DrawLine(m_Transform.position - _vecOffset, m_Transform.position - _vecOffset + Vector3.down * 0.2f, Color.red);
 				_hit = Physics2D.Raycast(m_Transform.position - _vecOffset, Vector3.down, 0.2f, 1 << LayerMask.NameToLayer("Plat"));
 				CheckHit();
 			}
@@ -84,7 +86,7 @@ namespace MS
 						_lastY = _roleY;
 						ByteBuffer buff = new ByteBuffer(4);
 						buff.writeInt(BattleManager.GetInst().RoomId);
-						buff.writeInt(RoleData.RoleID);
+						buff.writeInt(PlayerData.PlayerId);
 						buff.writeInt(_roleX);
 						buff.writeInt(_roleY);
 						SocketHandler.GetInst().UdpSend(buff);
@@ -116,16 +118,25 @@ namespace MS
 				}
 				else if(collider.CompareTag("Plat4"))
 				{
-					//RemovePlat(collider);
+					_rigidbody.AddForce(Vector2.up * 100, ForceMode2D.Force);
 					return true;
 				}
 				else if(collider.CompareTag("Plat5"))
 				{
-					//RemovePlat(collider);
+					collider.tag = "Untagged";
+					ReduceHp(1);
 					return true;
 				}
 			}
 			return false;
+		}
+
+		public void ReduceHp(int reduceValue)
+		{
+			int curHp = BattleManager.GetInst().GetHp(PlayerData.PlayerId);
+			int newHp = Mathf.Max(0, curHp - reduceValue);
+			BattleManager.GetInst().SyncHp(PlayerData.PlayerId, newHp);
+			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_SYNC_HP, new ArrayList() { (byte)newHp });
 		}
 
 		private void RemovePlat(Collider2D collider)

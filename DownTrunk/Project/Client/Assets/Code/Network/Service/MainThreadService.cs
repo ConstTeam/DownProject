@@ -22,7 +22,7 @@ namespace MS
 					if(type == 0)
 						LoginPanel.GetInst().OnPlatformLogin();
 					else
-						CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOGIN, new ArrayList() { RoleData.RoleID });
+						CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOGIN, new ArrayList() { PlayerData.PlayerId });
 
 					//ConnectLong.GetInst().ConnectedFunc();
 					break;
