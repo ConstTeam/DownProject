@@ -71,7 +71,7 @@ namespace MS
 			{
 				x = _rand.Next(-5, 6) / 2f;
 				y = lastY - _rand.Next(2, 7) / 2f;
-				type = _rand.Next(0, 4);
+				type = _rand.Next(0, ApplicationConst.iPlatTypeCount);
 				lastY = y;
 
 				data = new BattleFieldData(x, y, type);

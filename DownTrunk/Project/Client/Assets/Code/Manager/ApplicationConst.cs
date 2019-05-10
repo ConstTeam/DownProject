@@ -10,13 +10,15 @@ public class ApplicationConst : MonoBehaviour
 	public static string		sSvnVersion			= "";
 	public static string		sAccessToken;
 	public static string		sServerId;
-	public static string		sServerStartTime = "";
+	public static string		sServerStartTime	= "";
 
 	public static Hashtable		dictStaticInfo;
 	public static Hashtable		dictStaticText;
 
 	public static Rect			sceneCamRect;
 	public static float			matchWidthOrHeight;
+
+	public static int			iPlatTypeCount		= 6;
 
     public static string BundleVersion
 	{

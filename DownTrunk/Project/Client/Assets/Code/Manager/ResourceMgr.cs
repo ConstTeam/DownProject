@@ -6,16 +6,15 @@ namespace MS
 	public class ResourceMgr
 	{
 		private static int _iSceneTypeCount = 1;
-		private static int _iPlatTypeCount = 4;
-		private static Object[,] _boxes = new Object[_iSceneTypeCount, _iPlatTypeCount];
+		private static Object[,] _boxes = new Object[_iSceneTypeCount, ApplicationConst.iPlatTypeCount];
 		private static Dictionary<int, Dictionary<int, Stack<PlatBase>>> _dicBoxes = new Dictionary<int, Dictionary<int, Stack<PlatBase>>>();
 
 		public static void Init()
 		{
 			for(int i = 0; i < _iSceneTypeCount; ++i)
 			{
-				for(int j = 0; j < _iPlatTypeCount; ++j)
-					_boxes[i, j] = ResourceLoader.LoadAssets(string.Format("Prefab/Scene/{0}/Plat{0}", i, j));
+				for(int j = 0; j < ApplicationConst.iPlatTypeCount; ++j)
+					_boxes[i, j] = ResourceLoader.LoadAssets(string.Format("Prefab/Scene/{0}/Plat{1}", i, j));
 			}
 		}
 

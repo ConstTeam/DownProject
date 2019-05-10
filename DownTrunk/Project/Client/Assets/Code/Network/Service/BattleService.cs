@@ -27,6 +27,7 @@ namespace MS
 						player.PlayerName = string.Format("Player-{0}", player.PlayerId);
 						player.HeroId = 0;
 						player.SceneId = 0;
+						player.HP = 5;
 						others.Add(player);
 					}
 					BattleManager.GetInst().Load(roomId, seed, frequency, stairs, others);

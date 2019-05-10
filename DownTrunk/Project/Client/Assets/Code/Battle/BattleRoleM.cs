@@ -98,20 +98,30 @@ namespace MS
 		{
 			if(_hit)
 			{
-				Collider2D collider = _hit.collider;
+				Collider2D collider = _hit.collider;	
 				if(collider.CompareTag("Plat1"))
-				{
-					RemovePlat(collider);
-					return true;
-				}	
-				else if(collider.CompareTag("Plat2"))
 				{
 					MoveLeft();
 					return true;
 				}
-				else if(collider.CompareTag("Plat3"))
+				else if(collider.CompareTag("Plat2"))
 				{
 					MoveRight();
+					return true;
+				}
+				else if(collider.CompareTag("Plat3"))
+				{
+					RemovePlat(collider);
+					return true;
+				}
+				else if(collider.CompareTag("Plat4"))
+				{
+					//RemovePlat(collider);
+					return true;
+				}
+				else if(collider.CompareTag("Plat5"))
+				{
+					//RemovePlat(collider);
 					return true;
 				}
 			}
