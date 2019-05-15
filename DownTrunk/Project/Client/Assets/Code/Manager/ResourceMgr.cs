@@ -5,7 +5,7 @@ namespace MS
 {
 	public class ResourceMgr
 	{
-		private static int _iSceneTypeCount = 1;
+		private static int _iSceneTypeCount = 2;
 		private static Object[,] _boxes = new Object[_iSceneTypeCount, ApplicationConst.iPlatTypeCount];
 		private static Dictionary<int, Dictionary<int, Stack<PlatBase>>> _dicBoxes = new Dictionary<int, Dictionary<int, Stack<PlatBase>>>();
 

@@ -27,7 +27,7 @@ namespace MS
 						player.PlayerId = data.readInt();
 						player.PlayerName = string.Format("Player-{0}", player.PlayerId);
 						player.HeroId	= 1;
-						player.SceneId	= 1;
+						player.SceneId	= 0;
 						player.HP		= 5;
 						others.Add(player);
 					}
