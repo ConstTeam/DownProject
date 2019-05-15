@@ -393,6 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224079700475751266}
   - component: {fileID: 222377527633270208}
+  - component: {fileID: 114645242356723072}
   m_Layer: 5
   m_Name: ScenePanel
   m_TagString: Untagged
@@ -979,7 +980,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114079687988312580}
   toggleTransition: 1
   graphic: {fileID: 114571559794943234}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 114102672200874084}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1904,7 +1905,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114764006678316170}
   toggleTransition: 1
   graphic: {fileID: 114683651160360414}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 114102672200874084}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1976,7 +1977,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114843447107142146}
   toggleTransition: 1
   graphic: {fileID: 114371724479819174}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 114102672200874084}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2090,6 +2091,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114645242356723072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1520972173144098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e25e6bcdd5d3c4a912bcd5bf3ebb44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XBtn: {fileID: 114371558038401990}
 --- !u!114 &114656189391053944
 MonoBehaviour:
   m_ObjectHideFlags: 1

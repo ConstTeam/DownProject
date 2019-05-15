@@ -53,7 +53,6 @@ namespace MS
 		{
 			Clear();
 			StartCoroutine(SceneLoader.SetProgress(SceneLoader.m_fProgress, 1f));
-			//UIMgr.GetInstance().Open("MainPanel");
 		}
 
 		public void LoadBattleScene()
