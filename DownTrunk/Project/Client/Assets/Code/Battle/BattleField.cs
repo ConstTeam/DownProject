@@ -102,6 +102,12 @@ namespace MS
 			plat.Index = index;
 			plat.m_Transform.SetParent(ForegroundTran);
 			plat.m_Transform.localPosition = new Vector3(field.X, field.Y, 0f);
+			if(field.Item > 0)
+			{
+				string itemType = ConfigData.GetValue("Scene_Common", SceneId.ToString(), field.Item.ToString());
+				BattleItem item = ResourceMgr.PopItem(int.Parse(itemType));
+				item.m_Transform.SetParent(plat.m_Transform, true);
+			}
 		}
 	}
 }

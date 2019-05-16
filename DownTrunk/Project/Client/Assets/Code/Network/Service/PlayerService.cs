@@ -16,7 +16,7 @@ namespace MS
 					ApplicationConst.bGM	= data.readBoolean();
 					PlayerData.PlayerId		= data.readInt();
 					PlayerData.Nickname		= data.readUTF();
-					PlayerData.CurSceneId	= 1;	//Temp
+					PlayerData.CurSceneId	= 2;	//Temp
 					PlayerData.CurHP		= 5;	//Temp
 					SceneLoader.LoadScene("MainScene");
 					break;

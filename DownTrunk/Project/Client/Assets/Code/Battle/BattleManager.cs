@@ -66,18 +66,20 @@ namespace MS
 		{
 			_lstFieldData.Clear();
 			float x, y, lastY = 0;
-			int type;
+			int type = 0, item = 0;
 
-			BattleFieldData data = new BattleFieldData(0, 0, 0);
+			BattleFieldData data = new BattleFieldData(0, 0, 0, 0);
 			_lstFieldData.Add(data);
 			for (int i = 0; i < Stairs; ++i)
 			{
 				x = _rand.Next(-5, 6) / 2f;
 				y = lastY - _rand.Next(2, 7) / 2f;
 				type = _rand.Next(0, ApplicationConst.iPlatTypeCount);
-				lastY = y;
+				if(_rand.Next(0, 100) < 5)
+					item = Random.Range(1, 2);
 
-				data = new BattleFieldData(x, y, type);
+				lastY = y;
+				data = new BattleFieldData(x, y, type, item);
 				_lstFieldData.Add(data);
 			}
 		}
