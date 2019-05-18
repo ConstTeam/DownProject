@@ -7,6 +7,7 @@ namespace MS
 		private const int LOAD		= 1;
 		private const int START		= 2;
 		private const int SYNC_HP	= 3;
+		private const int GET_ITEM	= 4;
 
 		public override void ProcessMessage(ConnectBase conn, ByteBuffer data)
 		{
@@ -46,6 +47,13 @@ namespace MS
 					int playerId = data.readInt();
 					int hp = data.readByte();
 					BattleManager.GetInst().SyncHp(playerId, hp);
+					break;
+				}
+				case GET_ITEM:
+				{
+					int playerId = data.readInt();
+					int item = data.readByte();
+					BattleManager.GetInst().EnqueueSkill(playerId, item);
 					break;
 				}
 			}

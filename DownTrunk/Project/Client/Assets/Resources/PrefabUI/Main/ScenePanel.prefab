@@ -3159,6 +3159,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   XBtn: {fileID: 114371558038401990}
+  Toggles:
+  - {fileID: 114057883535521050}
+  - {fileID: 114369505985238926}
+  - {fileID: 114796438836030826}
+  - {fileID: 114458288600326396}
+  - {fileID: 114521782756537868}
 --- !u!114 &114651227697246474
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ namespace MS
 	public class ScenePanel : MonoBehaviour
 	{
 		public Button XBtn;
+		public Toggle[] Toggles;
 
 		private GameObject _gameObject;
 
@@ -33,11 +35,20 @@ namespace MS
 		public void OpenPanel()
 		{
 			_gameObject.SetActive(true);
+			for(int i = 0; i < Toggles.Length; ++i)
+			{
+				Toggles[i].isOn = i == PlayerData.CurScene;
+			}
 		}
 
 		private void ClosePanel()
 		{
 			_gameObject.SetActive(false);
+			for(int i = 0; i < Toggles.Length; ++i)
+			{
+				if(Toggles[i].isOn && i != PlayerData.CurScene)
+					CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_PLAYER_SET_SCENE, new ArrayList() { (byte)i });
+			}
 		}
 	}
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MS
 {
-	public class PlatBase : MonoBehaviour
+	public class BattlePlat : MonoBehaviour
 	{
 		public int Index	{ get; set; }
 		public int Type		{ get; set; }

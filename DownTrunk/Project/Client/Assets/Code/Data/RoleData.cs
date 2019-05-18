@@ -5,5 +5,6 @@ public class PlayerData
 	public static int		PlayerId	{ set; get; }
 	public static string	Nickname	{ set; get; }
 	public static int		CurHP		{ set; get; }
-	public static int		CurSceneId	{ get; set; }
+	public static int		CurScene	{ get; set; }
+	public static int		CurHero		{ get; set; }
 }

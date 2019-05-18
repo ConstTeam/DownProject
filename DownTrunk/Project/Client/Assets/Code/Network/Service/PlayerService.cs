@@ -16,12 +16,13 @@ namespace MS
 					ApplicationConst.bGM	= data.readBoolean();
 					PlayerData.PlayerId		= data.readInt();
 					PlayerData.Nickname		= data.readUTF();
-					PlayerData.CurSceneId	= 2;	//Temp
+					PlayerData.CurHero		= 1;
+					PlayerData.CurScene		= 2;	//Temp
 					PlayerData.CurHP		= 5;	//Temp
 					SceneLoader.LoadScene("MainScene");
 					break;
 				case PLAYER_CUR_SCENE:
-					PlayerData.CurSceneId = data.readByte();
+					PlayerData.CurScene = data.readByte();
 					break;
 			}
 		}  

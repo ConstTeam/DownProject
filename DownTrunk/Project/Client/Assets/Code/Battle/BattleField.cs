@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace MS
 	{
 		public Transform		SpriteMaskTran;
 		public Transform		ForegroundTran;
+		public Transform		SkillBarTran;
 		public TextMeshPro		PlayerIndexText;
 		public TextMesh			PlayerNameText;
 		public GameObject[]		HpGos;
@@ -15,7 +17,8 @@ namespace MS
 		[HideInInspector]
 		public Transform Background;
 
-		public int		SceneId	{ get; set; }
+		public int HeroId	{ get; set; }
+		public int SceneId	{ get; set; }
 
 		private string _sPlayerName;
 		public string PlayerName
@@ -49,6 +52,7 @@ namespace MS
 		private Transform _transform;
 		private Material _matBg;
 		private Vector3 _tempPos = new Vector3();
+		private Dictionary<int, BattlePlat> _dicPlat = new Dictionary<int, BattlePlat>();
 
 		private void Awake()
 		{
@@ -66,14 +70,17 @@ namespace MS
 			{
 				AddPlat(i);
 			}
+			
 		}
 
-		public void InitData(int sceneId, int playerIndex, string playerName, int hp)
+		public void InitData(int playerIndex, string playerName, int heroId, int sceneId, int hp)
 		{
-			SceneId = sceneId;
 			PlayerIndex = playerIndex;
 			PlayerName = playerName;
+			HeroId = heroId;
+			SceneId = sceneId;
 			HP = hp;
+			SetMainSkill(heroId);
 		}
 
 		public void SetPos(float y)
@@ -85,28 +92,66 @@ namespace MS
 			_matBg.mainTextureOffset = _tempPos;
 		}
 
-		public void RemovePlat(PlatBase plat)
+		public void RemovePlat(BattlePlat plat)
 		{
-			plat.m_Transform.SetParent(BattleManager.GetInst().BattlePoorTran);
-			plat.m_Transform.localPosition = PositionMgr.vecHidePos;
 			ResourceMgr.PushBox(SceneId, plat.Type, plat);
 			int newIndex = plat.Index + 30;
 			if(newIndex < BattleManager.GetInst().Stairs)
-				AddPlat(plat.Index + 30);
+				AddPlat(newIndex);
 		}
 
 		public void AddPlat(int index)
 		{
 			BattleFieldData field = BattleManager.GetInst().GetFieldData(index);
-			PlatBase plat = ResourceMgr.PopBox(SceneId, field.Type);
+			BattlePlat plat = ResourceMgr.PopBox(SceneId, field.Type);
 			plat.Index = index;
 			plat.m_Transform.SetParent(ForegroundTran);
 			plat.m_Transform.localPosition = new Vector3(field.X, field.Y, 0f);
 			if(field.Item > 0)
 			{
 				string itemType = ConfigData.GetValue("Scene_Common", SceneId.ToString(), field.Item.ToString());
-				BattleItem item = ResourceMgr.PopItem(int.Parse(itemType));
-				item.m_Transform.SetParent(plat.m_Transform, true);
+				if(itemType != "0")
+				{
+					BattleItem item = ResourceMgr.PopItem(int.Parse(itemType));
+					item.m_Transform.SetParent(plat.m_Transform, false);
+				}
+			}
+			_dicPlat.Add(index, plat);
+		}
+
+		public void SetMainSkill(int skillId)
+		{
+			BattleSkillBtn skill = ResourceMgr.PopSkill(skillId);
+			skill.m_Transform.SetParent(SkillBarTran);
+			skill.SetPosImmediately(-4.7f);
+		}
+
+		private Queue<BattleSkillBtn> _queSkill = new Queue<BattleSkillBtn>();
+		public void EnqueueSkill(int skillType)
+		{
+			if(_queSkill.Count > 4)
+				DequeueSkill();
+
+			BattleSkillBtn skill = ResourceMgr.PopSkill(skillType);
+			skill.m_Transform.SetParent(SkillBarTran);
+			skill.SetToOriScale();
+			_queSkill.Enqueue(skill);
+			ResetSkillBar();
+		}
+
+		public void DequeueSkill()
+		{
+			BattleSkillBtn skill = _queSkill.Dequeue();
+			ResourceMgr.PushSkill(skill.Type, skill);
+			ResetSkillBar();
+		}
+
+		private void ResetSkillBar()
+		{
+			int i = 0;
+			foreach(BattleSkillBtn skill in _queSkill)
+			{
+				skill.SetPosImmediately(-2.8f + 1.6f * i++);
 			}
 		}
 	}

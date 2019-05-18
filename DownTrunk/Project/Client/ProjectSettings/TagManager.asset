@@ -14,6 +14,8 @@ TagManager:
   - Item0
   - Item1
   - Item2
+  - 1
+  - 2
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - PostProcessing
   - Plat
   - Item
-  - 
+  - SkillBtn
   - 
   - 
   - 

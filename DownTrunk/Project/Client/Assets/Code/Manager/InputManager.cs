@@ -12,7 +12,7 @@ namespace MS
 		{
 			if(Input.GetKeyDown(KeyCode.Escape))
 			{
-				if (!PlatformBase.sdkInterface.OnExit())
+				if(!PlatformBase.sdkInterface.OnExit())
 					MsgBoxPanel.ShowMsgBox(string.Empty, (string)ApplicationConst.dictStaticText["25"], 2, new MsgBoxPanel.MsgCallback(() => { ApplicationEntry.HandleExit(); }), null, "ExitGame");
 			}
 	#if UNITY_STANDALONE
@@ -21,7 +21,13 @@ namespace MS
 				if(null != GMPanel.GetInst())
 					GMPanel.GetInst().BeShowWnd();
 			}
-	#elif UNITY_IOS || UNITY_ANDROID
+			else if(Input.GetKey(KeyCode.A))
+				BattleManager.GetInst().m_RoleM.RunLeft();
+			else if(Input.GetKey(KeyCode.D))
+				BattleManager.GetInst().m_RoleM.RunRight();
+			else if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+				BattleManager.GetInst().m_RoleM.Idle();
+#elif UNITY_IOS || UNITY_ANDROID
 			else if(ApplicationConst.bGM)
 			{
 				fCurZ = Input.acceleration.z;
@@ -33,7 +39,7 @@ namespace MS
 						GMPanel.GetInst().OpenPanel();
 				}
 			}
-	#endif
+#endif
 		}
 	}
 }

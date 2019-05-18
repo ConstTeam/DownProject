@@ -113,6 +113,7 @@ namespace MS
 				}
 				else if(collider.CompareTag("Plat3"))
 				{
+					collider.tag = "Untagged";
 					RemovePlat(collider);
 					return true;
 				}
@@ -148,7 +149,7 @@ namespace MS
 		private IEnumerator _RemovePlat(Collider2D collider)
 		{
 			yield return wait;
-			BattleManager.GetInst().RemovePlat(collider.GetComponent<PlatBase>());
+			BattleManager.GetInst().RemovePlat(PlayerId, collider.GetComponent<BattlePlat>());
 		}
 	}
 }
