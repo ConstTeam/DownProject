@@ -18,8 +18,8 @@ namespace MS
 			if(collision.CompareTag("Role"))
 			{
 				ResourceMgr.PushItem(this);
-				BattleRoleBase role = collision.GetComponent<BattleRoleBase>();
-				BattleManager.GetInst().EnqueueSkill(role.PlayerId, 1);
+				BattleHeroBase role = collision.GetComponent<BattleHeroBase>();
+				BattleManager.GetInst().EnqueueSkill(role.PlayerId, Type);
 				CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_GET_ITEM, new ArrayList() { (byte)Type });
 			}
 		}

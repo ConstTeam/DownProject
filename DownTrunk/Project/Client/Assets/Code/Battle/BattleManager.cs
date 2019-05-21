@@ -9,6 +9,7 @@ namespace MS
 		public Transform	BattleRootTran;
 		public Transform	BattlePoorTran;
 		public Camera		BattleCam;
+		public JoyStick		JoyStick;
 
 		public int RoomId		{ get; set; }
 		public int Frequency	{ get; set; }
@@ -16,8 +17,8 @@ namespace MS
 
 		private Dictionary<int, int> _dicPlayerIndex = new Dictionary<int, int>();
 		private List<BattleField> _lstFields = new List<BattleField>();
-		private Dictionary<int, BattleRoleBase> _dicRoles	= new Dictionary<int, BattleRoleBase>();
-		public BattleRoleM m_RoleM;
+		private Dictionary<int, BattleHeroBase> _dicRoles	= new Dictionary<int, BattleHeroBase>();
+		public BattleHeroM m_RoleM;
 
 		private System.Random _rand;
 		private List<BattleFieldData> _lstFieldData = new List<BattleFieldData>();
@@ -50,8 +51,9 @@ namespace MS
 			_lstFields.Add(field);
 			_lstFields[field.PlayerIndex].Load();
 			_dicPlayerIndex.Add(PlayerData.PlayerId, field.PlayerIndex);
-			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleRoleM", _lstFields[0].ForegroundTran).GetComponent<BattleRoleM>();
+			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _lstFields[0].ForegroundTran).GetComponent<BattleHeroM>();
 			m_RoleM.PlayerId = PlayerData.PlayerId;
+			m_RoleM.SetHeroId(PlayerData.CurHero);
 			for(int i = 0; i < others.Count; ++i)
 			{
 				field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosE).GetComponent<BattleField>();
@@ -59,8 +61,9 @@ namespace MS
 				_lstFields.Add(field);
 				_lstFields[field.PlayerIndex].Load();
 				_dicPlayerIndex.Add(others[i].PlayerId, field.PlayerIndex);
-				_dicRoles.Add(others[i].PlayerId, ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleRoleE", _lstFields[i + 1].ForegroundTran).GetComponent<BattleRoleBase>());
+				_dicRoles.Add(others[i].PlayerId, ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _lstFields[i + 1].ForegroundTran).GetComponent<BattleHeroBase>());
 				_dicRoles[others[i].PlayerId].PlayerId = others[i].PlayerId;
+				_dicRoles[others[i].PlayerId].SetHeroId(others[i].HeroId);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){ });
 		}

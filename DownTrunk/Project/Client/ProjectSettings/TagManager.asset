@@ -3,7 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Canvas
+  - Plat1
+  - Plat2
+  - Plat3
+  - Plat4
+  - Plat5
+  - Role
+  - Item0
+  - Item1
+  - Item2
+  - 1
+  - 2
   layers:
   - Default
   - TransparentFX
@@ -14,9 +26,9 @@ TagManager:
   - 
   - 
   - PostProcessing
+  - Plat
   - 
-  - 
-  - 
+  - SkillBtn
   - 
   - 
   - 

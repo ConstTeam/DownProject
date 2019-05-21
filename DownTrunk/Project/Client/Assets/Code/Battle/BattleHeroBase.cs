@@ -2,24 +2,30 @@ using UnityEngine;
 
 namespace MS
 {
-	public class BattleRoleBase : MonoBehaviour
+	public class BattleHeroBase : MonoBehaviour
 	{
 		public Transform m_Transform;
-		public BattleRoleSp RoleSp;
+		protected BattleHeroSp RoleSp;
 		protected BattleEnum.RoleAnimType _animType;
 		protected SpriteRenderer _spRenderer;
 		private Sprite[] _sp;
 
-
-		public int PlayerId { get; set; }
+		public int PlayerId	{ get; set; }
+		public int HeroId	{ get; set; }
 
 		private void Awake()
 		{
-			m_Transform = transform;
-			_spRenderer = RoleSp.SpRenderer;
-			_sp = RoleSp.Sp;
+			m_Transform = transform;	
 			_animType = BattleEnum.RoleAnimType.Idle;
 			OnAwake();
+		}
+
+		public void SetHeroId(int id)
+		{
+			HeroId = id;
+			RoleSp = ResourceLoader.LoadAssetAndInstantiate(string.Format("Prefab/Hero/{0}", id), m_Transform).GetComponent<BattleHeroSp>();
+			_spRenderer = RoleSp.SpRenderer;
+			_sp = RoleSp.Sp;
 		}
 
 		protected virtual void OnAwake()	{ }
@@ -33,8 +39,7 @@ namespace MS
 			m_Transform.localPosition = _tempPos;
 		}
 
-		private int _runCurFrame = 0;
-		private int[] _runFrames = new int[4]{ 1, 2, 3, 2 };
+		private int _runCurFrame = 1;
 		private void Update()
 		{
 			OnUpdate();
@@ -45,8 +50,8 @@ namespace MS
 					break;
 				case BattleEnum.RoleAnimType.RunLeft:
 				case BattleEnum.RoleAnimType.RunRight:
-					_spRenderer.sprite = _sp[_runFrames[_runCurFrame]];
-					if(++_runCurFrame > 3) _runCurFrame = 0;
+					_spRenderer.sprite = _sp[_runCurFrame];
+					if(++_runCurFrame > 4) _runCurFrame = 1;
 					break;
 			}
 		}

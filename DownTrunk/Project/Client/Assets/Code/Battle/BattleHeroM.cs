@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MS
 {
-	public class BattleRoleM : BattleRoleBase
+	public class BattleHeroM : BattleHeroBase
 	{
 		public bool		IsRunning	{ get; set; }
 		public float	RunSpeed	{ get; set; }

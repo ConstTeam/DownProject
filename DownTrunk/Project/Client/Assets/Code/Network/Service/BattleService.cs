@@ -37,7 +37,7 @@ namespace MS
 				}
 				case START:
 				{
-					BattleMainPanel.GetInst().ShowPanel();
+					BattleManager.GetInst().JoyStick.Show(true);
 					SocketHandler.GetInst().UdpStart();
 					BattleManager.GetInst().m_RoleM.IsRunning = true;
 					break;

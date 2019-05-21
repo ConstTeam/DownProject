@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MS
 {
-	public class BattleRoleSp : MonoBehaviour
+	public class BattleHeroSp : MonoBehaviour
 	{
 		public SpriteRenderer SpRenderer;
 		public Sprite[] Sp;

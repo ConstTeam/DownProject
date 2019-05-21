@@ -28,14 +28,14 @@ namespace MS
 
 		private void OnMouseUp()
 		{
-			_anim["SkillBtn2"].time = _anim["SkillBtn2"].length;
-			_anim["SkillBtn2"].speed = -1;
-			_anim.Play("SkillBtn2");
 			_ray = BattleManager.GetInst().BattleCam.ScreenPointToRay(Input.mousePosition);
 			if(Physics.Raycast(_ray, out _hit, 1000, 1 << LayerMask.NameToLayer("SkillBtn")))
 			{
 				//int playerIndex = int.Parse(_hit.collider.tag);
 			}
+			_anim["SkillBtn2"].time = _anim["SkillBtn2"].length;
+			_anim["SkillBtn2"].speed = -1;
+			_anim.Play("SkillBtn2");
 		}
 
 		public void SetToOriScale()
