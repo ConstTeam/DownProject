@@ -52,7 +52,7 @@ namespace MS
 
 			m_ServiceDic.Add(MODULE_MAIN_THREAD_SERVICE,	new MainThreadService());
 			m_ServiceDic.Add(MODULE_LOGIN_SERVICE,			new LoginService());
-			m_ServiceDic.Add(MODULE_ROLE_SERVICE,			new RoleService());
+			m_ServiceDic.Add(MODULE_ROLE_SERVICE,			new PlayerService());
 
 			m_ServiceDic.Add(MODULE_BATTLE_LOGIN_SERVICE,	new BattleLoginService());
 			m_ServiceDic.Add(MODULE_BATTLE_SERVICE,			new BattleService());
@@ -88,11 +88,16 @@ namespace MS
 				if(m_queUdpData.Count > 0)
 				{
 					ByteBuffer data = m_queUdpData.Dequeue();
-					int roleId = data.readInt();
-					float roleX = data.readInt() / 1000f;
-					float roleY = data.readInt() / 1000f;
-					float fieldY = data.readInt() / 1000f;
-					BattleMgrE.GetInst().SetPos(roleX, roleY, fieldY);
+					int frame = data.readInt();
+					int size = data.readByte();
+					for(int i = 0; i < size; ++i)
+					{
+						int roleId = data.readInt();
+						float roleX = data.readInt() / 1000f;
+						float roleY = data.readInt() / 1000f;
+						BattleManager.GetInst().SetRolePos(roleId, roleX, roleY);
+					}
+					BattleManager.GetInst().SetFieldPos(frame);
 				}
 			}
 		}

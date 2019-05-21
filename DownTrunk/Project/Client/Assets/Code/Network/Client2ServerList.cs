@@ -9,18 +9,21 @@ namespace MS
 		/**登录消息---*/
 		public ArrayList C2S_LOGIN_LONG;
 		public ArrayList C2S_LOGIN_PVP_REQUEST;
-        public ArrayList C2S_CANCEL_ASSIGN;
-		public ArrayList C2S_ASSIGN_GUIDE_INSTANCE_SERVER;
+
+		public ArrayList C2S_PLAYER_SET_SCENE;
 
 		public ArrayList C2S_GM;
 
 
 		//--战斗服---------------------------------------------------------------------------------------
 		public ArrayList C2S_BATTLE_LOGIN;
+		public ArrayList C2S_BATTLE_LOADED;
+		public ArrayList C2S_BATTLE_SYNC_HP;
+		public ArrayList C2S_BATTLE_GET_ITEM;
 
-        //*******************************************************************************************
+		//*******************************************************************************************
 
-        public static string DeviceIdentifier;
+		public static string DeviceIdentifier;
 		public static Client2ServerList _Inst = null;
 
 		public static Client2ServerList GetInst()
@@ -37,11 +40,17 @@ namespace MS
 
 			//--大厅服---------------------------------------------------------------------------------------
 			//登录
-			C2S_LOGIN_LONG			= new ArrayList() { "sssssss",	ModuleDataFirst.MODULE_LOGIN, (byte)1 };
-			C2S_LOGIN_PVP_REQUEST	= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN, (byte)2 };
+			C2S_LOGIN_LONG			= new ArrayList() { "sssssss",	ModuleDataFirst.MODULE_LOGIN,			(byte)1 };
+			C2S_LOGIN_PVP_REQUEST	= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN,			(byte)2 };
+
+			C2S_PLAYER_SET_SCENE	= new ArrayList() { "c",		ModuleDataFirst.MODULE_PLAYER,			(byte)1 };
 
 			//--战斗服---------------------------------------------------------------------------------------
-			C2S_BATTLE_LOGIN		= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN, (byte)1 };
+			C2S_BATTLE_LOGIN		= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN,	(byte)1 };
+
+			C2S_BATTLE_LOADED		= new ArrayList() { "",			ModuleDataFirst.MODULE_BATTLE,			(byte)1 };
+			C2S_BATTLE_SYNC_HP		= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)2 };
+			C2S_BATTLE_GET_ITEM		= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)3 };
 		}
 	}
 }

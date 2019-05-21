@@ -77,8 +77,8 @@ public class LoginPanel : MonoBehaviour
 			return;
 		}
 
-		RoleData.Account = account;
-		RoleData.Token	= passwordInput.text;
+		PlayerData.Account = account;
+		PlayerData.Token	= passwordInput.text;
 		SocketHandler.GetInst().LongConnect(0);
 	}
 
@@ -91,8 +91,8 @@ public class LoginPanel : MonoBehaviour
 			DeviceInfo.GetDeviceInfo(),
 			System.Guid.NewGuid().ToString(),
 			SystemInfo.deviceUniqueIdentifier,
-			RoleData.Account,
-			RoleData.Token
+			PlayerData.Account,
+			PlayerData.Token
 		};
 
 		CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_LONG, _loginParam);
