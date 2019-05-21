@@ -22,7 +22,6 @@ namespace MS
 				BattleManager.GetInst().EnqueueSkill(role.PlayerId, 1);
 				CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_GET_ITEM, new ArrayList() { (byte)Type });
 			}
-			
 		}
 	}
 }
