@@ -13,8 +13,8 @@ namespace MS
 					LoginPanel.GetInst().SaveAccount();
 					
 					ApplicationConst.bGM	= data.readBoolean();
-					RoleData.RoleID			= data.readInt();
-					RoleData.Nickname		= data.readUTF();
+					PlayerData.PlayerId		= data.readInt();
+					PlayerData.Nickname		= data.readUTF();
 					SceneLoader.LoadScene("MainScene");
 					break;
 			}

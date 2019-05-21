@@ -40,7 +40,7 @@ namespace MS
 				int roleY	= (int)(m_RoleM.m_Transform.localPosition.y * 1000);
 				int filedY	= (int)(m_BattleFiledM.m_Transform.localPosition.y * 1000);
 				ByteBuffer buff = new ByteBuffer(4);
-				buff.writeInt(RoleData.RoleID);
+				buff.writeInt(PlayerData.PlayerId);
 				buff.writeInt(roleX);
 				buff.writeInt(roleY);
 				buff.writeInt(filedY);
