@@ -5,7 +5,10 @@ import org.slf4j.LoggerFactory;
 
 import message.hall.GMHallService;
 import message.hall.login.LoginService;
+import module.area.Area;
+import module.fight.BattleRole;
 import module.scene.GameRoom;
+import module.scene.RoomConst;
 import net.DataAccessException;
 import net.IByteBuffer;
 import net.ISession;
@@ -78,6 +81,52 @@ public class GMGameService extends Servicelet {
 			}
 			switch (args[0]) {
 			case 2:
+				BattleRole fighter = room.getBattleRole(playerId);
+				fighter.setDealCardId(arg1);
+				break;
+			case 4:
+				room.syncStart(playerId);
+				fighter = room.getBattleRole(playerId);
+				fighter.addReplResource(args[1]);
+				fighter.replenishedResource();
+				room.resourceSync(fighter);
+				room.syncEnd(playerId);
+				break;
+			case 6:
+				room.syncStart(playerId);
+				fighter = room.getBattleRole(playerId);
+				if (args[1] == 0) {
+					for (Area tempArea : fighter.getAreas()) {
+						if (tempArea.getLevel() < Area.MAX_LEVEL) {
+							room.areaLvUp(tempArea, fighter);
+						}
+					}
+				} else if (args[1] >= 1 && args[1] <= 3) {
+					Area area = fighter.getArea(args[1] - 1);
+					if (area.getLevel() < Area.MAX_LEVEL) {
+						room.areaLvUp(area, fighter);
+					}
+				}
+				room.syncEnd(playerId);
+				break;
+			case 8:
+				if (args[1] == 0) {
+					room.setCountDown(false);
+					room.interruptTimer();
+				} else if (args[1] == 1) {
+					room.setCountDown(true);
+					room.setTurnCountDownTime(RoomConst.TURN_COUNT_DOWN_TIME);
+					room.startTurnTimer();
+				} else if (args[1] > 15) {
+					room.setCountDown(true);
+					int second = args[1] - 15;
+					room.setTurnCountDownTime(second * 1000);
+					room.startTurnTimer();
+				} else {
+					room.setCountDown(true);
+					room.setTurnCountDownTime(1000);
+					room.startTurnTimer();
+				}
 				break;
 			}
 			logger.info("玩家：{}，使用GM指令成功。Arg1:{}, Arg2:{}", playerId, arg0, arg1);

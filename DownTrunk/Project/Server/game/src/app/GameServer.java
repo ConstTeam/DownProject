@@ -18,9 +18,9 @@ import redis.RedisProxy;
 import redis.subscribe.SingleThreadManager;
 import sys.GameRoomManager;
 import sys.GameServerOnlineManager;
+import sys.GameSyncManager;
 import sys.GameTimer;
 import sys.ServerLogTimer;
-import sys.UDPMsgManager;
 import util.ErrorPrint;
 
 /**
@@ -100,7 +100,7 @@ public class GameServer {
 			// 线程执行标记为开启
 			ServerStaticInfo.opened = true;
 			ServerLogTimer.setTimer();
-			UDPMsgManager.start();
+			GameSyncManager.start();
 			
 			// 游戏房间订阅消息
 			SingleThreadManager.getInstance().execute(() -> RedisProxy.getInstance().roomNoticeRegister());

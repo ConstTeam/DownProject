@@ -280,11 +280,6 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	
 	@Override
 	public void giveup(int loser) {
-		BattleRole role = this.getBattleRole(loser);
-		if (role != null) {
-			role.setHp(0);
-			settlement(loser);
-		}
 	}
 
 	public BattleRole getBattleRole(int playerId) {
