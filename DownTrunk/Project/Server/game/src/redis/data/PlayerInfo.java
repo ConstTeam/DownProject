@@ -34,6 +34,8 @@ public class PlayerInfo {
 	private int sex = 1;
 	/** 头像 */
 	private String icon;
+	/** 场景 */
+	private int sceneId = 0;
 	/** 签名 */
 	private String sign = "";
 	/** 钻石 */
@@ -187,5 +189,13 @@ public class PlayerInfo {
 
 	public void setAssignTime(Calendar assignTime) {
 		this.assignTime = assignTime;
+	}
+
+	public int getSceneId() {
+		return sceneId;
+	}
+
+	public void setSceneId(int sceneId) {
+		this.sceneId = sceneId;
 	}
 }

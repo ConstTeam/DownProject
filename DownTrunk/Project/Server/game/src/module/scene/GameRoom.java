@@ -75,6 +75,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		BattleRole battleRole = new BattleRole(playerId, player.getNickname(), this.templet.initHp, this.heroUId);
 		battleRole.setRoomId(this.roomId);
 		battleRole.setIcon(player.getIcon());
+		battleRole.setSceneId(player.getSceneId());
 		if (battleRole.getQuestManager() == null) {
 			return -1;
 		}
@@ -157,6 +158,11 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	public void roleHpSync(ISession session, int playerId, int hp) {
 		Collection<ISession> sessions = this.sessions.values();
 		FightMsgSend.hpSync(sessions, session, playerId, hp);
+	}
+	
+	public void itemSync(ISession session, int playerId, int itemId) {
+		Collection<ISession> sessions = this.sessions.values();
+		FightMsgSend.itemSync(sessions, session, playerId, itemId);
 	}
 	
 	private void pvpStart() {

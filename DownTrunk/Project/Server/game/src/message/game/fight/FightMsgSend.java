@@ -76,6 +76,8 @@ public class FightMsgSend {
 				continue;
 			}
 			data.writeInt(role.getPlayerId());
+			data.writeUTF(role.getNickname());
+			data.writeByte(role.getSceneId());
 		}
 		
 		session.send(data);
@@ -102,5 +104,18 @@ public class FightMsgSend {
 		
 		S2CMessageSend.sendMultiMessage(sessions, data, exSession);
 		logger.debug("{} - {}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.HP_SYNC);
+	}
+
+	public static void itemSync(Collection<ISession> sessions, ISession exSession, int playerId, int itemId) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		
+		data.writeByte(GameMsgModuleConst.FIGHT_RESPONSE);
+		data.writeByte(FightMsgConst.GET_ITEM_SYNC);
+		
+		data.writeInt(playerId);
+		data.writeByte(itemId);
+		
+		S2CMessageSend.sendMultiMessage(sessions, data, exSession);
+		logger.debug("{} - {}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.GET_ITEM_SYNC);
 	}
 }
