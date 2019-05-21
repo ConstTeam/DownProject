@@ -207,11 +207,6 @@ public class TroopCard extends CardBase implements ITroopStatus {
 				return false;
 			}
 		}
-		if (isAttackLimitSpell()) {
-			if (!fighter.isPlaySpellCard()) {
-				return false;
-			}
-		}
 		return true;
 	}
 

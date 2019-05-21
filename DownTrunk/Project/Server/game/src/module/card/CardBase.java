@@ -2,8 +2,6 @@ package module.card;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import config.model.card.CardModel;
 import module.area.Area;
@@ -11,9 +9,7 @@ import module.fight.BattleRole;
 import module.fight.IBattleObject;
 import module.log.LogInfo;
 import skill.Effect;
-import skill.SkillManager;
 import skill.TriggerManager;
-import util.Tools;
 
 public abstract class CardBase implements IBattleObject, ICardAreaAction {
 
@@ -76,15 +72,6 @@ public abstract class CardBase implements IBattleObject, ICardAreaAction {
 	}
 	
 	protected void setGenius(String genius) {
-		if (Tools.isEmptyString(genius)) {
-			return;
-		}
-		switch (genius) {
-		case SkillManager.PATHFINDER:
-			pathfinder = Tools.random(0, 2);
-			break;
-		}
-		this.genius = genius;
 	}
 	
 	public String getGenius() {
@@ -206,10 +193,6 @@ public abstract class CardBase implements IBattleObject, ICardAreaAction {
 		}
 	}
 	
-	public boolean isEnemyCard() {
-		return getStatus().get(SkillManager.ENEMY_DECK) == null ? false : getStatus().get(SkillManager.ENEMY_DECK) > 0;
-	}
-
 	public int getStatusCount(String type) {
 		if (getStatus().get(type) == null) {
 			return 0;
@@ -241,28 +224,7 @@ public abstract class CardBase implements IBattleObject, ICardAreaAction {
 			this.setChange(true);
 		}
 	}
-	
-	public Integer getDrawCostNumber() {
-		return getStatus().get(SkillManager.DRAW);
-	}
 
-	public boolean isDraw() {
-		return getStatus(SkillManager.DRAW_DECK);
-	}
-	
-	public Integer getDrawCostNumberBySubType(String subType) {
-		String key = SkillManager.DRAW + "-" + subType;
-		return getStatus().get(key);
-	}
-	
-	public boolean isDrawCostBySubType() {
-		return getStatus(SkillManager.DRAW_COST_BY_SUBTYPE);
-	}
-
-	public boolean isNeed3Temples() {
-		return getStatus(SkillManager.NEED_3_TEMPLES);
-	}
-	
 	public boolean isDeathcry() {
 		return getStatus(TriggerManager.DEATHCRY);
 	}
@@ -305,67 +267,6 @@ public abstract class CardBase implements IBattleObject, ICardAreaAction {
 
 	public int getDefaultCost() {
 		return this.cost;
-	}
-	
-	public int getCost(BattleRole fighter) {
-		int cost = this.cost;
-		if (SkillManager.COST_HERO_HP.equals(this.getGenius())) {
-			cost = fighter.getHp();
-			return cost;
-		}
-		HashMap<String, Integer> costArg = fighter.getCostArg();
-		if (costArg.size() == 0) {
-			return cost;
-		}
-		Iterator<Entry<String, Integer>> iterator = costArg.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Entry<String, Integer> next = iterator.next();
-			String key = next.getKey();
-			Integer value = next.getValue();
-			switch (key) {
-			case SkillManager.HAND_CARDS:
-				cost += value;
-				break;
-
-			case SkillManager.TALE:
-				if (key.equals(this.getSubType())) {
-					cost += value;
-				}
-				break;
-				
-			case SkillManager.COST_TALE:
-				if (SkillManager.COST_TALE.equals(this.getGenius())) {
-					cost -= value;
-				}
-				break;
-			case SkillManager.COST_PLANT:
-				if (SkillManager.COST_PLANT.equals(this.getGenius())) {
-					cost -= value;
-				}
-				break;
-			case SkillManager.ENEMY_SPELL_CARD:
-				if (this.getType() == CardModel.SPELL) {
-					cost += value;
-				}
-				break;
-			case SkillManager.ENEMY_TROOP_CARD:
-				if (this.getType() == CardModel.TROOP) {
-					cost += value;
-				}
-				break;
-			case SkillManager.MINE_TROOP_CARD:
-				if (this.getType() == CardModel.TROOP) {
-					cost += value;
-				}
-				break;
-			default:
-				if (key.equals(String.valueOf(getUid()))) {
-					cost += value;
-				}
-				break;
-			}
-		}
-		return cost >= 0 ? cost : 0;
 	}
 
 	public void setCost(int cost) {

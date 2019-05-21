@@ -1,0 +1,292 @@
+2019-05-21 09:50:56,067 [org.apache.commons.io.output.ThresholdingOutputStream.loadParam():145:INFO ]
+ OPEN Debug Model;
+2019-05-21 09:50:57,242 [redis.RedisSession.init():43 :INFO ]
+ jedis pool initialize, addr: 127.0.0.1, port: 6379
+2019-05-21 09:50:57,256 [app.GameServer.main():62 :INFO ]
+ 准备载入配置表：cfg/
+2019-05-21 09:50:58,085 [config.ConfigLoader.loadArguments():837:INFO ]
+ InitValues_Common.xls载入完毕。
+2019-05-21 09:50:58,103 [config.ConfigLoader.loadMessageBox():810:INFO ]
+ Message/MessageBox_Server.xls载入完毕。
+2019-05-21 09:50:58,130 [config.ConfigLoader.loadErrorMessage():792:INFO ]
+ Message/ErrorMessage_Server.xls载入完毕。
+2019-05-21 09:50:58,662 [config.ConfigLoader.loadTroopCard():261:INFO ]
+ Card/TroopCard_Common.xls载入完毕。
+2019-05-21 09:50:58,851 [config.ConfigLoader.loadSpellCard():334:INFO ]
+ Card/SpellCard_Common.xls载入完毕。
+2019-05-21 09:50:58,904 [config.ConfigLoader.loadArtifactCard():386:INFO ]
+ Card/ArtifactCard_Common.xls载入完毕。
+2019-05-21 09:50:58,934 [config.ConfigLoader.loadDeckCard():423:INFO ]
+ Card/CardDeck_Server.xls载入完毕。
+2019-05-21 09:50:59,447 [config.ConfigLoader.loadSkill():180:INFO ]
+ Card/Skill_Common.xls载入完毕。
+2019-05-21 09:50:59,462 [config.ConfigLoader.loadInitCard():442:INFO ]
+ Card/InitCard_Server.xls载入完毕。
+2019-05-21 09:50:59,523 [config.ConfigLoader.loadDrop():464:INFO ]
+ Drop/Drop_Server.xls载入完毕。
+2019-05-21 09:50:59,536 [config.ConfigLoader.loadCardPackShop():483:INFO ]
+ Shop/CardPackShop_Common.xls载入完毕。
+2019-05-21 09:50:59,556 [config.ConfigLoader.loadRealCardPackShop():502:INFO ]
+ Shop/RealCardPackShop_Common.xls载入完毕。
+2019-05-21 09:50:59,564 [config.ConfigLoader.loadLadderUp():522:INFO ]
+ Ladder/LadderUp_Common.xls载入完毕。
+2019-05-21 09:50:59,577 [config.ConfigLoader.loadLadderDown():540:INFO ]
+ Ladder/LadderDown_Common.xls载入完毕。
+2019-05-21 09:50:59,580 [config.ConfigLoader.loadMatchTime():558:INFO ]
+ Ladder/MatchTime_Common.xls载入完毕。
+2019-05-21 09:50:59,601 [config.ConfigLoader.loadSubQuest():639:INFO ]
+ Quest/QuestSub_Common.xls载入完毕。
+2019-05-21 09:50:59,611 [config.ConfigLoader.loadSignInQuest():657:INFO ]
+ Quest/SignInQuest_Common.xls载入完毕。
+2019-05-21 09:50:59,658 [config.ConfigLoader.loadQuest():585:INFO ]
+ Quest/DailyQuest_Common.xls载入完毕。
+2019-05-21 09:50:59,667 [config.ConfigLoader.loadUseCount():603:INFO ]
+ UseCount_Common.xls载入完毕。
+2019-05-21 09:50:59,679 [config.ConfigLoader.loadAward():621:INFO ]
+ Award_Common.xls载入完毕。
+2019-05-21 09:50:59,693 [config.ConfigLoader.loadGuideGate():675:INFO ]
+ Guide/GuideGate_Common.xls载入完毕。
+2019-05-21 09:50:59,718 [config.ConfigLoader.loadGuideGateCardGroup():706:INFO ]
+ Guide/GuideGateCardGroup_Server.xls载入完毕。
+2019-05-21 09:50:59,737 [config.ConfigLoader.loadGuideGateAI():722:INFO ]
+ Guide/GuideGateAI_Server.xls载入完毕。
+2019-05-21 09:50:59,743 [config.ConfigLoader.loadRobot():740:INFO ]
+ Robot/Robot_Server.xls载入完毕。
+2019-05-21 09:50:59,755 [config.ConfigLoader.loadRobotCardGroup():771:INFO ]
+ Robot/RobotCardGroup_Server.xls载入完毕。
+2019-05-21 09:50:59,756 [app.GameServer.main():78 :INFO ]
+ *****************  配置表检测成功！   ***************
+2019-05-21 09:51:28,741 [org.apache.commons.io.output.ThresholdingOutputStream.loadParam():145:INFO ]
+ OPEN Debug Model;
+2019-05-21 09:51:29,687 [redis.RedisSession.init():43 :INFO ]
+ jedis pool initialize, addr: 127.0.0.1, port: 6379
+2019-05-21 09:51:29,688 [app.GameServer.main():62 :INFO ]
+ 准备载入配置表：cfg/
+2019-05-21 09:51:30,023 [config.ConfigLoader.loadArguments():837:INFO ]
+ InitValues_Common.xls载入完毕。
+2019-05-21 09:51:30,032 [config.ConfigLoader.loadMessageBox():810:INFO ]
+ Message/MessageBox_Server.xls载入完毕。
+2019-05-21 09:51:30,041 [config.ConfigLoader.loadErrorMessage():792:INFO ]
+ Message/ErrorMessage_Server.xls载入完毕。
+2019-05-21 09:51:30,287 [config.ConfigLoader.loadTroopCard():261:INFO ]
+ Card/TroopCard_Common.xls载入完毕。
+2019-05-21 09:51:30,363 [config.ConfigLoader.loadSpellCard():334:INFO ]
+ Card/SpellCard_Common.xls载入完毕。
+2019-05-21 09:51:30,400 [config.ConfigLoader.loadArtifactCard():386:INFO ]
+ Card/ArtifactCard_Common.xls载入完毕。
+2019-05-21 09:51:30,419 [config.ConfigLoader.loadDeckCard():423:INFO ]
+ Card/CardDeck_Server.xls载入完毕。
+2019-05-21 09:51:30,592 [config.ConfigLoader.loadSkill():180:INFO ]
+ Card/Skill_Common.xls载入完毕。
+2019-05-21 09:51:30,596 [config.ConfigLoader.loadInitCard():442:INFO ]
+ Card/InitCard_Server.xls载入完毕。
+2019-05-21 09:51:30,618 [config.ConfigLoader.loadDrop():464:INFO ]
+ Drop/Drop_Server.xls载入完毕。
+2019-05-21 09:51:30,620 [config.ConfigLoader.loadCardPackShop():483:INFO ]
+ Shop/CardPackShop_Common.xls载入完毕。
+2019-05-21 09:51:30,622 [config.ConfigLoader.loadRealCardPackShop():502:INFO ]
+ Shop/RealCardPackShop_Common.xls载入完毕。
+2019-05-21 09:51:30,626 [config.ConfigLoader.loadLadderUp():522:INFO ]
+ Ladder/LadderUp_Common.xls载入完毕。
+2019-05-21 09:51:30,629 [config.ConfigLoader.loadLadderDown():540:INFO ]
+ Ladder/LadderDown_Common.xls载入完毕。
+2019-05-21 09:51:30,630 [config.ConfigLoader.loadMatchTime():558:INFO ]
+ Ladder/MatchTime_Common.xls载入完毕。
+2019-05-21 09:51:30,639 [config.ConfigLoader.loadSubQuest():639:INFO ]
+ Quest/QuestSub_Common.xls载入完毕。
+2019-05-21 09:51:30,641 [config.ConfigLoader.loadSignInQuest():657:INFO ]
+ Quest/SignInQuest_Common.xls载入完毕。
+2019-05-21 09:51:30,652 [config.ConfigLoader.loadQuest():585:INFO ]
+ Quest/DailyQuest_Common.xls载入完毕。
+2019-05-21 09:51:30,656 [config.ConfigLoader.loadUseCount():603:INFO ]
+ UseCount_Common.xls载入完毕。
+2019-05-21 09:51:30,659 [config.ConfigLoader.loadAward():621:INFO ]
+ Award_Common.xls载入完毕。
+2019-05-21 09:51:30,661 [config.ConfigLoader.loadGuideGate():675:INFO ]
+ Guide/GuideGate_Common.xls载入完毕。
+2019-05-21 09:51:30,665 [config.ConfigLoader.loadGuideGateCardGroup():706:INFO ]
+ Guide/GuideGateCardGroup_Server.xls载入完毕。
+2019-05-21 09:51:30,671 [config.ConfigLoader.loadGuideGateAI():722:INFO ]
+ Guide/GuideGateAI_Server.xls载入完毕。
+2019-05-21 09:51:30,673 [config.ConfigLoader.loadRobot():740:INFO ]
+ Robot/Robot_Server.xls载入完毕。
+2019-05-21 09:51:30,680 [config.ConfigLoader.loadRobotCardGroup():771:INFO ]
+ Robot/RobotCardGroup_Server.xls载入完毕。
+2019-05-21 09:51:30,680 [app.GameServer.main():78 :INFO ]
+ *****************  配置表检测成功！   ***************
+2019-05-21 09:51:30,873 [app.GameServer.main():112:INFO ]
+ GameServer start success. Game_0 - 2019-05-09 11:58:50 - 169.254.8.128:8861
+2019-05-21 09:51:30,873 [app.GameServer.main():116:INFO ]
+ 游戏服务器 启动成功。 Game_0 - 首次开服时间：2019-05-09 11:58:50 - 169.254.8.128:8861
+2019-05-21 09:52:23,137 [app.GameClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:52:23,142 [app.GameClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:52:23,159 [sys.GameServerOnlineManager.playerLogin():91 :INFO ]
+ 玩家：598132，登录游戏。
+2019-05-21 09:52:23,160 [sys.GameServerOnlineManager.playerLogin():91 :INFO ]
+ 玩家：774413，登录游戏。
+2019-05-21 09:52:23,168 [sys.GameRoomManager.addGameRoom():95 :INFO ]
+ 创建房间成功，房间号：182826
+2019-05-21 09:52:23,184 [module.scene.GameRoom.joinGame():90 :INFO ]
+ 玩家：598132，房间Id：182826，加入房间。
+2019-05-21 09:52:23,185 [message.game.room.RoomService.login():85 :INFO ]
+ 玩家：598132，房间Id：182826，创建房间成功。
+2019-05-21 09:52:23,186 [module.scene.GameRoom.joinGame():90 :INFO ]
+ 玩家：774413，房间Id：182826，加入房间。
+2019-05-21 09:52:23,186 [module.scene.GameRoom.gameStart():112:INFO ]
+ 房间Id：182826，准备开始游戏。
+2019-05-21 09:52:23,187 [message.game.room.RoomService.login():88 :INFO ]
+ 玩家：774413，房间Id：182826，进入房间成功。
+2019-05-21 09:52:23,256 [message.game.fight.FightService.ready():72 :INFO ]
+ 玩家：774413，房间Id：182826，准备成功。
+2019-05-21 09:52:23,266 [message.game.fight.FightService.ready():72 :INFO ]
+ 玩家：598132，房间Id：182826，准备成功。
+2019-05-21 09:52:26,268 [sys.GameSyncManager.start():40 :INFO ]
+ 房间Id：182826。游戏位置同步开始。
+2019-05-21 09:52:45,137 [sys.GameRoomManager.destroyRoom():127:INFO ]
+ 销毁房间成功，房间号：182826
+2019-05-21 09:52:45,137 [sys.GameServerOnlineManager.playerLogout():105:INFO ]
+ 玩家：774413，退出游戏。
+2019-05-21 09:52:45,137 [app.GameClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 192.168.1.49:50512
+2019-05-21 09:52:45,908 [sys.GameServerOnlineManager.playerLogout():105:INFO ]
+ 玩家：598132，退出游戏。
+2019-05-21 09:52:45,908 [app.GameClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 192.168.1.49:50513
+2019-05-21 09:53:46,181 [app.GameClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:53:46,186 [app.GameClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:53:46,200 [sys.GameServerOnlineManager.playerLogin():91 :INFO ]
+ 玩家：774413，登录游戏。
+2019-05-21 09:53:46,200 [sys.GameServerOnlineManager.playerLogin():91 :INFO ]
+ 玩家：598132，登录游戏。
+2019-05-21 09:53:46,201 [sys.GameRoomManager.addGameRoom():95 :INFO ]
+ 创建房间成功，房间号：272454
+2019-05-21 09:53:46,203 [module.scene.GameRoom.joinGame():90 :INFO ]
+ 玩家：774413，房间Id：272454，加入房间。
+2019-05-21 09:53:46,203 [message.game.room.RoomService.login():85 :INFO ]
+ 玩家：774413，房间Id：272454，创建房间成功。
+2019-05-21 09:53:46,204 [module.scene.GameRoom.joinGame():90 :INFO ]
+ 玩家：598132，房间Id：272454，加入房间。
+2019-05-21 09:53:46,204 [module.scene.GameRoom.gameStart():112:INFO ]
+ 房间Id：272454，准备开始游戏。
+2019-05-21 09:53:46,205 [message.game.room.RoomService.login():88 :INFO ]
+ 玩家：598132，房间Id：272454，进入房间成功。
+2019-05-21 09:53:46,273 [message.game.fight.FightService.ready():72 :INFO ]
+ 玩家：774413，房间Id：272454，准备成功。
+2019-05-21 09:53:46,279 [message.game.fight.FightService.ready():72 :INFO ]
+ 玩家：598132，房间Id：272454，准备成功。
+2019-05-21 09:53:49,280 [sys.GameSyncManager.start():40 :INFO ]
+ 房间Id：272454。游戏位置同步开始。
+2019-05-21 09:54:25,859 [sys.GameRoomManager.destroyRoom():127:INFO ]
+ 销毁房间成功，房间号：272454
+2019-05-21 09:54:25,859 [sys.GameServerOnlineManager.playerLogout():105:INFO ]
+ 玩家：598132，退出游戏。
+2019-05-21 09:54:25,860 [app.GameClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 192.168.1.49:50593
+2019-05-21 09:54:27,134 [sys.GameServerOnlineManager.playerLogout():105:INFO ]
+ 玩家：774413，退出游戏。
+2019-05-21 09:54:27,134 [app.GameClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 192.168.1.49:50592
+2019-05-21 09:55:03,012 [org.apache.commons.io.output.ThresholdingOutputStream.loadParam():145:INFO ]
+ OPEN Debug Model;
+2019-05-21 09:55:03,432 [redis.RedisSession.init():43 :INFO ]
+ jedis pool initialize, addr: 127.0.0.1, port: 6379
+2019-05-21 09:55:03,433 [app.GameServer.main():63 :INFO ]
+ 准备载入配置表：cfg/
+2019-05-21 09:55:03,696 [config.ConfigLoader.loadArguments():837:INFO ]
+ InitValues_Common.xls载入完毕。
+2019-05-21 09:55:03,703 [config.ConfigLoader.loadMessageBox():810:INFO ]
+ Message/MessageBox_Server.xls载入完毕。
+2019-05-21 09:55:03,707 [config.ConfigLoader.loadErrorMessage():792:INFO ]
+ Message/ErrorMessage_Server.xls载入完毕。
+2019-05-21 09:55:03,970 [config.ConfigLoader.loadTroopCard():261:INFO ]
+ Card/TroopCard_Common.xls载入完毕。
+2019-05-21 09:55:04,034 [config.ConfigLoader.loadSpellCard():334:INFO ]
+ Card/SpellCard_Common.xls载入完毕。
+2019-05-21 09:55:04,061 [config.ConfigLoader.loadArtifactCard():386:INFO ]
+ Card/ArtifactCard_Common.xls载入完毕。
+2019-05-21 09:55:04,074 [config.ConfigLoader.loadDeckCard():423:INFO ]
+ Card/CardDeck_Server.xls载入完毕。
+2019-05-21 09:55:04,500 [config.ConfigLoader.loadSkill():180:INFO ]
+ Card/Skill_Common.xls载入完毕。
+2019-05-21 09:55:04,522 [config.ConfigLoader.loadInitCard():442:INFO ]
+ Card/InitCard_Server.xls载入完毕。
+2019-05-21 09:55:04,621 [config.ConfigLoader.loadDrop():464:INFO ]
+ Drop/Drop_Server.xls载入完毕。
+2019-05-21 09:55:04,626 [config.ConfigLoader.loadCardPackShop():483:INFO ]
+ Shop/CardPackShop_Common.xls载入完毕。
+2019-05-21 09:55:04,650 [config.ConfigLoader.loadRealCardPackShop():502:INFO ]
+ Shop/RealCardPackShop_Common.xls载入完毕。
+2019-05-21 09:55:04,658 [config.ConfigLoader.loadLadderUp():522:INFO ]
+ Ladder/LadderUp_Common.xls载入完毕。
+2019-05-21 09:55:04,666 [config.ConfigLoader.loadLadderDown():540:INFO ]
+ Ladder/LadderDown_Common.xls载入完毕。
+2019-05-21 09:55:04,671 [config.ConfigLoader.loadMatchTime():558:INFO ]
+ Ladder/MatchTime_Common.xls载入完毕。
+2019-05-21 09:55:04,716 [config.ConfigLoader.loadSubQuest():639:INFO ]
+ Quest/QuestSub_Common.xls载入完毕。
+2019-05-21 09:55:04,722 [config.ConfigLoader.loadSignInQuest():657:INFO ]
+ Quest/SignInQuest_Common.xls载入完毕。
+2019-05-21 09:55:04,763 [config.ConfigLoader.loadQuest():585:INFO ]
+ Quest/DailyQuest_Common.xls载入完毕。
+2019-05-21 09:55:04,772 [config.ConfigLoader.loadUseCount():603:INFO ]
+ UseCount_Common.xls载入完毕。
+2019-05-21 09:55:04,775 [config.ConfigLoader.loadAward():621:INFO ]
+ Award_Common.xls载入完毕。
+2019-05-21 09:55:04,779 [config.ConfigLoader.loadGuideGate():675:INFO ]
+ Guide/GuideGate_Common.xls载入完毕。
+2019-05-21 09:55:04,786 [config.ConfigLoader.loadGuideGateCardGroup():706:INFO ]
+ Guide/GuideGateCardGroup_Server.xls载入完毕。
+2019-05-21 09:55:04,871 [config.ConfigLoader.loadGuideGateAI():722:INFO ]
+ Guide/GuideGateAI_Server.xls载入完毕。
+2019-05-21 09:55:04,876 [config.ConfigLoader.loadRobot():740:INFO ]
+ Robot/Robot_Server.xls载入完毕。
+2019-05-21 09:55:04,888 [config.ConfigLoader.loadRobotCardGroup():771:INFO ]
+ Robot/RobotCardGroup_Server.xls载入完毕。
+2019-05-21 09:55:04,890 [app.GameServer.main():79 :INFO ]
+ *****************  配置表检测成功！   ***************
+2019-05-21 09:55:05,570 [app.GameServer.main():114:INFO ]
+ GameServer start success. Game_0 - 2019-05-09 11:58:50 - 169.254.8.128:8861
+2019-05-21 09:55:05,570 [app.GameServer.main():118:INFO ]
+ 游戏服务器 启动成功。 Game_0 - 首次开服时间：2019-05-09 11:58:50 - 169.254.8.128:8861
+2019-05-21 09:55:05,585 [sys.UDPMsgManager.run():56 :INFO ]
+ 服务器开启，UDP数据接收线程开始。
+2019-05-21 09:55:36,120 [app.GameClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:55:36,126 [app.GameClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:55:36,148 [sys.GameServerOnlineManager.playerLogin():91 :INFO ]
+ 玩家：598132，登录游戏。
+2019-05-21 09:55:36,150 [sys.GameServerOnlineManager.playerLogin():91 :INFO ]
+ 玩家：774413，登录游戏。
+2019-05-21 09:55:36,157 [sys.GameRoomManager.addGameRoom():95 :INFO ]
+ 创建房间成功，房间号：161309
+2019-05-21 09:55:36,172 [module.scene.GameRoom.joinGame():90 :INFO ]
+ 玩家：598132，房间Id：161309，加入房间。
+2019-05-21 09:55:36,173 [message.game.room.RoomService.login():85 :INFO ]
+ 玩家：598132，房间Id：161309，创建房间成功。
+2019-05-21 09:55:36,174 [module.scene.GameRoom.joinGame():90 :INFO ]
+ 玩家：774413，房间Id：161309，加入房间。
+2019-05-21 09:55:36,175 [module.scene.GameRoom.gameStart():112:INFO ]
+ 房间Id：161309，准备开始游戏。
+2019-05-21 09:55:36,176 [message.game.room.RoomService.login():88 :INFO ]
+ 玩家：774413，房间Id：161309，进入房间成功。
+2019-05-21 09:55:36,245 [message.game.fight.FightService.ready():72 :INFO ]
+ 玩家：774413，房间Id：161309，准备成功。
+2019-05-21 09:55:36,256 [message.game.fight.FightService.ready():72 :INFO ]
+ 玩家：598132，房间Id：161309，准备成功。
+2019-05-21 09:55:39,261 [sys.GameSyncManager.start():40 :INFO ]
+ 房间Id：161309。游戏位置同步开始。
+2019-05-21 09:55:57,180 [sys.GameRoomManager.destroyRoom():127:INFO ]
+ 销毁房间成功，房间号：161309
+2019-05-21 09:55:57,180 [sys.GameServerOnlineManager.playerLogout():105:INFO ]
+ 玩家：774413，退出游戏。
+2019-05-21 09:55:57,180 [app.GameClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 192.168.1.49:50640
+2019-05-21 09:55:58,477 [sys.GameServerOnlineManager.playerLogout():105:INFO ]
+ 玩家：598132，退出游戏。
+2019-05-21 09:55:58,477 [app.GameClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 192.168.1.49:50639

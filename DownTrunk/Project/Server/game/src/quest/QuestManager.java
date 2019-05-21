@@ -1,15 +1,12 @@
 package quest;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import config.ConfigData;
-import config.model.card.CardDeckModel;
 import config.model.card.CardModel;
 import config.model.quest.QuestModel;
 import config.model.quest.QuestSubModel;
@@ -19,7 +16,6 @@ import module.card.TroopCard;
 import module.fight.BattleRole;
 import module.quest.Quest;
 import module.scene.GameRoom;
-import util.ErrorPrint;
 import util.Tools;
 
 public class QuestManager implements IQuestConst {
@@ -257,17 +253,12 @@ public class QuestManager implements IQuestConst {
 			return;
 		}
 		
-		int playerId = role.getPlayerId();
 		switch (questSubModel.Action) {
 		case BATTLE:
 			quest.addValue(1);
 			break;
 			
 		case DECK:
-			CardDeckModel deck = room.getDeck(playerId);
-			if (checkDeckQuest(questSubModel, deck)) {
-				quest.addValue(1);
-			}
 			break;
 		case TURBO:
 			if (room.isTurboMode()) {
@@ -275,57 +266,6 @@ public class QuestManager implements IQuestConst {
 			}
 			break;
 		}
-	}
-	
-	private boolean checkDeckQuest(QuestSubModel questSubModel, CardDeckModel deck) {
-		if (deck == null) {
-			return false;
-		}
-		String arg2 = questSubModel.Arg2;
-		switch (questSubModel.Arg1) {
-		case RUNE:
-			ArrayList<Integer> runes = new ArrayList<>();
-			runes.addAll(deck.Runes);
-			Collections.sort(runes);
-			String[] split = arg2.split(",");
-			int count = 0;
-			for (String str : split) {
-				try {
-					int rune = Integer.parseInt(str);
-					Iterator<Integer> iterator = runes.iterator();
-					while (iterator.hasNext()) {
-						Integer next = iterator.next();
-						if (rune == next) {
-							iterator.remove();
-							count++;
-							break;
-						}
-					}
-				} catch (Exception e) {
-					ErrorPrint.print(e);
-				}
-			}
-			if (count >= split.length) {
-				return true;
-			}
-			break;
-
-		case RUNE_COUNT:
-			HashMap<Integer, Integer> map = new HashMap<>();
-			for (Integer rune : deck.Runes) {
-				map.put(rune, rune);
-			}
-			try {
-				int value = Integer.parseInt(arg2);
-				if (map.size() >= value) {
-					return true;
-				}
-			} catch (Exception e) {
-				ErrorPrint.print(e);
-			}
-			break;
-		}
-		return false;
 	}
 	
 	public void settlement(GameRoom room, BattleRole role, boolean isWin) {

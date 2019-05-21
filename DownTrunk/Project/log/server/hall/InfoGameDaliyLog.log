@@ -1,0 +1,298 @@
+2019-05-21 09:50:56,908 [org.apache.commons.io.output.ThresholdingOutputStream.loadParam():145:INFO ]
+ OPEN Debug Model;
+2019-05-21 09:50:58,318 [redis.RedisSession.init():43 :INFO ]
+ jedis pool initialize, addr: 127.0.0.1, port: 6379
+2019-05-21 09:50:58,321 [app.HallServer.main():71 :INFO ]
+ 准备载入配置表：cfg/
+2019-05-21 09:50:58,940 [config.ConfigLoader.loadArguments():837:INFO ]
+ InitValues_Common.xls载入完毕。
+2019-05-21 09:50:58,950 [config.ConfigLoader.loadMessageBox():810:INFO ]
+ Message/MessageBox_Server.xls载入完毕。
+2019-05-21 09:50:58,967 [config.ConfigLoader.loadErrorMessage():792:INFO ]
+ Message/ErrorMessage_Server.xls载入完毕。
+2019-05-21 09:50:59,353 [config.ConfigLoader.loadTroopCard():261:INFO ]
+ Card/TroopCard_Common.xls载入完毕。
+2019-05-21 09:50:59,427 [config.ConfigLoader.loadSpellCard():334:INFO ]
+ Card/SpellCard_Common.xls载入完毕。
+2019-05-21 09:50:59,460 [config.ConfigLoader.loadArtifactCard():386:INFO ]
+ Card/ArtifactCard_Common.xls载入完毕。
+2019-05-21 09:50:59,473 [config.ConfigLoader.loadDeckCard():423:INFO ]
+ Card/CardDeck_Server.xls载入完毕。
+2019-05-21 09:50:59,758 [config.ConfigLoader.loadSkill():180:INFO ]
+ Card/Skill_Common.xls载入完毕。
+2019-05-21 09:50:59,764 [config.ConfigLoader.loadInitCard():442:INFO ]
+ Card/InitCard_Server.xls载入完毕。
+2019-05-21 09:50:59,848 [config.ConfigLoader.loadDrop():464:INFO ]
+ Drop/Drop_Server.xls载入完毕。
+2019-05-21 09:50:59,851 [config.ConfigLoader.loadCardPackShop():483:INFO ]
+ Shop/CardPackShop_Common.xls载入完毕。
+2019-05-21 09:50:59,854 [config.ConfigLoader.loadRealCardPackShop():502:INFO ]
+ Shop/RealCardPackShop_Common.xls载入完毕。
+2019-05-21 09:50:59,860 [config.ConfigLoader.loadLadderUp():522:INFO ]
+ Ladder/LadderUp_Common.xls载入完毕。
+2019-05-21 09:50:59,865 [config.ConfigLoader.loadLadderDown():540:INFO ]
+ Ladder/LadderDown_Common.xls载入完毕。
+2019-05-21 09:50:59,869 [config.ConfigLoader.loadMatchTime():558:INFO ]
+ Ladder/MatchTime_Common.xls载入完毕。
+2019-05-21 09:50:59,881 [config.ConfigLoader.loadSubQuest():639:INFO ]
+ Quest/QuestSub_Common.xls载入完毕。
+2019-05-21 09:50:59,896 [config.ConfigLoader.loadSignInQuest():657:INFO ]
+ Quest/SignInQuest_Common.xls载入完毕。
+2019-05-21 09:50:59,931 [config.ConfigLoader.loadQuest():585:INFO ]
+ Quest/DailyQuest_Common.xls载入完毕。
+2019-05-21 09:50:59,935 [config.ConfigLoader.loadUseCount():603:INFO ]
+ UseCount_Common.xls载入完毕。
+2019-05-21 09:50:59,939 [config.ConfigLoader.loadAward():621:INFO ]
+ Award_Common.xls载入完毕。
+2019-05-21 09:50:59,942 [config.ConfigLoader.loadGuideGate():675:INFO ]
+ Guide/GuideGate_Common.xls载入完毕。
+2019-05-21 09:50:59,951 [config.ConfigLoader.loadGuideGateCardGroup():706:INFO ]
+ Guide/GuideGateCardGroup_Server.xls载入完毕。
+2019-05-21 09:50:59,958 [config.ConfigLoader.loadGuideGateAI():722:INFO ]
+ Guide/GuideGateAI_Server.xls载入完毕。
+2019-05-21 09:50:59,964 [config.ConfigLoader.loadRobot():740:INFO ]
+ Robot/Robot_Server.xls载入完毕。
+2019-05-21 09:50:59,980 [config.ConfigLoader.loadRobotCardGroup():771:INFO ]
+ Robot/RobotCardGroup_Server.xls载入完毕。
+2019-05-21 09:50:59,982 [app.HallServer.main():87 :INFO ]
+ *****************  配置表检测成功！   ***************
+2019-05-21 09:51:00,145 [sys.GameRoomAssign.run():71 :INFO ]
+ 服务器开启，分配游戏房间线程开始。
+2019-05-21 09:51:01,175 [app.HallServer.main():119:INFO ]
+ HallServer start success. Hall_0 - 2019-05-09 11:58:33 - 169.254.8.128:8860
+2019-05-21 09:51:01,175 [app.HallServer.main():123:INFO ]
+ 大厅服务器 启动成功。 Hall_0 - 首次开服时间：2019-05-09 11:58:33 - 169.254.8.128:8860
+2019-05-21 09:51:27,357 [org.apache.commons.io.output.ThresholdingOutputStream.loadParam():145:INFO ]
+ OPEN Debug Model;
+2019-05-21 09:51:27,764 [redis.RedisSession.init():43 :INFO ]
+ jedis pool initialize, addr: 127.0.0.1, port: 6379
+2019-05-21 09:51:27,765 [app.HallServer.main():71 :INFO ]
+ 准备载入配置表：cfg/
+2019-05-21 09:51:28,107 [config.ConfigLoader.loadArguments():837:INFO ]
+ InitValues_Common.xls载入完毕。
+2019-05-21 09:51:28,122 [config.ConfigLoader.loadMessageBox():810:INFO ]
+ Message/MessageBox_Server.xls载入完毕。
+2019-05-21 09:51:28,131 [config.ConfigLoader.loadErrorMessage():792:INFO ]
+ Message/ErrorMessage_Server.xls载入完毕。
+2019-05-21 09:51:28,321 [config.ConfigLoader.loadTroopCard():261:INFO ]
+ Card/TroopCard_Common.xls载入完毕。
+2019-05-21 09:51:28,389 [config.ConfigLoader.loadSpellCard():334:INFO ]
+ Card/SpellCard_Common.xls载入完毕。
+2019-05-21 09:51:28,416 [config.ConfigLoader.loadArtifactCard():386:INFO ]
+ Card/ArtifactCard_Common.xls载入完毕。
+2019-05-21 09:51:28,428 [config.ConfigLoader.loadDeckCard():423:INFO ]
+ Card/CardDeck_Server.xls载入完毕。
+2019-05-21 09:51:28,730 [config.ConfigLoader.loadSkill():180:INFO ]
+ Card/Skill_Common.xls载入完毕。
+2019-05-21 09:51:28,743 [config.ConfigLoader.loadInitCard():442:INFO ]
+ Card/InitCard_Server.xls载入完毕。
+2019-05-21 09:51:28,827 [config.ConfigLoader.loadDrop():464:INFO ]
+ Drop/Drop_Server.xls载入完毕。
+2019-05-21 09:51:28,837 [config.ConfigLoader.loadCardPackShop():483:INFO ]
+ Shop/CardPackShop_Common.xls载入完毕。
+2019-05-21 09:51:28,841 [config.ConfigLoader.loadRealCardPackShop():502:INFO ]
+ Shop/RealCardPackShop_Common.xls载入完毕。
+2019-05-21 09:51:28,851 [config.ConfigLoader.loadLadderUp():522:INFO ]
+ Ladder/LadderUp_Common.xls载入完毕。
+2019-05-21 09:51:28,856 [config.ConfigLoader.loadLadderDown():540:INFO ]
+ Ladder/LadderDown_Common.xls载入完毕。
+2019-05-21 09:51:28,901 [config.ConfigLoader.loadMatchTime():558:INFO ]
+ Ladder/MatchTime_Common.xls载入完毕。
+2019-05-21 09:51:28,913 [config.ConfigLoader.loadSubQuest():639:INFO ]
+ Quest/QuestSub_Common.xls载入完毕。
+2019-05-21 09:51:28,924 [config.ConfigLoader.loadSignInQuest():657:INFO ]
+ Quest/SignInQuest_Common.xls载入完毕。
+2019-05-21 09:51:28,938 [config.ConfigLoader.loadQuest():585:INFO ]
+ Quest/DailyQuest_Common.xls载入完毕。
+2019-05-21 09:51:28,942 [config.ConfigLoader.loadUseCount():603:INFO ]
+ UseCount_Common.xls载入完毕。
+2019-05-21 09:51:28,945 [config.ConfigLoader.loadAward():621:INFO ]
+ Award_Common.xls载入完毕。
+2019-05-21 09:51:28,947 [config.ConfigLoader.loadGuideGate():675:INFO ]
+ Guide/GuideGate_Common.xls载入完毕。
+2019-05-21 09:51:29,000 [config.ConfigLoader.loadGuideGateCardGroup():706:INFO ]
+ Guide/GuideGateCardGroup_Server.xls载入完毕。
+2019-05-21 09:51:29,006 [config.ConfigLoader.loadGuideGateAI():722:INFO ]
+ Guide/GuideGateAI_Server.xls载入完毕。
+2019-05-21 09:51:29,013 [config.ConfigLoader.loadRobot():740:INFO ]
+ Robot/Robot_Server.xls载入完毕。
+2019-05-21 09:51:29,024 [config.ConfigLoader.loadRobotCardGroup():771:INFO ]
+ Robot/RobotCardGroup_Server.xls载入完毕。
+2019-05-21 09:51:29,025 [app.HallServer.main():87 :INFO ]
+ *****************  配置表检测成功！   ***************
+2019-05-21 09:51:29,355 [redis.RedisProxy.updateServerListCache():344:INFO ]
+ detect newly server info: {"suspend":0,"port":8861,"serverId":"Game_0","ip":"192.168.1.49"}
+2019-05-21 09:51:29,521 [sys.GameRoomAssign.run():71 :INFO ]
+ 服务器开启，分配游戏房间线程开始。
+2019-05-21 09:51:29,524 [app.HallServer.main():119:INFO ]
+ HallServer start success. Hall_0 - 2019-05-09 11:58:33 - 169.254.8.128:8860
+2019-05-21 09:51:29,524 [app.HallServer.main():123:INFO ]
+ 大厅服务器 启动成功。 Hall_0 - 首次开服时间：2019-05-09 11:58:33 - 169.254.8.128:8860
+2019-05-21 09:52:19,658 [app.HallClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:52:20,032 [sys.HallServerOnlineManager.playerLogin():70 :INFO ]
+ 玩家：598132，登录游戏。
+2019-05-21 09:52:20,036 [message.hall.login.LoginService.login():435:INFO ]
+ 登录发送玩家信息，account：2，playerId：598132
+2019-05-21 09:52:20,037 [message.hall.login.LoginService.login():403:INFO ]
+ 玩家登录LoginServer，账号：2，UUID：0419df44-8ba2-4806-bca7-09779aa1290f
+2019-05-21 09:52:20,143 [message.hall.login.LoginService.access():71 :INFO ]
+ 设备登录：174f4d8caaa80c4b8af47316500b22c6613f80e1
+2019-05-21 09:52:21,436 [app.HallClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:52:21,589 [sys.HallServerOnlineManager.playerLogin():70 :INFO ]
+ 玩家：774413，登录游戏。
+2019-05-21 09:52:21,590 [message.hall.login.LoginService.login():435:INFO ]
+ 登录发送玩家信息，account：1，playerId：774413
+2019-05-21 09:52:21,590 [message.hall.login.LoginService.login():403:INFO ]
+ 玩家登录LoginServer，账号：1，UUID：c7aea2d8-21c5-4e23-b43f-df59630377dd
+2019-05-21 09:52:21,693 [message.hall.login.LoginService.access():71 :INFO ]
+ 设备登录：174f4d8caaa80c4b8af47316500b22c6613f80e1
+2019-05-21 09:52:22,095 [sys.GameRoomAssign.addPlayerInfo():263:INFO ]
+ 玩家：598132，进入匹配队列。
+2019-05-21 09:52:22,849 [sys.GameRoomAssign.addPlayerInfo():263:INFO ]
+ 玩家：774413，进入匹配队列。
+2019-05-21 09:52:23,102 [sys.GameRoomAssign.run():149:INFO ]
+ 匹配成功。玩家A：598132，玩家B：774413，分配至游戏服：Game_0
+2019-05-21 09:52:45,138 [sys.HallServerOnlineManager.playerLogout():89 :INFO ]
+ 玩家：774413，退出游戏。
+2019-05-21 09:52:45,138 [app.HallClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 127.0.0.1:50510
+2019-05-21 09:52:45,910 [sys.HallServerOnlineManager.playerLogout():89 :INFO ]
+ 玩家：598132，退出游戏。
+2019-05-21 09:52:45,911 [app.HallClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 127.0.0.1:50504
+2019-05-21 09:53:24,201 [app.HallClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:53:24,749 [sys.HallServerOnlineManager.playerLogin():70 :INFO ]
+ 玩家：774413，登录游戏。
+2019-05-21 09:53:24,749 [message.hall.login.LoginService.login():435:INFO ]
+ 登录发送玩家信息，account：1，playerId：774413
+2019-05-21 09:53:24,750 [message.hall.login.LoginService.login():403:INFO ]
+ 玩家登录LoginServer，账号：1，UUID：d9f9d455-c700-479b-86e1-59647fc38d21
+2019-05-21 09:53:24,843 [message.hall.login.LoginService.access():71 :INFO ]
+ 设备登录：174f4d8caaa80c4b8af47316500b22c6613f80e1
+2019-05-21 09:53:42,704 [app.HallClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:53:42,769 [sys.HallServerOnlineManager.playerLogin():70 :INFO ]
+ 玩家：598132，登录游戏。
+2019-05-21 09:53:42,769 [message.hall.login.LoginService.login():435:INFO ]
+ 登录发送玩家信息，account：2，playerId：598132
+2019-05-21 09:53:42,770 [message.hall.login.LoginService.login():403:INFO ]
+ 玩家登录LoginServer，账号：2，UUID：95ff2838-aedc-47e7-a4ea-e79a79644ba2
+2019-05-21 09:53:42,849 [message.hall.login.LoginService.access():71 :INFO ]
+ 设备登录：174f4d8caaa80c4b8af47316500b22c6613f80e1
+2019-05-21 09:53:44,783 [sys.GameRoomAssign.addPlayerInfo():263:INFO ]
+ 玩家：598132，进入匹配队列。
+2019-05-21 09:53:45,382 [sys.GameRoomAssign.addPlayerInfo():263:INFO ]
+ 玩家：774413，进入匹配队列。
+2019-05-21 09:53:46,156 [sys.GameRoomAssign.run():149:INFO ]
+ 匹配成功。玩家A：598132，玩家B：774413，分配至游戏服：Game_0
+2019-05-21 09:54:25,860 [sys.HallServerOnlineManager.playerLogout():89 :INFO ]
+ 玩家：598132，退出游戏。
+2019-05-21 09:54:25,860 [app.HallClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 127.0.0.1:50589
+2019-05-21 09:54:27,135 [sys.HallServerOnlineManager.playerLogout():89 :INFO ]
+ 玩家：774413，退出游戏。
+2019-05-21 09:54:27,135 [app.HallClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 127.0.0.1:50564
+2019-05-21 09:55:04,349 [org.apache.commons.io.output.ThresholdingOutputStream.loadParam():145:INFO ]
+ OPEN Debug Model;
+2019-05-21 09:55:05,518 [redis.RedisSession.init():43 :INFO ]
+ jedis pool initialize, addr: 127.0.0.1, port: 6379
+2019-05-21 09:55:05,523 [app.HallServer.main():71 :INFO ]
+ 准备载入配置表：cfg/
+2019-05-21 09:55:05,969 [config.ConfigLoader.loadArguments():837:INFO ]
+ InitValues_Common.xls载入完毕。
+2019-05-21 09:55:05,977 [config.ConfigLoader.loadMessageBox():810:INFO ]
+ Message/MessageBox_Server.xls载入完毕。
+2019-05-21 09:55:05,984 [config.ConfigLoader.loadErrorMessage():792:INFO ]
+ Message/ErrorMessage_Server.xls载入完毕。
+2019-05-21 09:55:06,253 [config.ConfigLoader.loadTroopCard():261:INFO ]
+ Card/TroopCard_Common.xls载入完毕。
+2019-05-21 09:55:06,312 [config.ConfigLoader.loadSpellCard():334:INFO ]
+ Card/SpellCard_Common.xls载入完毕。
+2019-05-21 09:55:06,337 [config.ConfigLoader.loadArtifactCard():386:INFO ]
+ Card/ArtifactCard_Common.xls载入完毕。
+2019-05-21 09:55:06,349 [config.ConfigLoader.loadDeckCard():423:INFO ]
+ Card/CardDeck_Server.xls载入完毕。
+2019-05-21 09:55:06,519 [config.ConfigLoader.loadSkill():180:INFO ]
+ Card/Skill_Common.xls载入完毕。
+2019-05-21 09:55:06,523 [config.ConfigLoader.loadInitCard():442:INFO ]
+ Card/InitCard_Server.xls载入完毕。
+2019-05-21 09:55:06,544 [config.ConfigLoader.loadDrop():464:INFO ]
+ Drop/Drop_Server.xls载入完毕。
+2019-05-21 09:55:06,546 [config.ConfigLoader.loadCardPackShop():483:INFO ]
+ Shop/CardPackShop_Common.xls载入完毕。
+2019-05-21 09:55:06,548 [config.ConfigLoader.loadRealCardPackShop():502:INFO ]
+ Shop/RealCardPackShop_Common.xls载入完毕。
+2019-05-21 09:55:06,554 [config.ConfigLoader.loadLadderUp():522:INFO ]
+ Ladder/LadderUp_Common.xls载入完毕。
+2019-05-21 09:55:06,557 [config.ConfigLoader.loadLadderDown():540:INFO ]
+ Ladder/LadderDown_Common.xls载入完毕。
+2019-05-21 09:55:06,559 [config.ConfigLoader.loadMatchTime():558:INFO ]
+ Ladder/MatchTime_Common.xls载入完毕。
+2019-05-21 09:55:06,568 [config.ConfigLoader.loadSubQuest():639:INFO ]
+ Quest/QuestSub_Common.xls载入完毕。
+2019-05-21 09:55:06,571 [config.ConfigLoader.loadSignInQuest():657:INFO ]
+ Quest/SignInQuest_Common.xls载入完毕。
+2019-05-21 09:55:06,584 [config.ConfigLoader.loadQuest():585:INFO ]
+ Quest/DailyQuest_Common.xls载入完毕。
+2019-05-21 09:55:06,586 [config.ConfigLoader.loadUseCount():603:INFO ]
+ UseCount_Common.xls载入完毕。
+2019-05-21 09:55:06,589 [config.ConfigLoader.loadAward():621:INFO ]
+ Award_Common.xls载入完毕。
+2019-05-21 09:55:06,590 [config.ConfigLoader.loadGuideGate():675:INFO ]
+ Guide/GuideGate_Common.xls载入完毕。
+2019-05-21 09:55:06,594 [config.ConfigLoader.loadGuideGateCardGroup():706:INFO ]
+ Guide/GuideGateCardGroup_Server.xls载入完毕。
+2019-05-21 09:55:06,600 [config.ConfigLoader.loadGuideGateAI():722:INFO ]
+ Guide/GuideGateAI_Server.xls载入完毕。
+2019-05-21 09:55:06,602 [config.ConfigLoader.loadRobot():740:INFO ]
+ Robot/Robot_Server.xls载入完毕。
+2019-05-21 09:55:06,608 [config.ConfigLoader.loadRobotCardGroup():771:INFO ]
+ Robot/RobotCardGroup_Server.xls载入完毕。
+2019-05-21 09:55:06,608 [app.HallServer.main():87 :INFO ]
+ *****************  配置表检测成功！   ***************
+2019-05-21 09:55:06,736 [redis.RedisProxy.updateServerListCache():344:INFO ]
+ detect newly server info: {"suspend":0,"port":8861,"serverId":"Game_0","ip":"192.168.1.49"}
+2019-05-21 09:55:06,761 [sys.GameRoomAssign.run():71 :INFO ]
+ 服务器开启，分配游戏房间线程开始。
+2019-05-21 09:55:06,776 [app.HallServer.main():119:INFO ]
+ HallServer start success. Hall_0 - 2019-05-09 11:58:33 - 169.254.8.128:8860
+2019-05-21 09:55:06,776 [app.HallServer.main():123:INFO ]
+ 大厅服务器 启动成功。 Hall_0 - 首次开服时间：2019-05-09 11:58:33 - 169.254.8.128:8860
+2019-05-21 09:55:18,075 [app.HallClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:55:18,156 [sys.HallServerOnlineManager.playerLogin():70 :INFO ]
+ 玩家：598132，登录游戏。
+2019-05-21 09:55:18,161 [message.hall.login.LoginService.login():435:INFO ]
+ 登录发送玩家信息，account：2，playerId：598132
+2019-05-21 09:55:18,163 [message.hall.login.LoginService.login():403:INFO ]
+ 玩家登录LoginServer，账号：2，UUID：15b4884b-99c2-4b9c-b897-324392acf01e
+2019-05-21 09:55:18,340 [message.hall.login.LoginService.access():71 :INFO ]
+ 设备登录：174f4d8caaa80c4b8af47316500b22c6613f80e1
+2019-05-21 09:55:32,718 [app.HallClientHandler.connectionOpened():66 :INFO ]
+ 连接开启--
+2019-05-21 09:55:32,816 [sys.HallServerOnlineManager.playerLogin():70 :INFO ]
+ 玩家：774413，登录游戏。
+2019-05-21 09:55:32,817 [message.hall.login.LoginService.login():435:INFO ]
+ 登录发送玩家信息，account：1，playerId：774413
+2019-05-21 09:55:32,818 [message.hall.login.LoginService.login():403:INFO ]
+ 玩家登录LoginServer，账号：1，UUID：a0cb46ab-4b5e-41d0-b707-ca18b2500996
+2019-05-21 09:55:32,898 [message.hall.login.LoginService.access():71 :INFO ]
+ 设备登录：174f4d8caaa80c4b8af47316500b22c6613f80e1
+2019-05-21 09:55:34,082 [sys.GameRoomAssign.addPlayerInfo():263:INFO ]
+ 玩家：598132，进入匹配队列。
+2019-05-21 09:55:35,114 [sys.GameRoomAssign.addPlayerInfo():263:INFO ]
+ 玩家：774413，进入匹配队列。
+2019-05-21 09:55:36,088 [sys.GameRoomAssign.run():149:INFO ]
+ 匹配成功。玩家A：598132，玩家B：774413，分配至游戏服：Game_0
+2019-05-21 09:55:57,181 [sys.HallServerOnlineManager.playerLogout():89 :INFO ]
+ 玩家：774413，退出游戏。
+2019-05-21 09:55:57,184 [app.HallClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 127.0.0.1:50637
+2019-05-21 09:55:58,480 [sys.HallServerOnlineManager.playerLogout():89 :INFO ]
+ 玩家：598132，退出游戏。
+2019-05-21 09:55:58,480 [app.HallClientHandler.connectionClosed():57 :INFO ]
+ 连接关闭-- 127.0.0.1:50628

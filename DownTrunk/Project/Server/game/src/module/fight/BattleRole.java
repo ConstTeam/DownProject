@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import config.model.card.CardModel;
 import module.area.Area;
-import module.card.ArtifactCard;
 import module.card.CardBase;
 import module.card.FindCard;
 import module.card.TrapCard;
@@ -13,7 +12,6 @@ import module.card.TroopCard;
 import quest.QuestManager;
 import skill.Effect;
 import skill.SkillArg;
-import skill.SkillManager;
 import skill.TriggerManager;
 
 public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
@@ -90,7 +88,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		this.setUid(uid);
 		this.setHp(hp);
 		this.setNickname(nickname);
-		setConstructTrapSelect(INIT_CONSTRUCT_TRAP_SELECT);
 		setQuestManager(QuestManager.init(playerId));
 	}
 	
@@ -199,14 +196,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		this.mainRune = mainRune;
 	}
 
-	public int getLvUpResource() {
-		int lvUpResource = this.lvUpResource;
-		if (getCostArg().get(SkillManager.AREA_COST) != null) {
-			lvUpResource += getCostArg().get(SkillManager.AREA_COST);
-		}
-		return lvUpResource >= 0 ? lvUpResource : 0;
-	}
-
 	public void setLvUpResource(int lvUpResource) {
 		this.lvUpResource = lvUpResource;
 	}
@@ -228,14 +217,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 
 	public boolean getStatus(String type) {
 		return getStatus().get(type) == null ? false : getStatus().get(type) > 0;
-	}
-
-	public int getStatusCount(String type) {
-		int value = getStatus().get(type) == null ? 0 : getStatus().get(type);
-		if (AMPLIFY.equals(type) && getStatus(SkillManager.DOUBLE_AMPLIFY)) {
-			return value * 2;
-		}
-		return value;
 	}
 
 	public void setStatus(String type, boolean status) {
@@ -260,34 +241,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 
 	public void setStatus(HashMap<String, Integer> status) {
 		this.status = status;
-	}
-	
-	public int getWarcryCount() {
-		return getStatusCount(WARCRY_COUNT);
-	}
-	
-	public int getConstructTrapSelect() {
-		return getStatusCount(CONSTRUCT_TRAP_SELECT);
-	}
-	
-	public void setConstructTrapSelect(int value) {
-		if (value <= getStatusCount(CONSTRUCT_TRAP_SELECT)) {
-			return;
-		}
-		setStatusTrun(CONSTRUCT_TRAP_SELECT, value);
-	}
-	
-	public boolean removeConstructTrapSelect(CardBase card) {
-		setStatusTrun(CONSTRUCT_TRAP_SELECT, INIT_CONSTRUCT_TRAP_SELECT);
-		for (Area area : this.areas) {
-			for (ArtifactCard arti : area.getArtifact()) {
-				if (arti.getUid() == card.getUid()) {
-					continue;
-				}
-				setConstructTrapSelect(arti.getStatusCount(CONSTRUCT_TRAP_SELECT));
-			}
-		}
-		return false;
 	}
 	
 	public boolean isNotFirst() {
@@ -315,10 +268,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 	public boolean isSecondAfter() {
 		Integer count = getStatus().get(PLAY_CARD_COUNT);
 		return count == null ? false : count >= 2;
-	}
-	
-	public boolean isPlaySpellCard() {
-		return getStatusCount(PLAY_SPELL_COUNT) >= 1;
 	}
 	
 	public boolean isFirstSpellCard() {
@@ -352,22 +301,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		if (CardModel.ABERRATION.equals(card.getSubType())) {
 			addStatusCount(CardModel.ABERRATION, 1);
 		}
-		
-		if (CardModel.DROWER.equals(card.getSubType())) {
-			addTurnPlayCardBySubType(CardModel.DROWER);
-		}
-	}
-	
-	public void addTurnPlayCardBySubType(String subtype) {
-		addStatusCount(getTurnPlayCardStrBySubType(subtype), 1);
-	}
-	
-	public int getTurnPlayCardBySubType(String subtype) {
-		return getStatusCount(getTurnPlayCardStrBySubType(subtype));
-	}
-	
-	public static String getTurnPlayCardStrBySubType(String subtype) {
-		return SkillManager.TURN + "-" + subtype;
 	}
 	
 	public void startTrun() {
@@ -375,7 +308,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		setStatusTrun(PLAY_SPELL_COUNT, 0);
 		setStatusTrun(PLAY_TROOP_COUNT, 0);
 		setStatusTrun(PLAY_CARD_COUNT, 0);
-		setStatusTrun(getTurnPlayCardStrBySubType(CardModel.DROWER), 0);
 		setStatusTrun(TriggerManager.HERO_BE_ATTACK_COUNT, 0);
 		setStatusTrun(DAMAGE, 0);
 		// 区域升级重置为可操作
@@ -407,10 +339,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		}
 	}
 
-	public int getDamage() {
-		return getStatusCount(DAMAGE);
-	}
-
 	public int getAreaCount() {
 		return getArg(AREA_COUNT);
 	}
@@ -433,33 +361,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 	
 	public int getTempleCount() {
 		return getArg(TEMPLE_COUNT);
-	}
-	
-	public void setAreaCount() {
-		HashMap<String, Integer> arg = getArg();
-		arg.clear();
-		for (Area area : areas) {
-			if (area.getLevel() > 0) {
-				setArg(AREA_COUNT, 1);
-				if (area.getLevel() == Area.MAX_LEVEL) {
-					setArg(TEMPLE_COUNT, 1);
-					switch (area.getRune()) {
-					case SkillManager.AIR:
-						setArg(AIR, 1);
-						break;
-					case SkillManager.EARTH:
-						setArg(EARTH, 1);
-						break;
-					case SkillManager.FIRE:
-						setArg(FIRE, 1);
-						break;
-					case SkillManager.WATER:
-						setArg(WATER, 1);
-						break;
-					}
-				}
-			}
-		}
 	}
 	
 	public int getTroopTempleCount() {
@@ -494,11 +395,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 	
 	public int getCardNumberByCost(int cost) {
 		int count = 0;
-		for (CardBase card : this.handCards) {
-			if (card.getCost(this) >= cost) {
-				count++;
-			}
-		}
 		return count;
 	}
 	
@@ -511,33 +407,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 			}
 		}
 		return false;
-	}
-	
-	public CardBase removeCostMaxInDeck() {
-		if (this.decks.size() == 0) {
-			return null;
-		}
-		CardBase result = null;
-		for (CardBase card : this.decks) {
-			if (result == null || result.getCost(this) < card.getCost(this)) {
-				result = card;
-			}
-		}
-		this.decks.remove(result);
-		return result;
-	}
-	
-	public CardBase getCostMaxInHandCard() {
-		if (this.handCards.size() == 0) {
-			return null;
-		}
-		CardBase result = null;
-		for (CardBase card : this.handCards) {
-			if (result == null || result.getCost(this) < card.getCost(this)) {
-				result = card;
-			}
-		}
-		return result;
 	}
 	
 	public int getPathOrBreachArea() {
@@ -581,19 +450,7 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		return count;
 	}
 	
-	public int getCost7Demigod() {
-		int count = 0;
-		for (Area area : this.areas) {
-			for (TroopCard troop : area.getTroops()) {
-				if (troop.getCost(this) >= 7 && CardModel.DEMIGOD.equals(troop.getSubType())) {
-					count++;
-				}
-			}
-		}
-		return count;
-	}
-	
-	public int getStunCount() {
+		public int getStunCount() {
 		int count = 0;
 		for (Area area : this.areas) {
 			for (TroopCard troop : area.getTroops()) {
@@ -894,19 +751,4 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		this.replaceCard.put(key, value);
 	}
 	
-	public static int getStatusType(String type) {
-		switch (type) {
-		case SkillManager.FIREPACT:
-			return 1;
-		case SkillManager.EARTHPACT:
-			return 2;
-		case SkillManager.WATERPACT:
-			return 3;
-		case SkillManager.AIRPACT:
-			return 4;
-		case AMPLIFY:
-			return 5;
-		}
-		return -1;
-	}
 }

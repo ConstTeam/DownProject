@@ -84,12 +84,10 @@ public class GameRoomManager {
 			GuideGateModel gate = ConfigData.guideGateModels.get(roomInfo.getArg1());
 			gameRoom.setTemplet(templet);
 			templet.firstCardNum = gate.HandCardCount;
-			gameRoom.guideRobotJoinGame();
 			break;
 		case RoomConst.ROOM_TYPE_ROBOT:
 			templet = new RobotTemplet(roomInfo.getArg1());
 			gameRoom.setTemplet(templet);
-			gameRoom.robotJoinGame();
 			break;
 		}
 		gameRoom.setRoomId(roomInfo.getRoomId());
