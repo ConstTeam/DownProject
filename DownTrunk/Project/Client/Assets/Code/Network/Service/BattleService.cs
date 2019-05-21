@@ -12,7 +12,7 @@ namespace MS
 		public override void ProcessMessage(ConnectBase conn, ByteBuffer data)
 		{
 			int moduleId = data.readByte();
-			switch(moduleId)
+			switch (moduleId)
 			{
 				case LOAD:
 				{
@@ -25,11 +25,11 @@ namespace MS
 					for(int i = 0; i < size; ++i)
 					{
 						BattlePlayerData player = new BattlePlayerData();
-						player.PlayerId		= data.readInt();
-						player.PlayerName	= data.readUTF();
-						player.SceneId		= data.readByte();
-						player.HeroId		= 1;
-						player.HP			= 5;
+						player.PlayerId = data.readInt();
+						player.PlayerName = string.Format("Player-{0}", player.PlayerId);
+						player.HeroId	= 1;
+						player.SceneId	= 3;
+						player.HP		= 5;
 						others.Add(player);
 					}
 					BattleManager.GetInst().Load(roomId, seed, frequency, stairs, others);

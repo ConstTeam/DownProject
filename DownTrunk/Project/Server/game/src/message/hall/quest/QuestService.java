@@ -18,7 +18,6 @@ import db.SignInDao;
 import db.UseCountDao;
 import db.module.player.Player;
 import message.hall.login.LoginService;
-import message.hall.role.RoleMsgSend;
 import module.UseCountConst;
 import module.quest.Quest;
 import module.quest.SignInQuest;
@@ -145,7 +144,6 @@ public class QuestService extends Servicelet {
 			boolean result = QuestDao.flushSingleQuest(playerId, quest);
 			if (result) {
 				QuestMsgSend.questInfoSingleSync(session, quest);
-				RoleMsgSend.syncRoleResCount(session, UseCountConst.QUEST_FLUSH_COUNT, resCount - 1);
 				logger.info("玩家：{}。刷新任务成功。", playerId);
 			} else {
 				logger.error("玩家：{}。刷新任务失败。", playerId);
@@ -212,7 +210,6 @@ public class QuestService extends Servicelet {
 					PlayerDao.addGold(con, playerId, model.Gold);
 					gold = model.Gold;
 				}
-				RoleMsgSend.syncRoleGold(playerId);
 				SignInDao.updateSignInInfo(con, playerId);
 				SignInQuest signInEnd = SignInDao.getSignInInfo(con, playerId);
 				QuestMsgSend.receiveSignInQuestSync(session, gold, cardId, model.CardPackCount, signInEnd);

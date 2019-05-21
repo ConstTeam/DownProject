@@ -395,9 +395,7 @@ public class LoginService extends Servicelet {
 			  *  µÇÂ¼ÐÅÏ¢·¢ËÍ
 			  */
 			login(session, player, serverInfo, platform);
-			int guideId = RedisProxy.getInstance().getPlayerGuideID(playerInfo.getPlayerId());
-			RoleMsgSend.syncRoleGuideId(session, guideId);
-			RoleMsgSend.syncRoleResCount(session, useCount);
+			RoleMsgSend.changeSceneRes(session, playerInfo.getSceneId());
 			
 			uuidMap.put(uuid, Calendar.getInstance());
 			logger.info("Íæ¼ÒµÇÂ¼LoginServer£¬ÕËºÅ£º" + platformId + "£¬UUID£º" + uuid);

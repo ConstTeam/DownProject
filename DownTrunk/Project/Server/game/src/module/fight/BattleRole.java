@@ -32,6 +32,8 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 	private int state;
 	/** 所在房间Id */
 	private int roomId;
+	/** 场景Id */
+	private int sceneId;
 	/** 是否为机器人 */
 	private boolean robot = false;
 	
@@ -749,6 +751,14 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 
 	public void setReplaceCard(String key, String value) {
 		this.replaceCard.put(key, value);
+	}
+
+	public int getSceneId() {
+		return sceneId;
+	}
+
+	public void setSceneId(int sceneId) {
+		this.sceneId = sceneId;
 	}
 	
 }

@@ -47,7 +47,7 @@ namespace MS
 			for(int i = 0; i < Toggles.Length; ++i)
 			{
 				if(Toggles[i].isOn && i != PlayerData.CurScene)
-					CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_PLAYER_SET_SCENE, new ArrayList() { (byte)i });
+					CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_PLAYER_SET_SCENE, new ArrayList() { (byte)i });
 			}
 		}
 	}

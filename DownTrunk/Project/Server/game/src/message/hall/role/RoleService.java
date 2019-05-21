@@ -23,14 +23,14 @@ public class RoleService extends Servicelet{
 		int playerId = 0;
 
 		switch (type) {
-		case RoleMsgConst.CHANGE_ICON:
-			String icon = data.readUTF();
-			changeIcon(session, deviceId, playerId, icon);
+		case RoleMsgConst.CHANGE_SCENE:
+			int sceneId = data.readByte();
+			changeScene(session, deviceId, playerId, sceneId);
 			break;
 		}
 	}
 	
-	private void changeIcon(ISession session, String deviceId, int playerId, String icon) {
+	private void changeScene(ISession session, String deviceId, int playerId, int sceneId) {
 		if (deviceId != null && !LoginService.checkDeviceId(playerId, deviceId, session)) {
 			return;
 		}
@@ -43,16 +43,16 @@ public class RoleService extends Servicelet{
 		HallServerOnlineManager.getInstance().getLock().lock(playerId);
 		try {
 			PlayerInfo playerInfo = RedisProxy.getInstance().getPlayerInfo(playerId);
-			String oldIcon = playerInfo.getIcon();
-			playerInfo.setIcon(icon);
-			boolean result = RedisProxy.getInstance().updatePlayerInfo(playerInfo, "icon");
+			int oldSceneId = playerInfo.getSceneId();
+			playerInfo.setSceneId(sceneId);
+			boolean result = RedisProxy.getInstance().updatePlayerInfo(playerInfo, "sceneId");
 			if (result) {
-				logger.info("玩家：{}。修改icon成功：{}。", playerId, icon);
+				logger.info("玩家：{}。修改sceneId成功：{}。", playerId, sceneId);
+				RoleMsgSend.changeSceneRes(session, sceneId);
 			} else {
-				playerInfo.setIcon(oldIcon);
-				logger.info("玩家：{}。修改icon失败：{}。", playerId, icon);
+				playerInfo.setSceneId(oldSceneId);
+				logger.info("玩家：{}。修改sceneId失败：{}。", playerId, sceneId);
 			}
-			RoleMsgSend.changeIconRes(session, result, playerInfo.getIcon());
 		} finally {
 			HallServerOnlineManager.getInstance().getLock().unlock(playerId);
 		}	
