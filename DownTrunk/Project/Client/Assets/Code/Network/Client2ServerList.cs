@@ -20,6 +20,7 @@ namespace MS
 		public ArrayList C2S_BATTLE_LOADED;
 		public ArrayList C2S_BATTLE_SYNC_HP;
 		public ArrayList C2S_BATTLE_GET_ITEM;
+		public ArrayList C2S_BATTLE_RELEASE_SKILL;
 
 		//*******************************************************************************************
 
@@ -40,17 +41,18 @@ namespace MS
 
 			//--大厅服---------------------------------------------------------------------------------------
 			//登录
-			C2S_LOGIN_LONG			= new ArrayList() { "sssssss",	ModuleDataFirst.MODULE_LOGIN,			(byte)1 };
-			C2S_LOGIN_PVP_REQUEST	= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN,			(byte)2 };
+			C2S_LOGIN_LONG				= new ArrayList() { "sssssss",	ModuleDataFirst.MODULE_LOGIN,			(byte)1 };
+			C2S_LOGIN_PVP_REQUEST		= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN,			(byte)2 };
 
-			C2S_PLAYER_SET_SCENE	= new ArrayList() { "c",		ModuleDataFirst.MODULE_PLAYER,			(byte)1 };
+			C2S_PLAYER_SET_SCENE		= new ArrayList() { "c",		ModuleDataFirst.MODULE_PLAYER,			(byte)1 };
 
 			//--战斗服---------------------------------------------------------------------------------------
-			C2S_BATTLE_LOGIN		= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN,	(byte)1 };
+			C2S_BATTLE_LOGIN			= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN,	(byte)1 };
 
-			C2S_BATTLE_LOADED		= new ArrayList() { "",			ModuleDataFirst.MODULE_BATTLE,			(byte)1 };
-			C2S_BATTLE_SYNC_HP		= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)2 };
-			C2S_BATTLE_GET_ITEM		= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)3 };
+			C2S_BATTLE_LOADED			= new ArrayList() { "",			ModuleDataFirst.MODULE_BATTLE,			(byte)1 };
+			C2S_BATTLE_SYNC_HP			= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)2 };
+			C2S_BATTLE_GET_ITEM			= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)3 };
+			C2S_BATTLE_RELEASE_SKILL	= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)4 };
 		}
 	}
 }

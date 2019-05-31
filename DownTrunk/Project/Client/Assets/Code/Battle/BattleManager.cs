@@ -17,7 +17,6 @@ namespace MS
 
 		private Dictionary<int, int> _dicPlayerIndex = new Dictionary<int, int>();
 		private List<BattleField> _lstFields = new List<BattleField>();
-		private Dictionary<int, BattleHeroBase> _dicRoles	= new Dictionary<int, BattleHeroBase>();
 		public BattleHeroM m_RoleM;
 
 		private System.Random _rand;
@@ -47,23 +46,23 @@ namespace MS
 			_rand = new System.Random(seed);
 			LoadFieldData();
 			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosM).GetComponent<BattleField>();
-			field.InitData(0, PlayerData.Nickname, PlayerData.CurHero, PlayerData.CurScene, PlayerData.CurHP);
+			field.InitData(PlayerData.PlayerId, 0, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP);
 			_lstFields.Add(field);
 			_lstFields[field.PlayerIndex].Load();
 			_dicPlayerIndex.Add(PlayerData.PlayerId, field.PlayerIndex);
 			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _lstFields[0].ForegroundTran).GetComponent<BattleHeroM>();
-			m_RoleM.PlayerId = PlayerData.PlayerId;
-			m_RoleM.SetHeroId(PlayerData.CurHero);
+			m_RoleM.Init(PlayerData.PlayerId, PlayerData.CurHero);
+			_lstFields[field.PlayerIndex].SetHero(m_RoleM);
 			for(int i = 0; i < others.Count; ++i)
 			{
 				field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosE).GetComponent<BattleField>();
-				field.InitData(i + 1, others[i].PlayerName, others[i].HeroId, others[i].SceneId, others[i].HP);
+				field.InitData(others[i].PlayerId, i + 1, others[i].PlayerName, others[i].SceneId, others[i].HP);
 				_lstFields.Add(field);
 				_lstFields[field.PlayerIndex].Load();
 				_dicPlayerIndex.Add(others[i].PlayerId, field.PlayerIndex);
-				_dicRoles.Add(others[i].PlayerId, ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _lstFields[i + 1].ForegroundTran).GetComponent<BattleHeroBase>());
-				_dicRoles[others[i].PlayerId].PlayerId = others[i].PlayerId;
-				_dicRoles[others[i].PlayerId].SetHeroId(others[i].HeroId);
+				BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _lstFields[i + 1].ForegroundTran).GetComponent<BattleHeroBase>();
+				heroE.Init(others[i].PlayerId, others[i].HeroId);
+				_lstFields[field.PlayerIndex].SetHero(heroE);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){ });
 		}
@@ -81,7 +80,7 @@ namespace MS
 				x = _rand.Next(-5, 6) / 2f;
 				y = lastY - _rand.Next(2, 7) / 2f;
 				type = _rand.Next(0, ApplicationConst.iPlatTypeCount);
-				if(_rand.Next(0, 100) < 20)
+				if(_rand.Next(0, 100) < 10)
 					item = Random.Range(1, 3);
 
 				lastY = y;
@@ -101,10 +100,10 @@ namespace MS
 				_lstFields[i].SetPos(frame * Frequency * 0.001f);
 		}
 
-		public void SetRolePos(int roleId, float x, float y)
+		public void SetRolePos(int playerId, float x, float y)
 		{
-			if(PlayerData.PlayerId != roleId)
-				_dicRoles[roleId].SetPos(x, y);
+			if(PlayerData.PlayerId != playerId)
+				_lstFields[_dicPlayerIndex[playerId]].Hero.SetPos(x, y);
 		}
 
 		public void RemovePlat(int playerId, BattlePlat plat)
@@ -126,5 +125,17 @@ namespace MS
 		{
 			_lstFields[_dicPlayerIndex[playerId]].EnqueueSkill(skillType);
 		}
+
+		public int GetPlayerIdByIndex(int index)
+		{
+			return _lstFields[index].PlayerId;
+		}
+
+		#region --Skill----------------------------------------------------------
+		public void ReleaseSkill(int fromId, int toId, int type)
+		{
+			_lstFields[_dicPlayerIndex[fromId]].ChangePlatType(3, 0);
+		}
+		#endregion
 	}
 }

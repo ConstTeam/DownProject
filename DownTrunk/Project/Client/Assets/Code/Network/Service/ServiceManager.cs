@@ -92,10 +92,10 @@ namespace MS
 					int size = data.readByte();
 					for(int i = 0; i < size; ++i)
 					{
-						int roleId = data.readInt();
+						int playerId = data.readInt();
 						float roleX = data.readInt() / 1000f;
 						float roleY = data.readInt() / 1000f;
-						BattleManager.GetInst().SetRolePos(roleId, roleX, roleY);
+						BattleManager.GetInst().SetRolePos(playerId, roleX, roleY);
 					}
 					BattleManager.GetInst().SetFieldPos(frame);
 				}

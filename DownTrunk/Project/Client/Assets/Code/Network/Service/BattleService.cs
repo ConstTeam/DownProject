@@ -4,10 +4,11 @@ namespace MS
 {
 	public class BattleService : IService
 	{
-		private const int LOAD		= 1;
-		private const int START		= 2;
-		private const int SYNC_HP	= 3;
-		private const int GET_ITEM	= 4;
+		private const int LOAD			= 1;
+		private const int START			= 2;
+		private const int SYNC_HP		= 3;
+		private const int GET_ITEM		= 4;
+		private const int RELEASE_SKILL	= 5;
 
 		public override void ProcessMessage(ConnectBase conn, ByteBuffer data)
 		{
@@ -54,6 +55,14 @@ namespace MS
 					int playerId = data.readInt();
 					int item = data.readByte();
 					BattleManager.GetInst().EnqueueSkill(playerId, item);
+					break;
+				}
+				case RELEASE_SKILL:
+				{
+					int fromId	= data.readInt();
+					int toId	= data.readInt();
+					int type	= data.readByte();
+					BattleManager.GetInst().ReleaseSkill(fromId, toId, type);
 					break;
 				}
 			}

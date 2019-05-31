@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace MS
@@ -31,7 +32,9 @@ namespace MS
 			_ray = BattleManager.GetInst().BattleCam.ScreenPointToRay(Input.mousePosition);
 			if(Physics.Raycast(_ray, out _hit, 1000, 1 << LayerMask.NameToLayer("SkillBtn")))
 			{
-				//int playerIndex = int.Parse(_hit.collider.tag);
+				int playerIndex = int.Parse(_hit.collider.tag);
+				int playerId = BattleManager.GetInst().GetPlayerIdByIndex(playerIndex - 1);
+				CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_RELEASE_SKILL, new ArrayList() { playerId, (byte)Type });
 			}
 			_anim["SkillBtn2"].time = _anim["SkillBtn2"].length;
 			_anim["SkillBtn2"].speed = -1;

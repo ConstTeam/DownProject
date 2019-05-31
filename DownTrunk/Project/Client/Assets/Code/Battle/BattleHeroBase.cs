@@ -20,7 +20,13 @@ namespace MS
 			OnAwake();
 		}
 
-		public void SetHeroId(int id)
+		public void Init(int playerId, int heroId)
+		{
+			PlayerId = playerId;
+			SetHeroId(heroId);
+		}
+
+		private void SetHeroId(int id)
 		{
 			HeroId = id;
 			RoleSp = ResourceLoader.LoadAssetAndInstantiate(string.Format("Prefab/Hero/{0}", id), m_Transform).GetComponent<BattleHeroSp>();

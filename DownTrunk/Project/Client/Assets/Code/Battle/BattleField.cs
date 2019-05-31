@@ -6,19 +6,20 @@ namespace MS
 {
 	public class BattleField : MonoBehaviour
 	{
-		public Transform		SpriteMaskTran;
-		public Transform		ForegroundTran;
-		public Transform		SkillBarTran;
-		public TextMeshPro		PlayerIndexText;
-		public TextMesh			PlayerNameText;
-		public GameObject[]		HpGos;
-		public BattleColliderTop DisTrigger;
+		public Transform			SpriteMaskTran;
+		public Transform			ForegroundTran;
+		public Transform			SkillBarTran;
+		public TextMeshPro			PlayerIndexText;
+		public TextMesh				PlayerNameText;
+		public GameObject[]			HpGos;
+		public BattleColliderTop	DisTrigger;
 
 		[HideInInspector]
 		public Transform Background;
 
-		public int HeroId	{ get; set; }
-		public int SceneId	{ get; set; }
+		public int				PlayerId	{ get; set; }
+		public int				SceneId		{ get; set; }
+		public BattleHeroBase	Hero		{ get; set; }
 
 		private string _sPlayerName;
 		public string PlayerName
@@ -52,12 +53,12 @@ namespace MS
 		private Transform _transform;
 		private Material _matBg;
 		private Vector3 _tempPos = new Vector3();
+		private int _iCurMinIndex = 0;
 		private Dictionary<int, BattlePlat> _dicPlat = new Dictionary<int, BattlePlat>();
 
 		private void Awake()
 		{
 			_transform = transform;
-			
 			DisTrigger.TriggerCbFunc = RemovePlat;
 		}
 
@@ -70,17 +71,21 @@ namespace MS
 			{
 				AddPlat(i);
 			}
-			
 		}
 
-		public void InitData(int playerIndex, string playerName, int heroId, int sceneId, int hp)
+		public void InitData(int playerId, int playerIndex, string playerName, int sceneId, int hp)
 		{
-			PlayerIndex = playerIndex;
-			PlayerName = playerName;
-			HeroId = heroId;
-			SceneId = sceneId;
-			HP = hp;
-			SetMainSkill(heroId);
+			PlayerId	= playerId;
+			PlayerIndex	= playerIndex;
+			PlayerName	= playerName;
+			SceneId		= sceneId;
+			HP			= hp;
+		}
+
+		public void SetHero(BattleHeroBase hero)
+		{
+			Hero = hero;
+			SetMainSkill(Hero.HeroId);
 		}
 
 		public void SetPos(float y)
@@ -92,8 +97,15 @@ namespace MS
 			_matBg.mainTextureOffset = _tempPos;
 		}
 
+		public void PlatOutField(BattlePlat plat)
+		{
+			RemovePlat(plat);
+			_iCurMinIndex = plat.Index + 1;
+		}
+
 		public void RemovePlat(BattlePlat plat)
 		{
+			_dicPlat.Remove(plat.Index);
 			ResourceMgr.PushBox(SceneId, plat.Type, plat);
 			int newIndex = plat.Index + 30;
 			if(newIndex < BattleManager.GetInst().Stairs)
@@ -105,6 +117,7 @@ namespace MS
 			BattleFieldData field = BattleManager.GetInst().GetFieldData(index);
 			BattlePlat plat = ResourceMgr.PopBox(SceneId, field.Type);
 			plat.Index = index;
+			plat.Y = field.Y;
 			plat.m_Transform.SetParent(ForegroundTran);
 			plat.m_Transform.localPosition = new Vector3(field.X, field.Y, 0f);
 			if(field.Item > 0)
@@ -119,6 +132,20 @@ namespace MS
 			_dicPlat.Add(index, plat);
 		}
 
+		public void ChangePlatType(int count, int type)
+		{
+			float curHeroY = Hero.m_Transform.localPosition.y;
+			for(int i = _iCurMinIndex; i < count; ++i)
+			{
+				if(_dicPlat.ContainsKey(i))
+				{
+					if(_dicPlat[i].Y < curHeroY)
+						RemovePlat(_dicPlat[i]);
+				}
+			}
+		}
+
+		#region --Skill------------------------------------------------------------------
 		public void SetMainSkill(int skillId)
 		{
 			BattleSkillBtn skill = ResourceMgr.PopSkill(skillId);
@@ -154,5 +181,6 @@ namespace MS
 				skill.SetPosImmediately(-2.8f + 1.6f * i++);
 			}
 		}
+		#endregion
 	}
 }
