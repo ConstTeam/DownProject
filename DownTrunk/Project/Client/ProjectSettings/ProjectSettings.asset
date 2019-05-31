@@ -569,8 +569,10 @@ PlayerSettings:
   webGLCompressionFormat: 1
   webGLLinkerTarget: 1
   scriptingDefineSymbols: {}
-  platformArchitecture: {}
-  scriptingBackend: {}
+  platformArchitecture:
+    iOS: 1
+  scriptingBackend:
+    Android: 1
   il2cppCompilerConfiguration: {}
   incrementalIl2cppBuild: {}
   allowUnsafeCode: 0
