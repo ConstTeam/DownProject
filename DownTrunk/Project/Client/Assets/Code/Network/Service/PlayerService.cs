@@ -17,7 +17,6 @@ namespace MS
 					PlayerData.PlayerId		= data.readInt();
 					PlayerData.Nickname		= data.readUTF();
 					PlayerData.CurHero		= 1;
-					PlayerData.CurScene		= 2;	//Temp
 					PlayerData.CurHP		= 5;	//Temp
 					SceneLoader.LoadScene("MainScene");
 					break;
