@@ -78,10 +78,9 @@ namespace MS
 			for (int i = 0; i < Stairs; ++i)
 			{
 				x = _rand.Next(-5, 6) / 2f;
-				y = lastY - _rand.Next(2, 7) / 2f;
+				y = lastY - _rand.Next(4, 8) / 2f;
 				type = _rand.Next(0, ApplicationConst.iPlatTypeCount);
-				if(_rand.Next(0, 100) < 10)
-					item = Random.Range(1, 3);
+				item = _rand.Next(0, 100) < 30 ? Random.Range(1, 3) : 0;
 
 				lastY = y;
 				data = new BattleFieldData(x, y, type, item);
@@ -113,17 +112,22 @@ namespace MS
 
 		public void SyncHp(int playerId, int hp)
 		{
-			_lstFields[_dicPlayerIndex[playerId]].HP = hp;
+			_lstFields[_dicPlayerIndex[playerId]].CurHP = hp;
 		}
 
 		public int GetHp(int playerId)
 		{
-			return _lstFields[_dicPlayerIndex[playerId]].HP;
+			return _lstFields[_dicPlayerIndex[playerId]].CurHP;
 		}
 
 		public void EnqueueSkill(int playerId, int skillType)
 		{
 			_lstFields[_dicPlayerIndex[playerId]].EnqueueSkill(skillType);
+		}
+
+		public void DequeueSkill(int playerId)
+		{
+			_lstFields[_dicPlayerIndex[playerId]].DequeueSkill();
 		}
 
 		public int GetPlayerIdByIndex(int index)
@@ -134,7 +138,22 @@ namespace MS
 		#region --Skill----------------------------------------------------------
 		public void ReleaseSkill(int fromId, int toId, int type)
 		{
-			_lstFields[_dicPlayerIndex[fromId]].ChangePlatType(3, 0);
+			switch(type)
+			{
+				case 1:
+					_lstFields[_dicPlayerIndex[toId]].ChangePlatType(3, 0);
+					break;
+				case 2:
+					_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(1);
+					break;
+				case 3:
+					_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(-1);
+					break;
+				case 4:
+					_lstFields[_dicPlayerIndex[toId]].ChangePlatScale(5);
+					break;
+			}
+			
 		}
 		#endregion
 	}

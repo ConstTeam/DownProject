@@ -35,17 +35,19 @@ namespace MS
 			set { _sPlayerIndex = value; PlayerIndexText.text = (value + 1).ToString(); }
 		}
 
-		private int _iHp;
-		public int HP
+		public int MaxHP { get; set; }
+
+		private int _iCurHp;
+		public int CurHP
 		{
-			get { return _iHp; }
+			get { return _iCurHp; }
 			set
 			{
-				_iHp = value;
+				_iCurHp = Mathf.Min(value, MaxHP);
 				for(int i = 0; i < HpGos.Length; ++i)
 					HpGos[i].SetActive(false);
 
-				for(int i = 0; i < value; ++i)
+				for(int i = 0; i < _iCurHp; ++i)
 					HpGos[i].SetActive(true);
 			}
 		}
@@ -79,7 +81,8 @@ namespace MS
 			PlayerIndex	= playerIndex;
 			PlayerName	= playerName;
 			SceneId		= sceneId;
-			HP			= hp;
+			MaxHP		= hp;
+			CurHP		= hp;
 		}
 
 		public void SetHero(BattleHeroBase hero)
@@ -132,23 +135,11 @@ namespace MS
 			_dicPlat.Add(index, plat);
 		}
 
-		public void ChangePlatType(int count, int type)
-		{
-			float curHeroY = Hero.m_Transform.localPosition.y;
-			for(int i = _iCurMinIndex; i < count; ++i)
-			{
-				if(_dicPlat.ContainsKey(i))
-				{
-					if(_dicPlat[i].Y < curHeroY)
-						RemovePlat(_dicPlat[i]);
-				}
-			}
-		}
-
 		#region --Skill------------------------------------------------------------------
 		public void SetMainSkill(int skillId)
 		{
 			BattleSkillBtn skill = ResourceMgr.PopSkill(skillId);
+			skill.IsMainSkill = true;
 			skill.m_Transform.SetParent(SkillBarTran);
 			skill.SetPosImmediately(-4.7f);
 		}
@@ -180,6 +171,39 @@ namespace MS
 			{
 				skill.SetPosImmediately(-2.8f + 1.6f * i++);
 			}
+		}
+
+		//------
+		public void ChangePlatType(int count, int type)
+		{
+			float curHeroY = Hero.m_Transform.localPosition.y;
+			for(int i = _iCurMinIndex; i < count; ++i)
+			{
+				if(_dicPlat.ContainsKey(i))
+				{
+					if(_dicPlat[i].Y < curHeroY)
+						RemovePlat(_dicPlat[i]);
+				}
+			}
+		}
+
+		private Vector3 _vecScale = new Vector3(0.5f, 1f, 1f);
+		public void ChangePlatScale(int count)
+		{
+			float curHeroY = Hero.m_Transform.localPosition.y;
+			for(int i = _iCurMinIndex; i < count; ++i)
+			{
+				if(_dicPlat.ContainsKey(i))
+				{
+					if(_dicPlat[i].Y < curHeroY)
+						_dicPlat[i].m_Transform.localScale = _vecScale;
+				}
+			}
+		}
+
+		public void ChangeHeroHp(int changeValue)
+		{
+			CurHP += changeValue;
 		}
 		#endregion
 	}

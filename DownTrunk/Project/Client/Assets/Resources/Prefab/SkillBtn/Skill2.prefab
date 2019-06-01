@@ -435,6 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Transform: {fileID: 0}
+  Type: 2
 --- !u!114 &114377863262091300
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -52,7 +52,7 @@ namespace MS
 			C2S_BATTLE_LOADED			= new ArrayList() { "",			ModuleDataFirst.MODULE_BATTLE,			(byte)1 };
 			C2S_BATTLE_SYNC_HP			= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)2 };
 			C2S_BATTLE_GET_ITEM			= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)3 };
-			C2S_BATTLE_RELEASE_SKILL	= new ArrayList() { "c",		ModuleDataFirst.MODULE_BATTLE,			(byte)4 };
+			C2S_BATTLE_RELEASE_SKILL	= new ArrayList() { "Icb",		ModuleDataFirst.MODULE_BATTLE,			(byte)4 };
 		}
 	}
 }

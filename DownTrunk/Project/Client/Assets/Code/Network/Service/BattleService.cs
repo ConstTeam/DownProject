@@ -62,7 +62,10 @@ namespace MS
 					int fromId	= data.readInt();
 					int toId	= data.readInt();
 					int type	= data.readByte();
+					bool bMain	= data.readBoolean();
 					BattleManager.GetInst().ReleaseSkill(fromId, toId, type);
+					if(!bMain)
+						BattleManager.GetInst().DequeueSkill(fromId);
 					break;
 				}
 			}

@@ -6,8 +6,8 @@ namespace MS
 	public class ResourceMgr
 	{
 		private static int _iSceneTypeCount	= 5;
-		private static int _iItemTypeCount	= 3;
-		private static int _iSkillTypeCount = 3;
+		private static int _iItemTypeCount	= 4;
+		private static int _iSkillTypeCount = 4;
 		private static Object[,]	_boxes = new Object[_iSceneTypeCount, ApplicationConst.iPlatTypeCount];
 		private static Object[]		_items = new Object[_iItemTypeCount];
 		private static Object[]		_skills = new Object[_iSkillTypeCount];
@@ -99,6 +99,7 @@ namespace MS
 			{
 				skill.m_Transform.SetParent(BattleManager.GetInst().BattlePoorTran);
 				skill.m_Transform.localPosition = PositionMgr.vecHidePos;
+				skill.m_Transform.localScale = Vector3.one;
 				_dicSkills[type].Push(skill);
 			}
 		}
