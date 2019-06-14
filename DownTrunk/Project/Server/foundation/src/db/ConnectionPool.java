@@ -96,7 +96,6 @@ public class ConnectionPool {
 		properties.setProperty("characterEncoding", "UTF-8");// Converters.getDefaultEncodingName());
 		properties.setProperty("useServerPrepStmts", args.getProperty("useServerPrepStmts"));
 		properties.setProperty("zeroDateTimeBehavior", "convertToNull");
-		properties.setProperty("useSSL", "true");
 		String coding = (String) args.get("characterEncoding");
 		coding = "UTF-8";
 		if (coding != null)
