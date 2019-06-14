@@ -13,6 +13,8 @@ public class FightMsgConst {
 	public static final int ROLE_HP = 2;
 	/** 角色获得道具 */
 	public static final int GET_ITEM = 3;
+	/** 角色使用道具 */
+	public static final int USE_ITEM = 4;
 
 	/* ------------------ 发送 ------------------ */
 	/** 进入房间 */
@@ -23,6 +25,8 @@ public class FightMsgConst {
 	public static final int HP_SYNC = 3;
 	/** 同步角色获得道具 */
 	public static final int GET_ITEM_SYNC = 4;
+	/** 同步角色使用道具 */
+	public static final int USE_ITEM_SYNC = 5;
 
 	/** 提示消息 */
 	public static final int MSG_BOX = 14;

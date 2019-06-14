@@ -118,4 +118,19 @@ public class FightMsgSend {
 		S2CMessageSend.sendMultiMessage(sessions, data, exSession);
 		logger.debug("{} - {}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.GET_ITEM_SYNC);
 	}
+
+	public static void useItemSync(Collection<ISession> sessions, int playerId, int targetId, int itemId, boolean mainSkill) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		
+		data.writeByte(GameMsgModuleConst.FIGHT_RESPONSE);
+		data.writeByte(FightMsgConst.USE_ITEM_SYNC);
+
+		data.writeInt(playerId);
+		data.writeInt(targetId);
+		data.writeByte(itemId);
+		data.writeBoolean(mainSkill);
+		
+		S2CMessageSend.sendMultiMessage(sessions, data);
+		logger.debug("{} - {}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.USE_ITEM_SYNC);
+	}
 }
