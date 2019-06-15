@@ -5,9 +5,9 @@ namespace MS
 {
 	public class BattleHeroM : BattleHeroBase
 	{
-		public bool		IsRunning	{ get; set; }
-		public float	RunSpeed	{ get; set; }
-		public float	SlipSpeed	{ get; set; }
+		public int		RunningState	{ get; set; }
+		public float	RunSpeed		{ get; set; }
+		public float	SlipSpeed		{ get; set; }
 
 		private Rigidbody2D	_rigidbody;
 		private Vector3		_vecRunLeft;
@@ -18,7 +18,7 @@ namespace MS
 		protected override void OnAwake()
 		{
 			_rigidbody		= gameObject.GetComponent<Rigidbody2D>();
-			IsRunning		= false;
+			RunningState	= 0;
 			RunSpeed		= 0.04f;
 			SlipSpeed		= 0.02f;
 			_vecRunLeft		= Vector3.left * RunSpeed;
@@ -57,6 +57,7 @@ namespace MS
 			m_Transform.localPosition += _vecSlipRight;
 		}
 
+		private int _frame = -1;
 		private int _lastX = 0, _lastY = 0;
 		private int _roleX = 0, _roleY = 0;
 		private float _t = 0f;
@@ -73,10 +74,12 @@ namespace MS
 				CheckHit();
 			}
 
-			if(IsRunning)
+			_t += Time.deltaTime;
+			if(_t > 0.025f)
 			{
-				_t += Time.deltaTime;
-				if (_t > 0.025f)
+				if(RunningState == 1)
+					BattleManager.GetInst().SetFieldPos(++_frame);
+				else if(RunningState == 2)
 				{
 					_roleX = (int)(m_Transform.localPosition.x * 1000);
 					_roleY = (int)(m_Transform.localPosition.y * 1000);
@@ -91,8 +94,8 @@ namespace MS
 						buff.writeInt(_roleY);
 						SocketHandler.GetInst().UdpSend(buff);
 					}
-					_t = 0f;
 				}
+				_t = 0f;
 			}
 		}
 

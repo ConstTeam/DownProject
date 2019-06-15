@@ -61,7 +61,7 @@ namespace MS
 		private void Awake()
 		{
 			_transform = transform;
-			DisTrigger.TriggerCbFunc = RemovePlat;
+			DisTrigger.TriggerCbFunc = PlatOutField;
 		}
 
 		public void Load()
@@ -70,9 +70,7 @@ namespace MS
 			Background = ResourceLoader.LoadAssetAndInstantiate(string.Format("Prefab/Scene/{0}/Background", SceneId), SpriteMaskTran).GetComponent<Transform>();
 			_matBg = Background.GetComponent<SpriteRenderer>().material;
 			for (int i = 0; i < 30; ++i)
-			{
-				AddPlat(i);
-			}
+				AddPlat();
 		}
 
 		public void InitData(int playerId, int playerIndex, string playerName, int sceneId, int hp)
@@ -110,16 +108,18 @@ namespace MS
 		{
 			_dicPlat.Remove(plat.Index);
 			ResourceMgr.PushBox(SceneId, plat.Type, plat);
-			int newIndex = plat.Index + 30;
-			if(newIndex < BattleManager.GetInst().Stairs)
-				AddPlat(newIndex);
+			AddPlat();
 		}
 
-		public void AddPlat(int index)
+		private int _iPlatIndex = -1;
+		public void AddPlat()
 		{
-			BattleFieldData field = BattleManager.GetInst().GetFieldData(index);
+			if(++_iPlatIndex > BattleManager.GetInst().Stairs)
+				return;
+				
+			BattleFieldData field = BattleManager.GetInst().GetFieldData(_iPlatIndex);
 			BattlePlat plat = ResourceMgr.PopBox(SceneId, field.Type);
-			plat.Index = index;
+			plat.Index = _iPlatIndex;
 			plat.Y = field.Y;
 			plat.m_Transform.SetParent(ForegroundTran);
 			plat.m_Transform.localPosition = new Vector3(field.X, field.Y, 0f);
@@ -134,7 +134,7 @@ namespace MS
 					item.m_Transform.SetParent(plat.m_Transform, false);
 				}
 			}
-			_dicPlat.Add(index, plat);
+			_dicPlat.Add(_iPlatIndex, plat);
 		}
 
 		#region --Skill------------------------------------------------------------------

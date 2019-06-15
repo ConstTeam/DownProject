@@ -11,6 +11,8 @@ namespace MS
 		public GameObject BG;
 		public Text ProgressTxt;
 
+		public static bool IsSingle = true;
+
 		private static SceneLoader _inst;
 
 		private void OnDestroy()
@@ -22,6 +24,7 @@ namespace MS
 		{
 			_inst = this;
 			BG.SetActive(false);
+			SceneManager.sceneLoaded += OnSceneLoaded;
 		}
 
 		private void Update()
@@ -137,8 +140,20 @@ namespace MS
 		{
 			m_fProgress = src;
 			m_fProgressTar = tar;
-			while (m_fProgress < m_fProgressTar)
+			while(m_fProgress < m_fProgressTar)
 				yield return new WaitForEndOfFrame();
+		}
+
+
+		private void OnSceneLoaded(Scene scene, LoadSceneMode mod)
+		{
+			if(scene.name == "BattleScene" && IsSingle)
+			{
+				BattleManager.GetInst().LoadSingle(0, 123, 30, 100);
+				BattleManager.GetInst().IsBattleRun = true;
+				BattleManager.GetInst().JoyStick.Show(true);
+				BattleManager.GetInst().m_RoleM.RunningState = 1;
+			}
 		}
 	}
 }

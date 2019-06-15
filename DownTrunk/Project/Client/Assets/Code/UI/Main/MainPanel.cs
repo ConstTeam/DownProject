@@ -28,13 +28,13 @@ namespace MS
 
 		private void OnClickSingle()
 		{
-			BattleManager.GetInst().LoadSingle(0, 123, 1, 100);
-			BattleManager.GetInst().IsBattleRun = true;
-			BattleManager.GetInst().JoyStick.Show(true);
+			SceneLoader.IsSingle = true;
+			SceneLoaderMain.GetInst().LoadBattleScene();
 		}
 
 		private void OnClickPVP()
 		{
+			SceneLoader.IsSingle = false;
 			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_PVP_REQUEST, new ArrayList() { });
 		}
 

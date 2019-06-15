@@ -39,13 +39,13 @@ namespace MS
 			_inst = null;
 		}
 
-		private void SetData(int roomId, int seed, int frequency, int stairs)
+		private void SetData(int roomId, int seed, int frequency, int stairs, bool loadItem)
 		{
 			RoomId = roomId;
 			Frequency = frequency;
 			Stairs = stairs;
 			_rand = new System.Random(seed);
-			LoadFieldData();
+			LoadFieldData(loadItem);
 		}
 
 		public void LoadMy(Vector3 pos)
@@ -74,13 +74,13 @@ namespace MS
 
 		public void LoadSingle(int roomId, int seed, int frequency, int stairs)
 		{
-			SetData(roomId, seed, frequency, stairs);
+			SetData(roomId, seed, frequency, stairs, false);
 			LoadMy(Vector3.zero);
 		}
 
 		public void LoadDouble(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
 		{
-			SetData(roomId, seed, frequency, stairs);
+			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
 			LoadOther(PositionMgr.vecFieldPosE, others[0], 1);
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList() { });
@@ -88,7 +88,7 @@ namespace MS
 
 		public void LoadSix(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
 		{
-			SetData(roomId, seed, frequency, stairs);
+			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
 
 			for(int i = 0; i < others.Count; ++i)
@@ -98,7 +98,7 @@ namespace MS
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){ });
 		}
 
-		private void LoadFieldData()
+		private void LoadFieldData(bool loadItem)
 		{
 			_lstFieldData.Clear();
 			float x, y, lastY = 0;
@@ -111,7 +111,7 @@ namespace MS
 				x = _rand.Next(-5, 6) / 2f;
 				y = lastY - _rand.Next(4, 8) / 2f;
 				type = _rand.Next(0, ApplicationConst.iPlatTypeCount);
-				item = _rand.Next(0, 100) < 30 ? Random.Range(1, 3) : 0;
+				item = loadItem && _rand.Next(0, 100) < 30 ? Random.Range(1, 3) : 0;
 
 				lastY = y;
 				data = new BattleFieldData(x, y, type, item);
@@ -126,8 +126,14 @@ namespace MS
 
 		public void SetFieldPos(int frame)
 		{
+			float y = 0;
+			int t = 0;
+			int f = frame / 100;
+			for(; t < f; ++t)
+				y += 100 * Frequency * 0.001f * (t + 1);
+
 			for(int i = 0; i < _lstFields.Count; ++i)
-				_lstFields[i].SetPos(frame * Frequency * 0.001f);
+				_lstFields[i].SetPos(y + (frame - 100 * f) * Frequency * 0.001f * (t + 1));
 		}
 
 		public void SetRolePos(int playerId, float x, float y)

@@ -41,7 +41,7 @@ namespace MS
 					BattleManager.GetInst().IsBattleRun = true;
 					BattleManager.GetInst().JoyStick.Show(true);
 					SocketHandler.GetInst().UdpStart();
-					BattleManager.GetInst().m_RoleM.IsRunning = true;
+					BattleManager.GetInst().m_RoleM.RunningState = 2;
 					break;
 				}
 				case SYNC_HP:

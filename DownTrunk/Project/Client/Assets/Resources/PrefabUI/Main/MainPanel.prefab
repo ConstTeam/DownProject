@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 114143286376027472}
   - component: {fileID: 114951069135689460}
   m_Layer: 5
-  m_Name: SinglePlay
+  m_Name: SingleBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -462,6 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c34a0c8382f876b45826135b036bb59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SingleBtn: {fileID: 114951069135689460}
   PVPBtn: {fileID: 114937250241619182}
   HeroBtn: {fileID: 114670216615225876}
   SceneBtn: {fileID: 114277671890816020}
