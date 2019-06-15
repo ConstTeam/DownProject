@@ -140,16 +140,16 @@ namespace MS
 		{
 			switch(type)
 			{
-				case 1:
+				case 0:
 					_lstFields[_dicPlayerIndex[toId]].ChangePlatType(3, 0);
 					break;
-				case 2:
+				case 1:
 					_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(1);
 					break;
-				case 3:
+				case 2:
 					_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(-1);
 					break;
-				case 4:
+				case 3:
 					_lstFields[_dicPlayerIndex[toId]].ChangePlatScale(5);
 					break;
 			}

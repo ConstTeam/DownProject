@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 114566467424954066}
   - component: {fileID: 114670216615225876}
   m_Layer: 5
-  m_Name: RoleBtn
+  m_Name: HeroBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -463,7 +463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PVPBtn: {fileID: 114937250241619182}
-  RoleBtn: {fileID: 114670216615225876}
+  HeroBtn: {fileID: 114670216615225876}
   SceneBtn: {fileID: 114277671890816020}
   ShopBtn: {fileID: 114866501329880920}
   NoticeBtn: {fileID: 114974531527052744}

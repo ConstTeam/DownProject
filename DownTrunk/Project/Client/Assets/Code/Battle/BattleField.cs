@@ -126,7 +126,7 @@ namespace MS
 			if(field.Item > 0)
 			{
 				string itemType = ConfigData.GetValue("Scene_Common", SceneId.ToString(), field.Item.ToString());
-				if(itemType != "0")
+				if(itemType != "-1")
 				{
 					BattleItem item = ResourceMgr.PopItem(int.Parse(itemType));
 					item.m_Transform.SetParent(plat.m_Transform, false);

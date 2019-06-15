@@ -24,11 +24,11 @@ namespace MS
 			}
 			for(int i = 0; i < _iItemTypeCount; ++i)
 			{
-				_items[i] = ResourceLoader.LoadAssets(string.Format("Prefab/Item/Item{0}", i + 1));
+				_items[i] = ResourceLoader.LoadAssets(string.Format("Prefab/Item/{0}", i));
 			}
 			for(int i = 0; i < _iSkillTypeCount; ++i)
 			{
-				_skills[i] = ResourceLoader.LoadAssets(string.Format("Prefab/SkillBtn/Skill{0}", i + 1));
+				_skills[i] = ResourceLoader.LoadAssets(string.Format("Prefab/SkillBtn/{0}", i));
 			}
 		}
 
@@ -66,7 +66,7 @@ namespace MS
 			if(_dicItems[type].Count > 0)
 				return _dicItems[type].Pop();
 
-			BattleItem item = (Object.Instantiate(_items[type - 1]) as GameObject).GetComponent<BattleItem>();
+			BattleItem item = (Object.Instantiate(_items[type]) as GameObject).GetComponent<BattleItem>();
 			return item;
 		}
 
@@ -89,7 +89,7 @@ namespace MS
 			if(_dicSkills[type].Count > 0)
 				return _dicSkills[type].Pop();
 
-			BattleSkillBtn skill = (Object.Instantiate(_skills[type - 1]) as GameObject).GetComponent<BattleSkillBtn>();
+			BattleSkillBtn skill = (Object.Instantiate(_skills[type]) as GameObject).GetComponent<BattleSkillBtn>();
 			return skill;
 		}
 

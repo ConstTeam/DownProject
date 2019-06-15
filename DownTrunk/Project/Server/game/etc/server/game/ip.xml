@@ -1,11 +1,11 @@
 ﻿<root>
-	<GameServer Id="Game_0" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.49" InternetPort="8861" ManagePort="28861" />
+	<GameServer Id="Game_0" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.35" InternetPort="8861" ManagePort="28861" />
 	<HallServer Id="Hall_0" Name="本地测试服" Ip="127.0.0.1" InternetPort="8860" ManagePort="28860" />
 
-	<GameServer Id="Game_1" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.49" InternetPort="7863" ManagePort="27863" />
+	<GameServer Id="Game_1" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.35" InternetPort="7863" ManagePort="27863" />
 	<HallServer Id="Hall_1" Name="本地测试服" Ip="127.0.0.1" InternetPort="7862" ManagePort="27862" />
 	
-	<GameServer Id="Game_2" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.49" InternetPort="7865" ManagePort="27865" />
+	<GameServer Id="Game_2" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.35" InternetPort="7865" ManagePort="27865" />
 	<HallServer Id="Hall_2" Name="本地测试服" Ip="127.0.0.1" InternetPort="7864" ManagePort="27864" />
 	
 	<GMServer Id="GM_trunk" Ip="127.0.0.1" InternetPort="8056" ManagePort="28056" />

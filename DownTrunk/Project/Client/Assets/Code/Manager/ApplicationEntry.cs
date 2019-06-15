@@ -22,9 +22,6 @@ public class ApplicationEntry : MonoBehaviour
 
 	private void Awake()
 	{
-#if UNITY_STANDALONE
-		Screen.SetResolution(1334, 750, false);
-#endif
 		Application.targetFrameRate	= 45;
 		Application.runInBackground	= true;
 		Input.multiTouchEnabled		= false;

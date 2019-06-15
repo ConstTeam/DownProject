@@ -11,6 +11,7 @@ namespace MS
 		public ArrayList C2S_LOGIN_PVP_REQUEST;
 
 		public ArrayList C2S_PLAYER_SET_SCENE;
+		public ArrayList C2S_PLAYER_SET_HERO;
 
 		public ArrayList C2S_GM;
 
@@ -45,6 +46,7 @@ namespace MS
 			C2S_LOGIN_PVP_REQUEST		= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN,			(byte)2 };
 
 			C2S_PLAYER_SET_SCENE		= new ArrayList() { "c",		ModuleDataFirst.MODULE_PLAYER,			(byte)1 };
+			C2S_PLAYER_SET_HERO			= new ArrayList() { "c",		ModuleDataFirst.MODULE_PLAYER,			(byte)2 };
 
 			//--战斗服---------------------------------------------------------------------------------------
 			C2S_BATTLE_LOGIN			= new ArrayList() { "I",		ModuleDataFirst.MODULE_BATTLE_LOGIN,	(byte)1 };

@@ -8,7 +8,7 @@ namespace MS
 	{
 		public Button PVPBtn;
 
-		public Button RoleBtn;
+		public Button HeroBtn;
 		public Button SceneBtn;
 		public Button ShopBtn;
 		public Button NoticeBtn;
@@ -17,7 +17,7 @@ namespace MS
 		private void Awake()
 		{
 			PVPBtn.onClick.AddListener(OnClickPVP);
-			//RoleBtn.onClick.AddListener(OnClickPVP);
+			HeroBtn.onClick.AddListener(OnClickHeroBtnBtn);
 			SceneBtn.onClick.AddListener(OnClickSceneBtn);
 			//ShopBtn.onClick.AddListener(OnClickPVP);
 			//NoticeBtn.onClick.AddListener(OnClickPVP);
@@ -32,6 +32,11 @@ namespace MS
 		public void OnClickSceneBtn()
 		{
 			ScenePanel.GetInst().OpenPanel();
+		}
+
+		public void OnClickHeroBtnBtn()
+		{
+			HeroPanel.GetInst().OpenPanel();
 		}
 	}
 }
