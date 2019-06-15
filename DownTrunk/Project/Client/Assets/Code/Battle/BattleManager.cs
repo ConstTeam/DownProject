@@ -11,9 +11,10 @@ namespace MS
 		public Camera		BattleCam;
 		public JoyStick		JoyStick;
 
-		public int RoomId		{ get; set; }
-		public int Frequency	{ get; set; }
-		public int Stairs		{ get; set; }
+		public bool	IsBattleRun { get; set; }
+		public int	RoomId		{ get; set; }
+		public int	Frequency	{ get; set; }
+		public int	Stairs		{ get; set; }
 
 		private Dictionary<int, int> _dicPlayerIndex = new Dictionary<int, int>();
 		private List<BattleField> _lstFields = new List<BattleField>();
@@ -38,14 +39,18 @@ namespace MS
 			_inst = null;
 		}
 
-		public void Load(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
+		private void SetData(int roomId, int seed, int frequency, int stairs)
 		{
 			RoomId = roomId;
 			Frequency = frequency;
 			Stairs = stairs;
 			_rand = new System.Random(seed);
 			LoadFieldData();
-			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosM).GetComponent<BattleField>();
+		}
+
+		public void LoadMy(Vector3 pos)
+		{
+			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, pos).GetComponent<BattleField>();
 			field.InitData(PlayerData.PlayerId, 0, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP);
 			_lstFields.Add(field);
 			_lstFields[field.PlayerIndex].Load();
@@ -53,16 +58,42 @@ namespace MS
 			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _lstFields[0].ForegroundTran).GetComponent<BattleHeroM>();
 			m_RoleM.Init(PlayerData.PlayerId, PlayerData.CurHero);
 			_lstFields[field.PlayerIndex].SetHero(m_RoleM);
+		}
+
+		public void LoadOther(Vector3 pos, BattlePlayerData other, int index)
+		{
+			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosE).GetComponent<BattleField>();
+			field.InitData(other.PlayerId, index, other.PlayerName, other.SceneId, other.HP);
+			_lstFields.Add(field);
+			_lstFields[field.PlayerIndex].Load();
+			_dicPlayerIndex.Add(other.PlayerId, field.PlayerIndex);
+			BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _lstFields[index].ForegroundTran).GetComponent<BattleHeroBase>();
+			heroE.Init(other.PlayerId, other.HeroId);
+			_lstFields[field.PlayerIndex].SetHero(heroE);
+		}
+
+		public void LoadSingle(int roomId, int seed, int frequency, int stairs)
+		{
+			SetData(roomId, seed, frequency, stairs);
+			LoadMy(Vector3.zero);
+		}
+
+		public void LoadDouble(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
+		{
+			SetData(roomId, seed, frequency, stairs);
+			LoadMy(PositionMgr.vecFieldPosM);
+			LoadOther(PositionMgr.vecFieldPosE, others[0], 1);
+			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList() { });
+		}
+
+		public void LoadSix(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
+		{
+			SetData(roomId, seed, frequency, stairs);
+			LoadMy(PositionMgr.vecFieldPosM);
+
 			for(int i = 0; i < others.Count; ++i)
 			{
-				field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosE).GetComponent<BattleField>();
-				field.InitData(others[i].PlayerId, i + 1, others[i].PlayerName, others[i].SceneId, others[i].HP);
-				_lstFields.Add(field);
-				_lstFields[field.PlayerIndex].Load();
-				_dicPlayerIndex.Add(others[i].PlayerId, field.PlayerIndex);
-				BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _lstFields[i + 1].ForegroundTran).GetComponent<BattleHeroBase>();
-				heroE.Init(others[i].PlayerId, others[i].HeroId);
-				_lstFields[field.PlayerIndex].SetHero(heroE);
+				LoadOther(PositionMgr.vecFieldPosE, others[i], i + 1);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){ });
 		}

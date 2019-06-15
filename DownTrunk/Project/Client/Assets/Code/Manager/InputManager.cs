@@ -15,29 +15,33 @@ namespace MS
 				if(!PlatformBase.sdkInterface.OnExit())
 					MsgBoxPanel.ShowMsgBox(string.Empty, (string)ApplicationConst.dictStaticText["25"], 2, new MsgBoxPanel.MsgCallback(() => { ApplicationEntry.HandleExit(); }), null, "ExitGame");
 			}
-	#if UNITY_STANDALONE
+#if UNITY_IOS || UNITY_ANDROID
+			else if(ApplicationConst.bGM)
+			{
+				fCurZ = Input.acceleration.z;
+				if(fCurZ > 0f)
+				{
+					fTempZ = fCurZ - fLastZ;
+					fLastZ = fCurZ;
+					if(fTempZ > 0.8f && null != GMPanel.GetInst())
+						GMPanel.GetInst().OpenPanel();
+				}
+			}
+#elif UNITY_STANDALONE
 			else if(ApplicationConst.bGM && Input.GetKeyDown(KeyCode.F12))
 			{
 				if(null != GMPanel.GetInst())
 					GMPanel.GetInst().BeShowWnd();
 			}
-			else if(Input.GetKey(KeyCode.A))
-				BattleManager.GetInst().m_RoleM.RunLeft();
-			else if(Input.GetKey(KeyCode.D))
-				BattleManager.GetInst().m_RoleM.RunRight();
-			else if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-				BattleManager.GetInst().m_RoleM.Idle();
-#elif UNITY_IOS || UNITY_ANDROID
-			else if(ApplicationConst.bGM)
+
+			if(BattleManager.GetInst() != null && BattleManager.GetInst().IsBattleRun)
 			{
-				fCurZ = Input.acceleration.z;
-				if (fCurZ > 0f)
-				{
-					fTempZ	= fCurZ - fLastZ;
-					fLastZ	= fCurZ;
-					if(fTempZ > 0.8f && null != GMPanel.GetInst())
-						GMPanel.GetInst().OpenPanel();
-				}
+				if(Input.GetKey(KeyCode.A))
+					BattleManager.GetInst().m_RoleM.RunLeft();
+				else if(Input.GetKey(KeyCode.D))
+					BattleManager.GetInst().m_RoleM.RunRight();
+				else if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+					BattleManager.GetInst().m_RoleM.Idle();
 			}
 #endif
 		}

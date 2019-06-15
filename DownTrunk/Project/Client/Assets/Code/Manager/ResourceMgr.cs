@@ -6,8 +6,8 @@ namespace MS
 	public class ResourceMgr
 	{
 		private static int _iSceneTypeCount	= 5;
-		private static int _iItemTypeCount	= 4;
-		private static int _iSkillTypeCount = 4;
+		private static int _iItemTypeCount	= 12;
+		private static int _iSkillTypeCount = 12;
 		private static Object[,]	_boxes = new Object[_iSceneTypeCount, ApplicationConst.iPlatTypeCount];
 		private static Object[]		_items = new Object[_iItemTypeCount];
 		private static Object[]		_skills = new Object[_iSkillTypeCount];
@@ -81,15 +81,15 @@ namespace MS
 			}
 		}
 
-		public static BattleSkillBtn PopSkill(int type)
+		public static BattleSkillBtn PopSkill(int skillId)
 		{
-			if(!_dicSkills.ContainsKey(type))
-				_dicSkills.Add(type, new Stack<BattleSkillBtn>());
+			if(!_dicSkills.ContainsKey(skillId))
+				_dicSkills.Add(skillId, new Stack<BattleSkillBtn>());
 
-			if(_dicSkills[type].Count > 0)
-				return _dicSkills[type].Pop();
+			if(_dicSkills[skillId].Count > 0)
+				return _dicSkills[skillId].Pop();
 
-			BattleSkillBtn skill = (Object.Instantiate(_skills[type]) as GameObject).GetComponent<BattleSkillBtn>();
+			BattleSkillBtn skill = (Object.Instantiate(_skills[skillId]) as GameObject).GetComponent<BattleSkillBtn>();
 			return skill;
 		}
 

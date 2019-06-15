@@ -69,7 +69,7 @@ namespace MS
 			for(int i = 0; i < _lstHeroItems.Count; ++i)
 			{
 				if(_lstHeroItems[i].Toggle.isOn && i != PlayerData.CurHero)
-					CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_PLAYER_SET_SCENE, new ArrayList() { (byte)i });
+					CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_PLAYER_SET_HERO, new ArrayList() { (byte)i });
 			}
 		}
 	}

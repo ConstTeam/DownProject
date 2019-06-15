@@ -6,6 +6,7 @@ namespace MS
 {
 	public class MainPanel : MonoBehaviour
 	{
+		public Button SingleBtn;
 		public Button PVPBtn;
 
 		public Button HeroBtn;
@@ -16,12 +17,20 @@ namespace MS
 
 		private void Awake()
 		{
+			SingleBtn.onClick.AddListener(OnClickSingle);
 			PVPBtn.onClick.AddListener(OnClickPVP);
 			HeroBtn.onClick.AddListener(OnClickHeroBtnBtn);
 			SceneBtn.onClick.AddListener(OnClickSceneBtn);
 			//ShopBtn.onClick.AddListener(OnClickPVP);
 			//NoticeBtn.onClick.AddListener(OnClickPVP);
 			//SettingBtn.onClick.AddListener(OnClickPVP);
+		}
+
+		private void OnClickSingle()
+		{
+			BattleManager.GetInst().LoadSingle(0, 123, 1, 100);
+			BattleManager.GetInst().IsBattleRun = true;
+			BattleManager.GetInst().JoyStick.Show(true);
 		}
 
 		private void OnClickPVP()

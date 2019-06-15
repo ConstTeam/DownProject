@@ -29,15 +29,16 @@ namespace MS
 						player.PlayerId		= data.readInt();
 						player.PlayerName	= data.readUTF();
 						player.SceneId		= data.readByte();
-						player.HeroId		= 1;
+						player.HeroId		= data.readByte();
 						player.HP			= 5;
 						others.Add(player);
 					}
-					BattleManager.GetInst().Load(roomId, seed, frequency, stairs, others);
+					BattleManager.GetInst().LoadDouble(roomId, seed, frequency, stairs, others);
 					break;
 				}
 				case START:
 				{
+					BattleManager.GetInst().IsBattleRun = true;
 					BattleManager.GetInst().JoyStick.Show(true);
 					SocketHandler.GetInst().UdpStart();
 					BattleManager.GetInst().m_RoleM.IsRunning = true;

@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Transform: {fileID: 0}
-  Type: 2
+  Type: 0
 --- !u!212 &212101582025304824
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -15,7 +15,7 @@ namespace MS
 		{
 			HeroId = heroId;
 			Name.text = name;
-			ResourceLoader.LoadAssetAndInstantiate(string.Format("PrefabUI/Main/Role/{0}", HeroId), transform, new Vector3(-136f, 50f));
+			ResourceLoader.LoadAssetAndInstantiate(string.Format("PrefabUI/Main/Hero/{0}", HeroId), transform, new Vector3(-136f, 50f));
 			ResourceLoader.LoadAssetAndInstantiate(string.Format("PrefabUI/Main/Item/{0}", HeroId), transform, new Vector3(-5.7f, 10f));
 			Toggle.group = tg;
 		}

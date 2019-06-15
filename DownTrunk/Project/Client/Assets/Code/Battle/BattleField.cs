@@ -125,10 +125,12 @@ namespace MS
 			plat.m_Transform.localPosition = new Vector3(field.X, field.Y, 0f);
 			if(field.Item > 0)
 			{
-				string itemType = ConfigData.GetValue("Scene_Common", SceneId.ToString(), field.Item.ToString());
-				if(itemType != "-1")
+				string itemId = ConfigData.GetValue("Scene_Common", SceneId.ToString(), field.Item.ToString());
+				if(itemId != "-1")
 				{
-					BattleItem item = ResourceMgr.PopItem(int.Parse(itemType));
+					int id = int.Parse(itemId);
+					BattleItem item = ResourceMgr.PopItem(id);
+					item.Type = id;
 					item.m_Transform.SetParent(plat.m_Transform, false);
 				}
 			}
