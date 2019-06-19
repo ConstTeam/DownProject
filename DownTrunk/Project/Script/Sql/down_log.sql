@@ -41,23 +41,6 @@ CREATE TABLE `log_curr` (
   KEY `create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `log_curr_club`;
-CREATE TABLE `log_curr_club` (
-  `lid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `club_id` int(11) unsigned NOT NULL,
-  `type` int(11) NOT NULL,
-  `way` int(11) NOT NULL,
-  `number` int(11) NOT NULL,
-  `enumber` int(11) unsigned DEFAULT '0',
-  `arg1` varchar(128) NOT NULL DEFAULT '1',
-  `ip` varchar(255),
-  `operator` varchar(128) NOT NULL,
-  `create_time` datetime NOT NULL,
-  PRIMARY KEY (`lid`),
-  KEY `club_id` (`club_id`),
-  KEY `create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `log_user`;
 CREATE TABLE `log_user` (
   `lid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -160,17 +143,3 @@ CREATE TABLE `log_room` (
   KEY `create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `log_chain_card`;
-CREATE TABLE `log_chain_card` (
-  `lid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `player_id` int(11) unsigned NOT NULL,
-  `card_id` int(11) unsigned NOT NULL,
-  `create_id` int(11) unsigned NOT NULL,
-  `chain_token` int(11) NOT NULL,
-  `chain_state` int(11) NOT NULL,
-  `create_time` datetime NOT NULL,
-  `trans_hash` varchar(128) NOT NULL DEFAULT '',
-  PRIMARY KEY (`lid`),
-  KEY `player_id` (`player_id`),
-  KEY `card_id` (`card_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
