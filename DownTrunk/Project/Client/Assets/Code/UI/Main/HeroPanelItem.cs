@@ -63,7 +63,12 @@ namespace MS
 
 		public void SetState(bool bGot)
 		{
-			BuyBtn.gameObject.SetActive(!bGot);
+			if(bGot)
+			{
+				BuyBtn.gameObject.SetActive(false);
+				CoinBtn.gameObject.SetActive(false);
+				MoneyBtn.gameObject.SetActive(false);
+			}
 			Toggle.gameObject.SetActive(bGot);
 		}
 

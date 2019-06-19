@@ -3210,6 +3210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   XBtn: {fileID: 114371558038401990}
+  CoinText: {fileID: 114786902839902648}
   Toggles:
   - {fileID: 114057883535521050}
   - {fileID: 114369505985238926}

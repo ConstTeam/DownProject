@@ -8,6 +8,7 @@ namespace MS
 {
 	public class HeroPanel : MonoBehaviour
 	{
+		public GameObject m_GO;
 		public Button XBtn;
 		public TextMeshProUGUI CoinText;
 		public Toggle[] Toggles;
@@ -18,7 +19,7 @@ namespace MS
 		private GameObject _gameObject;
 		private List<HeroPanelItem> _lstHeroItems = new List<HeroPanelItem>();
 
-		private static HeroPanel _inst;
+		public static HeroPanel _inst;
 		public static HeroPanel GetInst()
 		{
 			if(_inst == null)
@@ -56,21 +57,20 @@ namespace MS
 			}
 		}
 
-		public void SetItemState(int states)
+		public bool IsActive()
 		{
-			for(int i = 0; i < _lstHeroItems.Count; ++i)
-			{
-				_lstHeroItems[i].SetState((states & 1 << i) == 1);
-			}
+			return m_GO.activeSelf;
 		}
 
 		public void OpenPanel()
 		{
-			_gameObject.SetActive(true);
+			CoinText.text = PlayerData.Coin.ToString();
 			for(int i = 0; i < _lstHeroItems.Count; ++i)
 			{
 				_lstHeroItems[i].Toggle.isOn = i == PlayerData.CurHero;
+				_lstHeroItems[i].SetState((PlayerData.AllHeroState & 1 << i) == 1);
 			}
+			_gameObject.SetActive(true);
 		}
 
 		private void ClosePanel()

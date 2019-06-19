@@ -43,6 +43,8 @@ namespace MS
 			//短连接全加上设备ID用以保证，唯一程序唯一设备中运行; 当使用长连接时，可以考虑去掉。
 			DeviceIdentifier = SystemInfo.deviceUniqueIdentifier;
 
+			C2S_GM						= new ArrayList() { "sss",		ModuleDataFirst.MODULE_GM,				(byte)1 };
+
 			//--大厅服---------------------------------------------------------------------------------------
 			C2S_LOGIN_LONG				= new ArrayList() { "sssssss",	ModuleDataFirst.MODULE_LOGIN,			(byte)1 };
 			C2S_LOGIN_PVP_REQUEST		= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN,			(byte)2 };

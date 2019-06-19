@@ -30,13 +30,13 @@ namespace MS
 					PlayerData.CurHero = data.readByte();
 					break;
 				case PLAYER_COIN:
-					PlayerData.Coin = data.readByte();
+					PlayerData.Coin = data.readInt();
 					break;
 				case PLAYER_ALL_HEROS:
-					int state = data.readInt();
-					HeroPanel.GetInst().SetItemState(state);
+					PlayerData.AllHeroState = data.readInt();
+					if(HeroPanel._inst != null && HeroPanel.GetInst().IsActive())
+						HeroPanel.GetInst().OpenPanel();					
 					break;
-
 			}
 		}  
 	}

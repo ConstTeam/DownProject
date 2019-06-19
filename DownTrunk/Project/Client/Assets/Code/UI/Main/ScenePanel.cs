@@ -37,6 +37,7 @@ namespace MS
 		public void OpenPanel()
 		{
 			_gameObject.SetActive(true);
+			CoinText.text = PlayerData.Coin.ToString();
 			for(int i = 0; i < Toggles.Length; ++i)
 			{
 				Toggles[i].isOn = i == PlayerData.CurScene;

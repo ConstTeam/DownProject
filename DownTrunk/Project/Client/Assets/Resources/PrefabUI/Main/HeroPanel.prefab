@@ -438,6 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   XBtn: {fileID: 114371558038401990}
+  CoinText: {fileID: 114353943031696926}
   Toggles: []
   ItemRes: {fileID: 114009170739555320, guid: 6a3d4ac5b141a6e4ba1484b2ee1d3a65, type: 2}
   Content: {fileID: 224981288083944334}

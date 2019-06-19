@@ -43,7 +43,7 @@ namespace MS
 				return;
 
 			string[] param = command.Split(' ');
-			ArrayList paramList = new ArrayList(){ param[0], param[1], param.Length == 3 ? param[2] : "" };
+			ArrayList paramList = new ArrayList(){ param[0], param[1], param.Length == 3 ? param[2] : string.Empty };
 
 			int id = int.Parse(param[0]);
 			if((id >> 1 << 1) == id)
