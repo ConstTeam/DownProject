@@ -44,4 +44,34 @@ public class RoleMsgSend {
 		
 		session.send(data);
 	}
+
+	public static void changeRoleRes(ISession session, int roleId) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		data.writeByte(HallMsgModuleConst.ROLE_RESPONSE);
+		data.writeByte(RoleMsgConst.CHANGE_ROLE_RES);
+		
+		data.writeByte(roleId);
+		
+		session.send(data);
+	}
+
+	public static void roleGoldSync(ISession session, int gold) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		data.writeByte(HallMsgModuleConst.ROLE_RESPONSE);
+		data.writeByte(RoleMsgConst.ROLE_GOLD_SYNC);
+		
+		data.writeInt(gold);
+		
+		session.send(data);
+	}
+
+	public static void roleListSync(ISession session, int roleList) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		data.writeByte(HallMsgModuleConst.ROLE_RESPONSE);
+		data.writeByte(RoleMsgConst.ROLE_LIST_SYNC);
+
+		data.writeInt(roleList);
+		
+		session.send(data);
+	}
 }

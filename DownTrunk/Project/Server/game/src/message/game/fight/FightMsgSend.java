@@ -78,6 +78,7 @@ public class FightMsgSend {
 			data.writeInt(role.getPlayerId());
 			data.writeUTF(role.getNickname());
 			data.writeByte(role.getSceneId());
+			data.writeByte(role.getRoleId());
 		}
 		
 		session.send(data);

@@ -91,18 +91,6 @@ public class LogDao {
 		LogDao.logRecord("货币流向", logData);
 	}
 
-	public static void clubDiamond(int clubId, int type, int way, int num, int exNum, String ip, String arg) {
-		LogData logData = new LogData();
-		logData.put("club_id", clubId);// 俱乐部id
-		logData.put("type", type); // 流通类型（2钻石 3预扣钻石）
-		logData.put("way", way); // 途径
-		logData.put("ex_number", exNum);
-		logData.put("number", num);// 数量
-		logData.put("arg1", arg);// 备注
-		logData.put("ip", ip); // IP
-		LogDao.logRecord("俱乐部钻石流向", logData);
-	}
-
 	public static void roomRecord(int roomId, int creatorId, int gameType, int roomType, int roomCharge, String arg) {
 		LogData logData = new LogData();
 		logData.put("room_id", roomId);// 房间id

@@ -76,9 +76,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		battleRole.setRoomId(this.roomId);
 		battleRole.setIcon(player.getIcon());
 		battleRole.setSceneId(player.getSceneId());
-		if (battleRole.getQuestManager() == null) {
-			return -1;
-		}
+		battleRole.setRoleId(player.getRoleId());
 		syncManager.addPlayer(playerId);
 		players.put(playerId, player);
 		sessions.put(playerId, session);

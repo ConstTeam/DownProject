@@ -9,7 +9,6 @@ import module.card.CardBase;
 import module.card.FindCard;
 import module.card.TrapCard;
 import module.card.TroopCard;
-import quest.QuestManager;
 import skill.Effect;
 import skill.SkillArg;
 import skill.TriggerManager;
@@ -34,6 +33,8 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 	private int roomId;
 	/** 场景Id */
 	private int sceneId;
+	/** 角色Id */
+	private int roleId;
 	/** 是否为机器人 */
 	private boolean robot = false;
 	
@@ -72,8 +73,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 	private ArrayList<CardBase> attackLimitSpell;
 	
 	private String dealCardId;
-	
-	private QuestManager questManager;
 
 	public BattleRole(int playerId, String nickname, int hp, int uid) {
 		this.setPlayerId(playerId);
@@ -90,7 +89,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		this.setUid(uid);
 		this.setHp(hp);
 		this.setNickname(nickname);
-		setQuestManager(QuestManager.init(playerId));
 	}
 	
 	public void addHandCard(CardBase card) {
@@ -645,14 +643,6 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		}
 	}
 
-	public QuestManager getQuestManager() {
-		return questManager;
-	}
-
-	public void setQuestManager(QuestManager questManager) {
-		this.questManager = questManager;
-	}
-
 	public String getNickname() {
 		return nickname;
 	}
@@ -759,6 +749,14 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 
 	public void setSceneId(int sceneId) {
 		this.sceneId = sceneId;
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 	
 }

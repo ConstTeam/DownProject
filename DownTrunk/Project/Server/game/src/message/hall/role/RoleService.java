@@ -27,6 +27,10 @@ public class RoleService extends Servicelet{
 			int sceneId = data.readByte();
 			changeScene(session, deviceId, playerId, sceneId);
 			break;
+		case RoleMsgConst.CHANGE_ROLE:
+			int role = data.readByte();
+			changeRole(session, deviceId, playerId, role);
+			break;
 		}
 	}
 	
@@ -52,6 +56,34 @@ public class RoleService extends Servicelet{
 			} else {
 				playerInfo.setSceneId(oldSceneId);
 				logger.info("玩家：{}。修改sceneId失败：{}。", playerId, sceneId);
+			}
+		} finally {
+			HallServerOnlineManager.getInstance().getLock().unlock(playerId);
+		}	
+	}
+	
+	private void changeRole(ISession session, String deviceId, int playerId, int roleId) {
+		if (deviceId != null && !LoginService.checkDeviceId(playerId, deviceId, session)) {
+			return;
+		}
+		if (session.attachment() == null) {
+			logger.error("session中player信息已失效。");
+			return;
+		}
+		Player player = (Player)session.attachment();
+		playerId = player.getPlayerId();
+		HallServerOnlineManager.getInstance().getLock().lock(playerId);
+		try {
+			PlayerInfo playerInfo = RedisProxy.getInstance().getPlayerInfo(playerId);
+			int oldRoleId = playerInfo.getRoleId();
+			playerInfo.setRoleId(roleId);
+			boolean result = RedisProxy.getInstance().updatePlayerInfo(playerInfo, "roleId");
+			if (result) {
+				logger.info("玩家：{}。修改roleId成功：{}。", playerId, roleId);
+				RoleMsgSend.changeRoleRes(session, roleId);
+			} else {
+				playerInfo.setRoleId(oldRoleId);
+				logger.info("玩家：{}。修改roleId失败：{}。", playerId, roleId);
 			}
 		} finally {
 			HallServerOnlineManager.getInstance().getLock().unlock(playerId);
