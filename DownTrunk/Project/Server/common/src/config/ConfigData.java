@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
+import config.model.HeroModel;
 import config.model.card.CardDeckModel;
 import config.model.card.CardModel;
 import config.model.card.InitCardModel;
 import config.model.drop.DropModel;
+import config.model.guide.GuideGateAIModel;
+import config.model.guide.GuideGateCardGroupModel;
+import config.model.guide.GuideGateModel;
 import config.model.ladder.LadderDownModel;
 import config.model.ladder.LadderUpModel;
 import config.model.ladder.MatchTimeModel;
@@ -23,9 +27,6 @@ import config.model.robot.RobotModel;
 import config.model.shop.CardPackShopModel;
 import config.model.shop.RealCardPackShopModel;
 import config.model.skill.SkillModel;
-import config.model.guide.GuideGateModel;
-import config.model.guide.GuideGateCardGroupModel;
-import config.model.guide.GuideGateAIModel;
 
 /**
  * 配置文件数据
@@ -97,6 +98,8 @@ public class ConfigData {
 	
 	/** 可使用次数信息 */
 	public static HashMap<Integer, Integer> useCountModels;
+	/** Hero信息 */
+	public static HashMap<Integer, HeroModel> heroModels;
 	/** 奖励信息 */
 	public static HashMap<String, AwardModel> awardModels;
 	
