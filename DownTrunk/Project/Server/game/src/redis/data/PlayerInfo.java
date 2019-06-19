@@ -36,6 +36,8 @@ public class PlayerInfo {
 	private String icon;
 	/** 场景 */
 	private int sceneId = 0;
+	/** 角色 */
+	private int roleId = 0;
 	/** 签名 */
 	private String sign = "";
 	/** 钻石 */
@@ -197,5 +199,13 @@ public class PlayerInfo {
 
 	public void setSceneId(int sceneId) {
 		this.sceneId = sceneId;
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 }

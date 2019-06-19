@@ -20,7 +20,6 @@ public class LogTable extends HashMap<String, String> {
 
 	private LogTable() {
 		this.put("货币流向", "log_curr");
-		this.put("俱乐部钻石流向", "log_curr_club");
 		this.put("设备信息", "log_device");
 		this.put("登录", "log_login");
 		this.put("在线人数", "log_online");

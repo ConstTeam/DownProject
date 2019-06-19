@@ -54,10 +54,6 @@ public class GameRoom extends RoomConst implements ISceneAction {
 
 	/** 当前局英雄唯一ID自增 */
 	private int heroUId = 100;
-	/** 是否开启倒计时 */
-	private boolean countDown = true; 
-	/** 倒计时时长（毫秒） */
-	private int turnCountDownTime = TURN_COUNT_DOWN_TIME;
 	
 	private int seed = Tools.random(1, 100000);
 	
@@ -76,9 +72,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		battleRole.setRoomId(this.roomId);
 		battleRole.setIcon(player.getIcon());
 		battleRole.setSceneId(player.getSceneId());
-		if (battleRole.getQuestManager() == null) {
-			return -1;
-		}
+		battleRole.setRoleId(player.getRoleId());
 		syncManager.addPlayer(playerId);
 		players.put(playerId, player);
 		sessions.put(playerId, session);
@@ -117,10 +111,6 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		case RoomConst.ROOM_TYPE_PVP:
 			sendRoomInfo();
 			break;
-		case RoomConst.ROOM_TYPE_GUIDE:
-			break;
-		case RoomConst.ROOM_TYPE_ROBOT:
-			break;
 		}
 		
 	}
@@ -143,13 +133,6 @@ public class GameRoom extends RoomConst implements ISceneAction {
 			switch (this.getTemplet().type) {
 			case ROOM_TYPE_PVP:
 				future = GameTimer.getScheduled().schedule(() -> pvpStart(), 3, TimeUnit.SECONDS);
-				break;
-
-			case ROOM_TYPE_GUIDE:
-				break;
-				
-			case ROOM_TYPE_ROBOT:
-				pvpStart();
 				break;
 			}
 		}
@@ -355,22 +338,6 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		this.playState = playState;
 	}
 
-	public boolean isCountDown() {
-		return countDown;
-	}
-
-	public void setCountDown(boolean countDown) {
-		this.countDown = countDown;
-	}
-
-	public int getTurnCountDownTime() {
-		return turnCountDownTime;
-	}
-
-	public void setTurnCountDownTime(int turnCountDownTime) {
-		this.turnCountDownTime = turnCountDownTime;
-	}
-	
 	public ISession getSession(int playerId) {
 		return this.sessions.get(playerId);
 	}

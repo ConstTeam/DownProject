@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import app.ServerManager;
+import config.ConfigData;
 import db.module.player.Player;
 import memory.UserMemory;
 import module.ClearConst;
-import quest.QuestManager;
 import redis.RedisProxy;
 import redis.data.PlayerInfo;
 import util.ErrorPrint;
@@ -193,9 +193,8 @@ public class PlayerDao {
 			}
 
 			// 任务初始化
-			QuestDao.initQuestInfo(con, playerId, QuestManager.getInitQuest());
-			SignInDao.initSignInInfo(con, playerId);
 			ClearDao.SaveClearTime(con, playerId, ClearConst.DAILY);
+			addRole(playerId, 0);
 			
 			con.commit();
 			return true;
@@ -362,6 +361,84 @@ public class PlayerDao {
 		return false;
 	}
 	
+	public static void addRole(Connection con, int playerId, int role) throws SQLException {
+		String update = "INSERT ignore INTO player_role (player_id, role) VALUES(?,?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(update);
+			pstmt.setInt(1, playerId);
+			pstmt.setInt(2, role);
+			pstmt.execute();
+		} finally {
+			pstmt.close();
+		}
+	}
+	
+	public static boolean addRole(int playerId, int role) {
+		Connection con = ServerManager.gameDBConnect.getDBConnect();
+		if (con == null) { // 数据库连接池已满
+			return false;
+		}
+		try {
+			addRole(con, playerId, role);
+			return true;
+		} catch (Exception e) {
+			ErrorPrint.print(e);
+		} finally {
+			ServerManager.gameDBConnect.closeConnect(con);
+		}
+		return false;
+	}
+	
+	public static int getRole(int playerId) {
+		Connection con = ServerManager.gameDBConnect.getDBConnect();
+		if (con == null) { // 数据库连接池已满
+			return -1;
+		}
+		try {
+			return getRole(con, playerId);
+		} finally {
+			ServerManager.gameDBConnect.closeConnect(con);
+		}
+	}
+	
+	public static int getRole(Connection con, int playerId) {
+
+		String selectSql = "SELECT * FROM player_role WHERE player_id = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		HashMap<Integer, Boolean> roles = new HashMap<>();
+		try {
+			// 查询角色信息
+			pstmt = con.prepareStatement(selectSql);
+			pstmt.setInt(1, playerId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				roles.put(rs.getInt("role"), true);
+			}
+			String ids = "";
+			for (int id : ConfigData.heroModels.keySet()) {
+				if (roles.get(id) == null) {
+					ids = "0" + ids;
+				} else {
+					ids = "1" + ids;
+				}
+			}
+			return Integer.parseInt(ids);
+		} catch (Exception e) {
+			ErrorPrint.print(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				pstmt.close();
+			} catch (Exception e) {
+				ErrorPrint.print(e);
+			}
+		}
+		return -1;
+	}
 	public static void insertOpenPanel(Connection con, String itemName) throws SQLException {
 		String insertSql = "INSERT INTO display_items (items, open) VALUES(?, 1) ON DUPLICATE KEY UPDATE open = 1";
 		PreparedStatement pstmt = null;

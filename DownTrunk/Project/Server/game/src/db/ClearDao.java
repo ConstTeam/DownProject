@@ -4,17 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import module.ClearConst;
-import module.quest.Quest;
-import quest.QuestManager;
 import util.ErrorPrint;
 import util.TimeFormat;
 
@@ -83,13 +79,7 @@ public class ClearDao {
 				return;
 			}
 			
-			HashMap<Integer, Integer> questIds = new HashMap<>();
-			ArrayList<Quest> questInfo = QuestDao.getQuestInfo(playerId, questIds);
-			HashMap<Integer, Integer> flushQuest = QuestManager.getFlushQuest(questInfo, questIds);
-			QuestDao.updateQuestInfo(connect, playerId, flushQuest);
-			ClearDao.SaveClearTime(connect, playerId, ClearConst.DAILY);
 			UseCountDao.clearUseCount(connect, playerId);
-			QuestDao.updateQuestFlushCount(connect, playerId);
 			
 		} catch (Exception e) {
 			try {

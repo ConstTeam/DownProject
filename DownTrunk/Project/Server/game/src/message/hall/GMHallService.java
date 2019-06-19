@@ -3,13 +3,11 @@ package message.hall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import config.ConfigData;
-import config.model.quest.QuestModel;
-import db.QuestDao;
+import db.GMDao;
 import db.module.player.Player;
 import message.game.gm.GMMsgConst;
 import message.hall.login.LoginService;
-import module.quest.Quest;
+import message.hall.role.RoleMsgSend;
 import net.DataAccessException;
 import net.IByteBuffer;
 import net.ISession;
@@ -72,17 +70,9 @@ public class GMHallService extends Servicelet {
 		HallServerOnlineManager.getInstance().getLock().lock(playerId);
 		try {
 			switch (args[0]) {
-			case 3:
-				QuestModel questModel = ConfigData.questModels.get(args[1]);
-				if (questModel == null) {
-					logger.error("玩家：{}，使用GM指令失败。任务Id：{}，在配置表中不存在。", playerId, arg1);
-					return;
-				}
-				Quest quest = new Quest();
-				quest.setPlayerId(playerId);
-				quest.setIndex(1);
-				quest.setQuestId(questModel.ID);
-				QuestDao.gmFlushSingleQuest(playerId, quest);
+			case 1:
+				int gold = GMDao.addGold(playerId, args[1]);
+				RoleMsgSend.roleGoldSync(session, gold);
 				break;
 			case 11:
 				RedisProxy.getInstance().savePlayerGuideID(playerId, 9);

@@ -128,95 +128,6 @@ CREATE TABLE `server_list` (
   PRIMARY KEY (`server_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `card_group_info`;
-CREATE TABLE `card_group_info` (
-  `group_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `player_id` int(11) unsigned NOT NULL,
-  `icon` int(11) unsigned NOT NULL,
-  `name` varchar(32) NOT NULL COMMENT '卡组名称',
-  `element1` int(11) unsigned NOT NULL,
-  `element2` int(11) unsigned NOT NULL,
-  `element3` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `card_group_member`;
-CREATE TABLE `card_group_member` (
-  `group_id` bigint(20) unsigned NOT NULL,
-  `card_id` varchar(32) NOT NULL COMMENT '卡牌id',
-  `card_type` tinyint(1) NOT NULL DEFAULT '0',
-  `count` int(11) NOT NULL COMMENT '卡牌数量',
-  PRIMARY KEY (`group_id`, `card_id`, `card_type`),
-  KEY `group_id_index` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `card_info`;
-CREATE TABLE `card_info` (
-  `player_id` int(11) unsigned NOT NULL,
-  `card_id` varchar(32) NOT NULL COMMENT '卡组id',
-  `count` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`player_id`, `card_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `draw_card_info`;
-CREATE TABLE `draw_card_info` (
-  `player_id` int(11) unsigned NOT NULL,
-  `times` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `card_pack_info`;
-CREATE TABLE `card_pack_info` (
-  `player_id` int(11) unsigned NOT NULL,
-  `count` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `player_ladder_info`;
-CREATE TABLE `player_ladder_info`  (
-  `player_id` int(11) UNSIGNED NOT NULL,
-  `ladder_id` int(11) NOT NULL,
-  `star_count` int(11) NOT NULL,
-  `mmr_score` int(11) NOT NULL,
-  PRIMARY KEY (`player_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8;
-
-DROP TABLE IF EXISTS `player_ladderup_award`;
-CREATE TABLE `player_ladderup_award` (
-   `player_id` int(11) NOT NULL,
-   `ladder_id` int(11) NOT NULL,
-   `is_send_award` int(11) NOT NULL DEFAULT '0',
-   PRIMARY KEY (`player_id`,`ladder_id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `chain_card_pack_info`;
-CREATE TABLE `chain_card_pack_info` (
-  `player_id` int(11) unsigned NOT NULL,
-  `pack_id` int(11) unsigned NOT NULL,
-  `count` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `quest_info`;
-CREATE TABLE `quest_info`  (
-  `player_id` int(11) unsigned NOT NULL,
-  `quest_index` int(11) NOT NULL,
-  `quest_id` int(11) NOT NULL,
-  `quest_value` int(11) DEFAULT '0',
-  `quest_state` int(11) DEFAULT '0',
-  `update_time` datetime NOT NULL,
-  PRIMARY KEY (`player_id`, `quest_index`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `quest_flush_info`;
-CREATE TABLE `quest_flush_info`  (
-  `player_id` int(11) unsigned NOT NULL,
-  `quest_id` int(11) NOT NULL,
-  `cd` int(11) NOT NULL,
-  `update_time` datetime NOT NULL,
-  PRIMARY KEY (`player_id`, `quest_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `player_use_count`;
 CREATE TABLE `player_use_count` (
   `player_id` int(11) unsigned NOT NULL,
@@ -233,11 +144,9 @@ CREATE TABLE `player_clear_time` (
   PRIMARY KEY (`player_id`, `clear_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `player_sign_in`;
-CREATE TABLE `player_sign_in` (
+DROP TABLE IF EXISTS `player_role`;
+CREATE TABLE `player_role` (
   `player_id` int(11) unsigned NOT NULL,
-  `sign_in_date` datetime NOT NULL,
-  `sign_in_days` int(11) DEFAULT '0',
-  `bind_phone_number` varchar(16) DEFAULT '0',
+  `role` int(11) NOT NULL,
   PRIMARY KEY (`player_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

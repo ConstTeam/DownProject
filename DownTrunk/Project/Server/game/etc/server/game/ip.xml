@@ -1,5 +1,5 @@
 ﻿<root>
-	<GameServer Id="Game_0" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.35" InternetPort="8861" ManagePort="28861" />
+	<GameServer Id="Game_0" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.49" InternetPort="8861" ManagePort="28861" />
 	<HallServer Id="Hall_0" Name="本地测试服" Ip="127.0.0.1" InternetPort="8860" ManagePort="28860" />
 
 	<GameServer Id="Game_1" Name="本地测试服" Ip="127.0.0.1" PublicIp="192.168.1.35" InternetPort="7863" ManagePort="27863" />

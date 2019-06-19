@@ -356,6 +356,12 @@ public class LoginService extends Servicelet {
 				logger.error("获取角色剩余次数信息失败！玩家Id：" + account.playerId);
 				return null;
 			}
+
+			int roleList = PlayerDao.getRole(connect, player.getPlayerId());
+			if (roleList == -1) {
+				logger.error("获取角色HeroList信息失败！玩家Id：" + account.playerId);
+				return null;
+			}
 			
 			player.setAccountId(account.platformId);
 
@@ -394,8 +400,9 @@ public class LoginService extends Servicelet {
 			 /*
 			  *  登录信息发送
 			  */
-			login(session, player, serverInfo, platform);
+			login(session, player, serverInfo, platform, roleList);
 			RoleMsgSend.changeSceneRes(session, playerInfo.getSceneId());
+			RoleMsgSend.changeRoleRes(session, playerInfo.getRoleId());
 			
 			uuidMap.put(uuid, Calendar.getInstance());
 			logger.info("玩家登录LoginServer，账号：" + platformId + "，UUID：" + uuid);
@@ -423,13 +430,15 @@ public class LoginService extends Servicelet {
 	/**
 	 * 登录数据同步
 	 */
-	private void login(ISession session, Player player, ServerInfo serverInfo, String platform) {
+	private void login(ISession session, Player player, ServerInfo serverInfo, String platform, int roleList) {
 
 		HallServerOnlineManager.getInstance().playerLogin(session, player);
 		/*
 		 *  登录发送玩家信息
 		 */
 		S2CMessageSend.loginResult(session, player, platform);
+		RoleMsgSend.roleGoldSync(session, player.getGold());
+		RoleMsgSend.roleListSync(session, roleList);
 		logger.info("登录发送玩家信息，account：{}，playerId：{}", player.getAccountId(), player.getPlayerId());
 	}
 	

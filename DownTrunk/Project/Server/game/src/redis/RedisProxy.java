@@ -23,7 +23,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import app.ServerStaticInfo;
-import config.ConfigData;
 import config.model.notice.NoticeRollModel;
 import db.DBModuleConst;
 import module.scene.GameRoom;
@@ -1046,16 +1045,6 @@ public class RedisProxy {
 	public List<NoticeRollModel> getNoticeRollInfo() {
 		List<NoticeRollModel> noticeRollInfoList = new ArrayList<>();
 		Calendar now = Calendar.getInstance();
-		
-		/*
-		 *  配置表的滚屏公告
-		 */
-		for (NoticeRollModel noticeRollModel : ConfigData.noticeRollModels.values()) {
-			if (TimeFormat.isBetweenTime(noticeRollModel.startTimeInMillis, noticeRollModel.endTimeInMillis, now.getTimeInMillis())) {
-				noticeRollInfoList.add(noticeRollModel);
-			}
-		}
-
 		Jedis jedis = redisSession.getJedis();
 		if (jedis != null) {
 			try {
