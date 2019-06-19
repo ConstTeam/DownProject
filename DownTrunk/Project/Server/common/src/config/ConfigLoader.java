@@ -10,14 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import config.model.ArgumentsModel;
 import config.model.HeroModel;
-import config.model.UseCountModel;
 import config.model.message.ErrorCode;
 import config.model.message.MessageBox;
-import config.model.quest.AwardModel;
-import config.model.skill.SkillModel;
 import util.ErrorPrint;
 import util.ExcelXlsLoader;
-import util.Tools;
 
 /**
  * 配置文件加载
@@ -33,7 +29,6 @@ public class ConfigLoader {
 	/** 字符串分隔符 */
 	public static final String SPLIT_STRING_COMMA = ",";
 
-	private static final String SKILL = "Card/Skill_Common.xls";
 	/** 错误代码 */
 	private static final String ERROR_MESSAGE = "Message/ErrorMessage_Server.xls";
 	/** 弹出消息 */
@@ -44,11 +39,6 @@ public class ConfigLoader {
 	/** 角色配置表 */
 	private static final String HERO_COMMON = "Hero_Common.xls";
 
-	/** 可用次数 */
-	private static final String USE_COUNT = "UseCount_Common.xls";
-	/** 可用次数 */
-	private static final String AWARD = "Award_Common.xls";
-	
 	public static HashMap<String, String> reloadMapping = new HashMap<>();
 	public static String startServerTime = "";
 	private static String path = "";
@@ -66,71 +56,6 @@ public class ConfigLoader {
 		}
 		return flag;
 	}
-
-
-	/**
-	 * 加载技能信息
-	 * 
-	 * @throws Exception
-	 */
-	public static void loadSkill() throws Exception {
-		registerMethod(SKILL, "loadSkill");
-		ArrayList<Object> arraylist = ExcelXlsLoader.loadArrayListModel(SkillModel.class,
-				loadFilePath(SKILL));
-		HashMap<String, HashMap<Integer, SkillModel>> skillModels = new HashMap<>();
-		HashMap<String, String> skillValueArgModels = new HashMap<>();
-
-		for (Object gameData : arraylist) {
-			SkillModel model = (SkillModel) gameData;
-			if (skillModels.get(model.ID) == null) {
-				skillModels.put(model.ID, new HashMap<>());
-			}
-			skillModels.get(model.ID).put(model.SubID, model);
-			if (!Tools.isEmptyString(model.Value)) {
-				if (skillValueArgModels.get(model.Value) == null) {
-					skillValueArgModels.put(model.Value, getValueArg(model.Value));
-				}
-			}
-		}
-		ConfigData.skillModels = skillModels;
-		ConfigData.skillValueArgModels = skillValueArgModels;
-		logger.info("{}载入完毕。", SKILL);
-	}
-
-	private static String getValueArg(String value) {
-		int begin = value.indexOf("[");
-		int end = value.indexOf("]");
-		if (begin == -1) {
-			if (end != -1) {
-				logger.error("Skill_Common配置表，Value填写有误：" + value, new Throwable());
-			}
-			return value;
-		}
-		if (end == -1) {
-			logger.error("Skill_Common配置表，Value填写有误：" + value, new Throwable());
-			return value;
-		}
-		value = value.substring(begin + 1, end);
-		return value;
-	}
-	
-	/**
-	 * 可用次数配置表
-	 * @throws Exception
-	 */
-	public static void loadUseCount() throws Exception {
-		registerMethod(USE_COUNT, "loadUseCount");
-		ArrayList<Object> arraylist = ExcelXlsLoader.loadArrayListModel(UseCountModel.class,
-				loadFilePath(USE_COUNT));
-		HashMap<Integer, Integer> useCountModels = new HashMap<>();
-		
-		for (Object gameData : arraylist) {
-			UseCountModel model = (UseCountModel) gameData;
-			useCountModels.put(model.Type, model.Value);
-		}
-		ConfigData.useCountModels = useCountModels;
-		logger.info("{}载入完毕。", USE_COUNT);
-	}
 	
 	/**
 	 * Hero配置表
@@ -147,27 +72,9 @@ public class ConfigLoader {
 			heroModels.put(model.ID, model);
 		}
 		ConfigData.heroModels = heroModels;
-		logger.info("{}载入完毕。", USE_COUNT);
+		logger.info("{}载入完毕。", HERO_COMMON);
 	}
 
-	/**
-	 * 奖励配置表
-	 * @throws Exception
-	 */
-	public static void loadAward() throws Exception {
-		registerMethod(AWARD, "loadAward");
-		ArrayList<Object> arraylist = ExcelXlsLoader.loadArrayListModel(AwardModel.class,
-				loadFilePath(AWARD));
-		HashMap<String, AwardModel> awardModels = new HashMap<>();
-		
-		for (Object gameData : arraylist) {
-			AwardModel model = (AwardModel) gameData;
-			awardModels.put(model.AwardId, model);
-		}
-		ConfigData.awardModels = awardModels;
-		logger.info("{}载入完毕。", AWARD);
-	}
-	
 	/**
 	 * 加载错误代码配置表
 	 * 

@@ -3,14 +3,9 @@ package message.game.room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import app.ServerStaticInfo;
-import config.ConfigData;
-import config.model.guide.GuideGateModel;
 import message.hall.login.LoginService;
 import module.scene.GameRoom;
 import module.scene.RoomConst;
-import module.templet.GuideTemplet;
-import module.templet.TempletBase;
 import net.DataAccessException;
 import net.IByteBuffer;
 import net.ISession;
@@ -39,10 +34,6 @@ public class RoomService extends Servicelet {
 		case RoomMsgConst.INTO_ROOM:
 			playerId = data.readInt();
 			login(session, deviceId, playerId);
-			break;
-		case RoomMsgConst.INTO_GUIDE_ROOM:
-			playerId = data.readInt();
-			guideRoom(session, deviceId, playerId);
 			break;
 		}
 
@@ -89,52 +80,6 @@ public class RoomService extends Servicelet {
 			}
 		} finally {
 			GameRoomManager.getInstance().getLock().unlock(roomId);
-		}		
-	}
-
-	private void guideRoom(ISession session, String deviceId, int playerId) {
-		if (deviceId != null && !LoginService.checkDeviceId(playerId, deviceId, session)) {
-			return;
-		}
-		PlayerInfo playerInfo = GameServerOnlineManager.getInstance().playerLogin(session, playerId);
-		if (playerInfo == null) {
-			logger.error("玩家：{}，战斗服登录失败。获取玩家信息失败。", playerId);
-			return;
-		}
-		playerId = playerInfo.getPlayerId();
-		GameRoomManager.getInstance().getLock().lock(playerId);
-		int guideId = RedisProxy.getInstance().getPlayerGuideID(playerId);
-		try {
-			GuideGateModel gate = ConfigData.guideGateModels.get(guideId);
-			if (gate == null) {
-				logger.error("创建房间失败，指引Id：{}，在配置表中不存在。", guideId);
-				return;
-			}
-			TempletBase templet = new GuideTemplet(guideId);
-			RoomInfo roomInfo = RedisProxy.getInstance().addRoomInfo(templet, ServerStaticInfo.getServerId());
-			if (roomInfo == null) {
-				logger.error("玩家：{}，新手指引：{}，创建房间失败。", playerId, guideId);
-				return;
-			}
-			int roomId = roomInfo.getRoomId();
-			GameRoom room = GameRoomManager.getInstance().getRoom(roomId);
-			if (room == null) {
-				room = GameRoomManager.getInstance().addGameRoom(roomInfo, roomInfo.getType());
-				if (room == null) {
-					logger.info("玩家：{}，新手指引：{}，房间Id：{}，创建房间失败。", playerId, guideId, roomId);
-					return;
-				}
-				playerInfo.setRoomId(roomInfo.getRoomId());
-				RedisProxy.getInstance().updatePlayerInfo(playerInfo, "roomId");
-				room.setOwner(playerInfo.getPlayerId());
-				int code = room.joinGame(playerInfo, session);
-				logger.info("玩家：{}，房间Id：{}，创建房间{}。", playerInfo.getPlayerId(), roomId, code == RoomConst.SUCCESS ? "成功" : "失败");
-			} else {
-				int code = room.joinGame(playerInfo, session);
-				logger.info("玩家：{}，房间Id：{}，进入房间{}。", playerInfo.getPlayerId(), roomId, code == RoomConst.SUCCESS ? "成功" : "失败");
-			}
-		} finally {
-			GameRoomManager.getInstance().getLock().unlock(playerId);
 		}		
 	}
 }

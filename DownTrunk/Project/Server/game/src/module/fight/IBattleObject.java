@@ -8,8 +8,6 @@ public interface IBattleObject {
 	
 	public boolean isChange();
 	
-	public boolean isForceShield();
-	
 	public int getPlayerId();
 	
 	public int getUid();

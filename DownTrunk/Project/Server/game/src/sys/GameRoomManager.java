@@ -7,14 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import app.ServerStaticInfo;
-import config.ConfigData;
-import config.model.guide.GuideGateModel;
 import memory.LockMemory;
 import module.scene.GameRoom;
 import module.scene.RoomConst;
-import module.templet.GuideTemplet;
 import module.templet.PVPTemplet;
-import module.templet.RobotTemplet;
 import module.templet.TempletBase;
 import redis.RedisProxy;
 import redis.data.RoomInfo;
@@ -77,16 +73,6 @@ public class GameRoomManager {
 		switch (roomType) {
 		case RoomConst.ROOM_TYPE_PVP:
 			templet = new PVPTemplet();
-			gameRoom.setTemplet(templet);
-			break;
-		case RoomConst.ROOM_TYPE_GUIDE:
-			templet = new GuideTemplet(roomInfo.getArg1());
-			GuideGateModel gate = ConfigData.guideGateModels.get(roomInfo.getArg1());
-			gameRoom.setTemplet(templet);
-			templet.firstCardNum = gate.HandCardCount;
-			break;
-		case RoomConst.ROOM_TYPE_ROBOT:
-			templet = new RobotTemplet(roomInfo.getArg1());
 			gameRoom.setTemplet(templet);
 			break;
 		}

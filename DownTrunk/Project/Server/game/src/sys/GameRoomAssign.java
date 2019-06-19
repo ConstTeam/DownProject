@@ -1,7 +1,6 @@
 package sys;
 
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,11 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import app.ServerStaticInfo;
-import config.ConfigData;
 import memory.SessionMemory;
 import message.hall.login.LoginMessageSend;
 import module.templet.PVPTemplet;
-import module.templet.RobotTemplet;
 import module.templet.TempletBase;
 import net.ISession;
 import redis.RedisProxy;
@@ -169,43 +166,7 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 	}
 	
 	public boolean assignRobot(PlayerInfo playerInfoA) {
-		if (RedisProxy.getInstance().removePlayerMatching(playerInfoA.getPlayerId()) == 0) {
-			players.remove(playerInfoA.getPlayerId());
-			return false;
-		}
-		int robotId = randomRobotId(); // 从配置表中随机一个机器人Id
-		TempletBase templet = new RobotTemplet(robotId);
-		
-		ServerInfo serverInfo = distributeServer();
-		if (serverInfo == null) {
-			logger.error("创建房间失败。无可分配的游戏服。");
-			// 创建房间失败。将A重塞回分配队伍。
-			addPlayerInfo(playerInfoA);
-			return false;
-		}
-		String serverId = serverInfo.getServerId();
-		RoomInfo roomInfo = RedisProxy.getInstance().addRoomInfo(templet, serverId);
-		if (roomInfo == null) {
-			logger.error("创建房间失败。");
-			// 创建房间失败。将A重塞回分配队伍。
-			addPlayerInfo(playerInfoA);
-			return false;
-		}
-		playerInfoA.setRoomId(roomInfo.getRoomId());
-		RedisProxy.getInstance().updatePlayerInfo(playerInfoA, "roomId");
-		logger.info("匹配成功。玩家A：{}，玩家B：Robot{}，分配至游戏服：{}", playerInfoA.getPlayerId(), robotId, serverInfo.getServerId());
-		// 向playerA发送消息，serverInfo
-		ISession session = SessionMemory.getInstance().getSession(playerInfoA.getPlayerId());
-		LoginMessageSend.assignSuccess(session);
-		LoginMessageSend.connGameServer(session, serverInfo);
 		return true;
-	}
-	
-	private int randomRobotId() {
-		ArrayList<Integer> keys = new ArrayList<>();
-		keys.addAll(ConfigData.robotModels.keySet());
-		int index = Tools.random(0, keys.size() - 1);
-		return keys.get(index);
 	}
 	
 	/**

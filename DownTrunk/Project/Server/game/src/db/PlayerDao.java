@@ -362,7 +362,7 @@ public class PlayerDao {
 	}
 	
 	public static void addRole(Connection con, int playerId, int role) throws SQLException {
-		String update = "INSERT INTO ignore player_role (player_id, role) VALUES(?,?)";
+		String update = "INSERT ignore INTO player_role (player_id, role) VALUES(?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(update);
@@ -418,10 +418,10 @@ public class PlayerDao {
 			}
 			String ids = "";
 			for (int id : ConfigData.heroModels.keySet()) {
-				if (roles.get(id)) {
-					ids = "1" + ids;
-				} else {
+				if (roles.get(id) == null) {
 					ids = "0" + ids;
+				} else {
+					ids = "1" + ids;
 				}
 			}
 			return Integer.parseInt(ids);
