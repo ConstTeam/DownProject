@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ namespace MS
 	public class ScenePanel : MonoBehaviour
 	{
 		public Button XBtn;
+		public TextMeshProUGUI CoinText;
 		public Toggle[] Toggles;
 
 		private GameObject _gameObject;

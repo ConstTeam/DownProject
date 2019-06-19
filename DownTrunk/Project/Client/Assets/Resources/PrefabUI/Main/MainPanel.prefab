@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 114800614123256544}
   - component: {fileID: 114866501329880920}
   m_Layer: 5
-  m_Name: ShopBtn
+  m_Name: RankBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -466,7 +466,7 @@ MonoBehaviour:
   PVPBtn: {fileID: 114937250241619182}
   HeroBtn: {fileID: 114670216615225876}
   SceneBtn: {fileID: 114277671890816020}
-  ShopBtn: {fileID: 114866501329880920}
+  RankBtn: {fileID: 114866501329880920}
   NoticeBtn: {fileID: 114974531527052744}
   SettingBtn: {fileID: 114662212617623394}
 --- !u!114 &114277671890816020
@@ -642,7 +642,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300054, guid: 9770878de9e371642bb4b2d0547bf874, type: 3}
+  m_Sprite: {fileID: 21300112, guid: 9770878de9e371642bb4b2d0547bf874, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1163,7 +1163,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300080, guid: 9770878de9e371642bb4b2d0547bf874, type: 3}
+  m_Sprite: {fileID: 21300086, guid: 9770878de9e371642bb4b2d0547bf874, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1472,7 +1472,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 145, y: 122}
+  m_SizeDelta: {x: 155, y: 102}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224563461928533636
 RectTransform:
@@ -1490,7 +1490,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 87, y: 73}
+  m_SizeDelta: {x: 97, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224582822175612452
 RectTransform:

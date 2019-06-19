@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,10 @@ namespace MS
 	{
 		public static List<string> lstMsgBox = new List<string>();
 
-		public Text			UITitel;
-		public Text			UIContent;
-		public Button		UIOKBtn;
-		public Button		UICancelBtn;
-		public Button		UICloseBtn;
+		public TextMeshProUGUI		UITitel;
+		public Text					UIContent;
+		public Button				UIOKBtn;
+		public Button				UICancelBtn;
         
         public delegate void MsgCallback();
 		private MsgCallback _OKCallBack;
@@ -42,7 +42,6 @@ namespace MS
             _gameObject = gameObject;
             UIOKBtn.onClick.AddListener(OnOKBtn);
             UICancelBtn.onClick.AddListener(OnCancleBtn);
-            UICloseBtn.onClick.AddListener(OnCancleBtn);
         }
 
 		private void OnOKBtn()
@@ -79,10 +78,7 @@ namespace MS
 			_sSingleMark		= singleMark;
 
 			if(1 == iType)
-			{
 				UICancelBtn.gameObject.SetActive(false);
-				UICloseBtn.gameObject.SetActive(false);
-			}
 		}
 
 		private void ClosePanel()

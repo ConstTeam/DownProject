@@ -11,7 +11,7 @@ namespace MS
 
 		public Button HeroBtn;
 		public Button SceneBtn;
-		public Button ShopBtn;
+		public Button RankBtn;
 		public Button NoticeBtn;
 		public Button SettingBtn;
 

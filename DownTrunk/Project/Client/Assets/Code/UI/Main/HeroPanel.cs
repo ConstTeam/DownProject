@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace MS
 	public class HeroPanel : MonoBehaviour
 	{
 		public Button XBtn;
+		public TextMeshProUGUI CoinText;
 		public Toggle[] Toggles;
 		public HeroPanelItem ItemRes;
 		public Transform Content;
@@ -49,8 +51,16 @@ namespace MS
 			{
 				row = tbl.GetRow(i.ToString());
 				item = Instantiate(ItemRes, Content, true);
-				item.SetInfo(i, row.GetValue("Name"), ToggleG);
+				item.SetInfo(i, row.GetValue("Name"), row.GetValue("Coin"), row.GetValue("Money"), ToggleG);
 				_lstHeroItems.Add(item);
+			}
+		}
+
+		public void SetItemState(int states)
+		{
+			for(int i = 0; i < _lstHeroItems.Count; ++i)
+			{
+				_lstHeroItems[i].SetState((states & 1 << i) == 1);
 			}
 		}
 
