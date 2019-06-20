@@ -148,5 +148,12 @@ DROP TABLE IF EXISTS `player_role`;
 CREATE TABLE `player_role` (
   `player_id` int(11) unsigned NOT NULL,
   `role` int(11) NOT NULL,
-  PRIMARY KEY (`player_id`)
+  PRIMARY KEY (`player_id`, `role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `player_scene`;
+CREATE TABLE `player_scene` (
+  `player_id` int(11) unsigned NOT NULL,
+  `scene` int(11) NOT NULL,
+  PRIMARY KEY (`player_id`, `scene`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

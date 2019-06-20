@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import config.model.ArgumentsModel;
 import config.model.HeroModel;
+import config.model.SceneModel;
 import config.model.message.ErrorCode;
 import config.model.message.MessageBox;
 import util.ErrorPrint;
@@ -38,6 +39,8 @@ public class ConfigLoader {
 
 	/** 角色配置表 */
 	private static final String HERO_COMMON = "Hero_Common.xls";
+	/** 场景配置表 */
+	private static final String SCENE_COMMON = "Scene_Common.xls";
 
 	public static HashMap<String, String> reloadMapping = new HashMap<>();
 	public static String startServerTime = "";
@@ -49,6 +52,7 @@ public class ConfigLoader {
 			loadMessageBox();
 			loadErrorMessage();
 			loadHeroCommon();
+			loadSceneCommon();
 			ConfigCheck.check();			
 		} catch (Exception e) {
 			flag = false;
@@ -73,6 +77,24 @@ public class ConfigLoader {
 		}
 		ConfigData.heroModels = heroModels;
 		logger.info("{}载入完毕。", HERO_COMMON);
+	}
+	
+	/**
+	 * Scene配置表
+	 * @throws Exception
+	 */
+	public static void loadSceneCommon() throws Exception {
+		registerMethod(SCENE_COMMON, "loadSceneCommon");
+		ArrayList<Object> arraylist = ExcelXlsLoader.loadArrayListModel(SceneModel.class,
+				loadFilePath(SCENE_COMMON));
+		HashMap<Integer, SceneModel> sceneModels = new HashMap<>();
+		
+		for (Object gameData : arraylist) {
+			SceneModel model = (SceneModel) gameData;
+			sceneModels.put(model.ID, model);
+		}
+		ConfigData.sceneModels = sceneModels;
+		logger.info("{}载入完毕。", SCENE_COMMON);
 	}
 
 	/**

@@ -31,6 +31,11 @@ public class Player {
 	private int diamond;
 	/** 金币 */
 	private int gold;
+	/** 英雄列表 */
+	private int roleList;
+	/** 场景列表 */
+	private int sceneList;
+	
 	
 	public int getPlayerId() {
 		return playerId;
@@ -126,5 +131,21 @@ public class Player {
 
 	public void setDeviceId(String deviceId) {
 		this.deviceId = deviceId;
+	}
+
+	public int getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(int roleList) {
+		this.roleList = roleList;
+	}
+
+	public int getSceneList() {
+		return sceneList;
+	}
+
+	public void setSceneList(int sceneList) {
+		this.sceneList = sceneList;
 	}
 }

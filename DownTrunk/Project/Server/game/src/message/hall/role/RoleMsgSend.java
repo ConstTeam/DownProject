@@ -74,4 +74,14 @@ public class RoleMsgSend {
 		
 		session.send(data);
 	}
+
+	public static void sceneListSync(ISession session, int sceneList) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		data.writeByte(HallMsgModuleConst.ROLE_RESPONSE);
+		data.writeByte(RoleMsgConst.SCENE_LIST_SYNC);
+
+		data.writeInt(sceneList);
+		
+		session.send(data);
+	}
 }

@@ -194,7 +194,8 @@ public class PlayerDao {
 
 			// 任务初始化
 			ClearDao.SaveClearTime(con, playerId, ClearConst.DAILY);
-			addRole(playerId, 0);
+			addRole(con, playerId, 0);
+			addScene(con, playerId, 0);
 			
 			con.commit();
 			return true;
@@ -361,8 +362,97 @@ public class PlayerDao {
 		return false;
 	}
 	
+	public static void addScene(Connection con, int playerId, int sceneId) throws SQLException {
+		String update = "INSERT INTO player_scene (player_id, scene) VALUES(?,?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(update);
+			pstmt.setInt(1, playerId);
+			pstmt.setInt(2, sceneId);
+			pstmt.execute();
+		} finally {
+			pstmt.close();
+		}
+	}
+	
+	public static int addScene(int playerId, int sceneId, int gold) {
+		Connection con = ServerManager.gameDBConnect.getDBConnect();
+		if (con == null) { // 数据库连接池已满
+			return -1;
+		}
+		try {
+			con.setAutoCommit(false);
+			addGold(con, playerId, -gold);
+			addScene(con, playerId, sceneId);
+			return PlayerDao.getScene(con, playerId);
+		} catch (Exception e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				ErrorPrint.print(e1);
+			}
+			ErrorPrint.print(e);
+		} finally {
+			try {
+				con.setAutoCommit(true);
+			} catch (SQLException e) {
+				ErrorPrint.print(e);
+			}
+			ServerManager.gameDBConnect.closeConnect(con);
+		}
+		return -1;
+	}
+	
+	public static int getScene(int playerId) {
+		Connection con = ServerManager.gameDBConnect.getDBConnect();
+		if (con == null) { // 数据库连接池已满
+			return -1;
+		}
+		try {
+			return getScene(con, playerId);
+		} finally {
+			ServerManager.gameDBConnect.closeConnect(con);
+		}
+	}
+	
+	public static int getScene(Connection con, int playerId) {
+
+		String selectSql = "SELECT * FROM player_scene WHERE player_id = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		HashMap<Integer, Boolean> roles = new HashMap<>();
+		try {
+			// 查询角色信息
+			pstmt = con.prepareStatement(selectSql);
+			pstmt.setInt(1, playerId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				roles.put(rs.getInt("scene"), true);
+			}
+			int ids = 0;
+			for (int id : ConfigData.sceneModels.keySet()) {
+				if (roles.get(id) != null) {
+					ids = ids + (1 << id);
+				}
+			}
+			return ids;
+		} catch (Exception e) {
+			ErrorPrint.print(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				pstmt.close();
+			} catch (Exception e) {
+				ErrorPrint.print(e);
+			}
+		}
+		return -1;
+	}
+	
 	public static void addRole(Connection con, int playerId, int role) throws SQLException {
-		String update = "INSERT ignore INTO player_role (player_id, role) VALUES(?,?)";
+		String update = "INSERT INTO player_role (player_id, role) VALUES(?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(update);
@@ -374,20 +464,32 @@ public class PlayerDao {
 		}
 	}
 	
-	public static boolean addRole(int playerId, int role) {
+	public static int addRole(int playerId, int role, int gold) {
 		Connection con = ServerManager.gameDBConnect.getDBConnect();
 		if (con == null) { // 数据库连接池已满
-			return false;
+			return -1;
 		}
 		try {
+			con.setAutoCommit(false);
+			addGold(con, playerId, -gold);
 			addRole(con, playerId, role);
-			return true;
+			return PlayerDao.getRole(con, playerId);
 		} catch (Exception e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				ErrorPrint.print(e1);
+			}
 			ErrorPrint.print(e);
 		} finally {
+			try {
+				con.setAutoCommit(true);
+			} catch (SQLException e) {
+				ErrorPrint.print(e);
+			}
 			ServerManager.gameDBConnect.closeConnect(con);
 		}
-		return false;
+		return -1;
 	}
 	
 	public static int getRole(int playerId) {
@@ -416,15 +518,13 @@ public class PlayerDao {
 			while (rs.next()) {
 				roles.put(rs.getInt("role"), true);
 			}
-			String ids = "";
+			int ids = 0;
 			for (int id : ConfigData.heroModels.keySet()) {
-				if (roles.get(id) == null) {
-					ids = "0" + ids;
-				} else {
-					ids = "1" + ids;
+				if (roles.get(id) != null) {
+					ids = ids + (1 << id);
 				}
 			}
-			return Integer.parseInt(ids);
+			return ids;
 		} catch (Exception e) {
 			ErrorPrint.print(e);
 		} finally {
@@ -439,6 +539,7 @@ public class PlayerDao {
 		}
 		return -1;
 	}
+	
 	public static void insertOpenPanel(Connection con, String itemName) throws SQLException {
 		String insertSql = "INSERT INTO display_items (items, open) VALUES(?, 1) ON DUPLICATE KEY UPDATE open = 1";
 		PreparedStatement pstmt = null;
