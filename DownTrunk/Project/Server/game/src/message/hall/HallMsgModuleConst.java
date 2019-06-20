@@ -7,6 +7,8 @@ public class HallMsgModuleConst {
 	public static final int LOGIN_SERVICE = 1;
 	/** 大厅服-角色服务 */
 	public static final int ROLE_SERVICE = 2;
+	/** 大厅服-英雄服务 */
+	public static final int HERO_SERVICE = 3;
 	/** 大厅服-任务服务 */
 	public static final int QUEST_SERVICE = 6;
 	/** 大厅服-指引服务 */

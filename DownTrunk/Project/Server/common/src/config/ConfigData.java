@@ -3,6 +3,7 @@ package config;
 import java.util.HashMap;
 
 import config.model.HeroModel;
+import config.model.SceneModel;
 import config.model.recharge.RechargeModel;
 
 /**
@@ -31,6 +32,8 @@ public class ConfigData {
 
 	/** Hero信息 */
 	public static HashMap<Integer, HeroModel> heroModels;
+	/** Scene信息 */
+	public static HashMap<Integer, SceneModel> sceneModels;
 	
 	public static String getConfigPath() {
 		return configPath;
