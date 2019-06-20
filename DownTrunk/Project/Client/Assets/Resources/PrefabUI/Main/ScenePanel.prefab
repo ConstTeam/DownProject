@@ -299,12 +299,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   XBtn: {fileID: 114371558038401990}
   CoinText: {fileID: 114786902839902648}
-  Toggles:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Content: {fileID: 224981288083944334}
+  ToggleG: {fileID: 114102672200874084}
+  ItemRes: {fileID: 114483232157060828, guid: 7a318a650421c8447b83ad986f7e6af3, type: 2}
 --- !u!114 &114656189391053944
 MonoBehaviour:
   m_ObjectHideFlags: 1

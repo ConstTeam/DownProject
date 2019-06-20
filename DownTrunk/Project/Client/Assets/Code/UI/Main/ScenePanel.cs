@@ -10,7 +10,6 @@ namespace MS
 	{
 		public Button XBtn;
 		public TextMeshProUGUI CoinText;
-		public Toggle[] Toggles;
 		public Transform Content;
 		public ToggleGroup ToggleG;
 		public ScenePanelItem ItemRes;
@@ -38,6 +37,7 @@ namespace MS
 			_gameObject = gameObject;
 			_gameObject.SetActive(false);
 			XBtn.onClick.AddListener(ClosePanel);
+			Init();
 		}
 
 		private void Init()
@@ -58,7 +58,7 @@ namespace MS
 			for(int i = 0; i < _lstSceneItems.Count; ++i)
 			{
 				_lstSceneItems[i].Toggle.isOn = i == PlayerData.CurScene;
-				_lstSceneItems[i].SetState(((PlayerData.AllSceneState & 1 << i) >> i) == 1);
+				_lstSceneItems[i].SetState(((PlayerData.StateScene & 1 << i) >> i) == 1);
 			}
 		}
 
@@ -70,13 +70,13 @@ namespace MS
 		public void SetCurScene()
 		{
 			for(int i = 0; i < _lstSceneItems.Count; ++i)
-				_lstSceneItems[i].Toggle.isOn = i == PlayerData.CurHero;
+				_lstSceneItems[i].Toggle.isOn = i == PlayerData.CurScene;
 		}
 
 		public void SetState()
 		{
 			for(int i = 0; i < _lstSceneItems.Count; ++i)
-				_lstSceneItems[i].SetState(((PlayerData.AllSceneState & 1 << i) >> i) == 1);
+				_lstSceneItems[i].SetState(((PlayerData.StateScene & 1 << i) >> i) == 1);
 		}
 
 		public void OpenPanel()
@@ -87,9 +87,9 @@ namespace MS
 		private void ClosePanel()
 		{
 			_gameObject.SetActive(false);
-			for(int i = 0; i < Toggles.Length; ++i)
+			for(int i = 0; i < _lstSceneItems.Count; ++i)
 			{
-				if(Toggles[i].isOn && i != PlayerData.CurScene)
+				if(_lstSceneItems[i].Toggle.isOn && i != PlayerData.CurScene)
 					CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_PLAYER_SET_SCENE, new ArrayList() { (byte)i });
 			}
 		}

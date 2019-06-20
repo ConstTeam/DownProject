@@ -10,7 +10,6 @@ namespace MS
 	{
 		public Button XBtn;
 		public TextMeshProUGUI CoinText;
-		public Toggle[] Toggles;
 		public Transform Content;
 		public ToggleGroup ToggleG;
 		public HeroPanelItem ItemRes;
@@ -59,7 +58,7 @@ namespace MS
 			for(int i = 0; i < _lstHeroItems.Count; ++i)
 			{
 				_lstHeroItems[i].Toggle.isOn = i == PlayerData.CurHero;
-				_lstHeroItems[i].SetState(((PlayerData.AllHeroState & 1 << i) >> i) == 1);
+				_lstHeroItems[i].SetState(((PlayerData.StateHero & 1 << i) >> i) == 1);
 			}
 		}
 
@@ -77,7 +76,7 @@ namespace MS
 		public void SetState()
 		{
 			for(int i = 0; i < _lstHeroItems.Count; ++i)
-				_lstHeroItems[i].SetState(((PlayerData.AllHeroState & 1 << i) >> i) == 1);
+				_lstHeroItems[i].SetState(((PlayerData.StateHero & 1 << i) >> i) == 1);
 		}
 
 		public void OpenPanel()

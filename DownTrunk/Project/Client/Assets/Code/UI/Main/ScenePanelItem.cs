@@ -94,7 +94,7 @@ namespace MS
 
 		public void OnClickMoney()
 		{
-			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_STORE_BUY_HERO, new ArrayList() { (byte)SceneId, false });
+			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_STORE_BUY_SCENE, new ArrayList() { (byte)SceneId, false });
 		}
 	}
 }
