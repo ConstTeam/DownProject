@@ -123,7 +123,7 @@ namespace MS
 			plat.m_Transform.localPosition = new Vector3(field.X, field.Y, 0f);
 			if(field.Item > 0)
 			{
-				string itemId = ConfigData.GetValue("Scene_Common", SceneId.ToString(), field.Item.ToString());
+				string itemId = ConfigData.GetValue("Scene_Common", SceneId.ToString(), string.Format("Item{0}", field.Item));
 				if(itemId != "-1")
 				{
 					int id = int.Parse(itemId);

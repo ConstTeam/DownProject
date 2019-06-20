@@ -50,7 +50,7 @@ namespace MS
 			{
 				row = tbl.GetRow(i.ToString());
 				item = Instantiate(ItemRes, Content, true);
-				item.SetInfo(i, row.GetValue("Name"), row.GetValue("Coin"), row.GetValue("Money"), row.GetValue("1"), row.GetValue("2"), ToggleG);
+				item.SetInfo(i, row.GetValue("Name"), row.GetValue("Coin"), row.GetValue("Money"), row.GetValue("Item1"), row.GetValue("Item2"), ToggleG);
 				_lstSceneItems.Add(item);
 			}
 
