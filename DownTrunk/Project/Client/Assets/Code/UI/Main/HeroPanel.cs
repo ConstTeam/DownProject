@@ -8,16 +8,16 @@ namespace MS
 {
 	public class HeroPanel : MonoBehaviour
 	{
-		public GameObject m_GO;
 		public Button XBtn;
 		public TextMeshProUGUI CoinText;
 		public Toggle[] Toggles;
-		public HeroPanelItem ItemRes;
 		public Transform Content;
 		public ToggleGroup ToggleG;
+		public HeroPanelItem ItemRes;
 
 		private GameObject _gameObject;
 		private List<HeroPanelItem> _lstHeroItems = new List<HeroPanelItem>();
+
 
 		public static HeroPanel _inst;
 		public static HeroPanel GetInst()
@@ -38,7 +38,6 @@ namespace MS
 			_gameObject = gameObject;
 			_gameObject.SetActive(false);
 			XBtn.onClick.AddListener(ClosePanel);
-
 			Init();
 		}
 
@@ -55,21 +54,34 @@ namespace MS
 				item.SetInfo(i, row.GetValue("Name"), row.GetValue("Coin"), row.GetValue("Money"), ToggleG);
 				_lstHeroItems.Add(item);
 			}
-		}
 
-		public bool IsActive()
-		{
-			return m_GO.activeSelf;
-		}
-
-		public void OpenPanel()
-		{
 			CoinText.text = PlayerData.Coin.ToString();
 			for(int i = 0; i < _lstHeroItems.Count; ++i)
 			{
 				_lstHeroItems[i].Toggle.isOn = i == PlayerData.CurHero;
-				_lstHeroItems[i].SetState((PlayerData.AllHeroState & 1 << i) == 1);
+				_lstHeroItems[i].SetState(((PlayerData.AllHeroState & 1 << i) >> i) == 1);
 			}
+		}
+
+		public void SetCoin()
+		{
+			CoinText.text = PlayerData.Coin.ToString();
+		}
+
+		public void SetCurHero()
+		{
+			for(int i = 0; i < _lstHeroItems.Count; ++i)
+				_lstHeroItems[i].Toggle.isOn = i == PlayerData.CurHero;
+		}
+
+		public void SetState()
+		{
+			for(int i = 0; i < _lstHeroItems.Count; ++i)
+				_lstHeroItems[i].SetState(((PlayerData.AllHeroState & 1 << i) >> i) == 1);
+		}
+
+		public void OpenPanel()
+		{
 			_gameObject.SetActive(true);
 		}
 

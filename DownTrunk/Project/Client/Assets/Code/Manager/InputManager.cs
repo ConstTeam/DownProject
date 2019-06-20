@@ -4,9 +4,11 @@ namespace MS
 {
 	public class InputManager : MonoBehaviour
 	{
+#if UNITY_IOS || UNITY_ANDROID
 		private float fLastZ	= 0.0f;
 		private float fCurZ		= 0.0f;
 		private float fTempZ	= 0.0f;
+#endif
 
 		void Update()
 		{

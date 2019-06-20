@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace MS
 {
-	public class HeroPanelItem : MonoBehaviour
+	public class ScenePanelItem : MonoBehaviour
 	{
 		public TextMeshProUGUI Name;
 		public Toggle Toggle;
@@ -15,7 +15,7 @@ namespace MS
 		public TextMeshProUGUI CoinBtnText;
 		public TextMeshProUGUI MoneyBtnText;
 
-		public int HeroId { get; set; }
+		public int SceneId { get; set; }
 
 		private string _sCoin;
 		private string Coin
@@ -38,14 +38,17 @@ namespace MS
 			MoneyBtn.onClick.AddListener(OnClickMoney);
 		}
 
-		public void SetInfo(int heroId, string name, string coin, string money, ToggleGroup tg)
+		public void SetInfo(int sceneId, string name, string coin, string money, string item1, string item2, ToggleGroup tg)
 		{
-			HeroId = heroId;
+			SceneId = sceneId;
 			Name.text = name;
 			Coin = coin;
 			Money = money;
-			ResourceLoader.LoadAssetAndInstantiate(string.Format("PrefabUI/Main/Hero/{0}", HeroId), transform, new Vector3(-136f, 50f));
-			ResourceLoader.LoadAssetAndInstantiate(string.Format("PrefabUI/Main/Item/{0}", HeroId), transform, new Vector3(-5.7f, 10f));
+			ResourceLoader.LoadAssetAndInstantiate(string.Format("PrefabUI/Main/Scene/{0}", SceneId), transform);
+			if(item1 != "-1")
+				ResourceLoader.LoadAssetAndInstantiate(string.Format("PrefabUI/Main/Item/{0}", item1), transform, new Vector3(-50f, -310f));
+			if(item2 != "-1")
+				ResourceLoader.LoadAssetAndInstantiate(string.Format("PrefabUI/Main/Item/{0}", item2), transform, new Vector3(50f, -310f));
 			Toggle.group = tg;
 
 			BuyBtn.gameObject.SetActive(Coin != "0" && Money != "0");
@@ -54,11 +57,11 @@ namespace MS
 
 			if(Coin != "0" && Money != "0")
 			{
-				CoinBtn.transform.localPosition = new Vector2(176f, -116f);
-				MoneyBtn.transform.localPosition = new Vector2(176f, -116f + 71f);
+				CoinBtn.transform.localPosition = new Vector2(176f, -410f);
+				MoneyBtn.transform.localPosition = new Vector2(176f, -410f + 71f);
 				CoinBtn.transform.localScale = new Vector3(0.45f, 0.5f, 1f);
 				MoneyBtn.transform.localScale = new Vector3(0.45f, 0.5f, 1f);
-			}	
+			}
 		}
 
 		public void SetState(bool bGot)
@@ -85,13 +88,13 @@ namespace MS
 				MsgBoxPanel.ShowMsgBox("Warning", string.Format("Not enough Coins !"), 1);
 				return;
 			}
-			MsgBoxPanel.MsgCallback OnOk = () => { CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_STORE_BUY_HERO, new ArrayList() { (byte)HeroId, true }); };
-			MsgBoxPanel.ShowMsgBox("Buy Hero",string.Format("Spend {0} Coins to buy {1} ?", Coin, Name.text), 2, OnOk);
+			MsgBoxPanel.MsgCallback OnOk = () => { CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_STORE_BUY_SCENE, new ArrayList() { (byte)SceneId, true }); };
+			MsgBoxPanel.ShowMsgBox("Buy Hero", string.Format("Spend {0} Coins to buy {1} ?", Coin, Name.text), 2, OnOk);
 		}
 
 		public void OnClickMoney()
 		{
-			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_STORE_BUY_HERO, new ArrayList() { (byte)HeroId, false });
+			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_STORE_BUY_HERO, new ArrayList() { (byte)SceneId, false });
 		}
 	}
 }

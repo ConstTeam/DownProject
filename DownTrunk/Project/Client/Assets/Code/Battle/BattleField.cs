@@ -52,7 +52,6 @@ namespace MS
 			}
 		}
 
-		private Transform _transform;
 		private Material _matBg;
 		private Vector3 _tempPos = new Vector3();
 		private int _iCurMinIndex = 0;
@@ -60,7 +59,6 @@ namespace MS
 
 		private void Awake()
 		{
-			_transform = transform;
 			DisTrigger.TriggerCbFunc = PlatOutField;
 		}
 

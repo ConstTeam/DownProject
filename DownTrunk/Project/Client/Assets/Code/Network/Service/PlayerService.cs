@@ -20,7 +20,7 @@ namespace MS
 					ApplicationConst.bGM = data.readBoolean();
 					PlayerData.PlayerId = data.readInt();
 					PlayerData.Nickname = data.readUTF();
-					PlayerData.CurHP = 5;   //Temp
+					PlayerData.CurHP	= 5;   //Temp
 					SceneLoader.LoadScene("MainScene");
 					break;
 				case PLAYER_CUR_SCENE:
@@ -33,9 +33,7 @@ namespace MS
 					PlayerData.Coin = data.readInt();
 					break;
 				case PLAYER_ALL_HEROS:
-					PlayerData.AllHeroState = data.readInt();
-					if(HeroPanel._inst != null && HeroPanel.GetInst().IsActive())
-						HeroPanel.GetInst().OpenPanel();					
+					PlayerData.AllHeroState = data.readInt();				
 					break;
 			}
 		}  

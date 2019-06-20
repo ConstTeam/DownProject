@@ -18,7 +18,6 @@ namespace MS
 		private MsgCallback _OKCallBack;
 		private MsgCallback _CancelCallBack;
 		private string _sSingleMark;
-		private GameObject	_gameObject;
 
 		public static void ShowMsgBox(string sTitle, string sContent, int iType, MsgCallback okCb = null, MsgCallback cancelCb = null, string singleMark = "")
 		{
@@ -39,7 +38,6 @@ namespace MS
 
         private void Awake()
         {
-            _gameObject = gameObject;
             UIOKBtn.onClick.AddListener(OnOKBtn);
             UICancelBtn.onClick.AddListener(OnCancleBtn);
         }
