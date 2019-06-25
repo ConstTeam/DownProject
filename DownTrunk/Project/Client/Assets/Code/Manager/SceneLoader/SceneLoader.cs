@@ -149,10 +149,10 @@ namespace MS
 		{
 			if(scene.name == "BattleScene" && IsSingle)
 			{
+				BattleManager.GetInst().BattleType = 1;
 				BattleManager.GetInst().LoadSingle(0, 123, 30, 100);
 				BattleManager.GetInst().IsBattleRun = true;
 				BattleManager.GetInst().JoyStick.Show(true);
-				BattleManager.GetInst().m_RoleM.RunningState = 1;
 			}
 		}
 	}

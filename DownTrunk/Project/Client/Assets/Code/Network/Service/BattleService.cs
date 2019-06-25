@@ -9,6 +9,7 @@ namespace MS
 		private const int SYNC_HP		= 3;
 		private const int GET_ITEM		= 4;
 		private const int RELEASE_SKILL	= 5;
+		private const int RESULT		= 6;
 
 		public override void ProcessMessage(ConnectBase conn, ByteBuffer data)
 		{
@@ -38,10 +39,10 @@ namespace MS
 				}
 				case START:
 				{
+					BattleManager.GetInst().BattleType = 2;
 					BattleManager.GetInst().IsBattleRun = true;
 					BattleManager.GetInst().JoyStick.Show(true);
 					SocketHandler.GetInst().UdpStart();
-					BattleManager.GetInst().m_RoleM.RunningState = 2;
 					break;
 				}
 				case SYNC_HP:
@@ -67,6 +68,12 @@ namespace MS
 					BattleManager.GetInst().ReleaseSkill(fromId, toId, type);
 					if(!bMain)
 						BattleManager.GetInst().DequeueSkill(fromId);
+					break;
+				}
+				case RESULT:
+				{
+					bool bWin = data.readBoolean();
+					BattleResultPanel.GetInst().ShowPanel(bWin);
 					break;
 				}
 			}

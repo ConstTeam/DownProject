@@ -12,6 +12,7 @@ namespace MS
 		public JoyStick		JoyStick;
 
 		public bool	IsBattleRun { get; set; }
+		public int	BattleType	{ get; set; }
 		public int	RoomId		{ get; set; }
 		public int	Frequency	{ get; set; }
 		public int	Stairs		{ get; set; }
@@ -32,6 +33,7 @@ namespace MS
 		private void Awake()
 		{
 			_inst = this;
+			BattleCam.orthographicSize /= ApplicationConst.screenRatio;
 		}
 
 		private void OnDestroy()
@@ -83,7 +85,7 @@ namespace MS
 			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
 			LoadOther(PositionMgr.vecFieldPosE, others[0], 1);
-			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList() { });
+			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
 
 		public void LoadSix(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
@@ -95,7 +97,7 @@ namespace MS
 			{
 				LoadOther(PositionMgr.vecFieldPosE, others[i], i + 1);
 			}
-			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){ });
+			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
 
 		private void LoadFieldData(bool loadItem)
@@ -111,7 +113,7 @@ namespace MS
 				x = _rand.Next(-5, 6) / 2f;
 				y = lastY - _rand.Next(4, 8) / 2f;
 				type = _rand.Next(0, ApplicationConst.iPlatTypeCount);
-				item = loadItem && _rand.Next(0, 100) < 30 ? Random.Range(1, 3) : 0;
+				item = loadItem && _rand.Next(0, 100) < 10 ? _rand.Next(1, 2) : 0;
 
 				lastY = y;
 				data = new BattleFieldData(x, y, type, item);

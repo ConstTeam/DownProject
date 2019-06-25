@@ -16,6 +16,7 @@ namespace MS
 		public static Hashtable		dictStaticInfo;
 		public static Hashtable		dictStaticText;
 
+		public static float			screenRatio;
 		public static Rect			sceneCamRect;
 		public static float			matchWidthOrHeight;
 
@@ -59,18 +60,14 @@ namespace MS
 
 		private void SetSceneCamRect()
 		{
-			float ratio = (1920f * Screen.height) / (1080f * Screen.width);
-			if(ratio < 1f)
+			screenRatio = (1080f * Screen.width) / (1920f * Screen.height);
+			if(screenRatio > 1f)
 			{
-				ratio = 1f;
+				screenRatio = 1f;
 				matchWidthOrHeight = 1f;
 			}
 			else
-			{
-				ratio = 1f/ratio;
 				matchWidthOrHeight = 0f;
-			}
-			sceneCamRect = new Rect(0f, (1f - ratio) / 2f, 1f, ratio);
 		}
 	}
 }

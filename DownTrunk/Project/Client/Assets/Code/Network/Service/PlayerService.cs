@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace MS
 {
 	public class PlayerService : IService
@@ -10,6 +8,7 @@ namespace MS
 		private const int PLAYER_CUR_SCENE		= 4;
 		private const int PLAYER_STATE_HERO		= 5;
 		private const int PLAYER_STATE_SCENE	= 6;
+		private const int PLAYER_SEARCHING		= 7;
 
 		public override void ProcessMessage(ConnectBase conn, ByteBuffer data)
 		{
@@ -38,6 +37,9 @@ namespace MS
 					break;
 				case PLAYER_STATE_SCENE:
 					PlayerData.StateScene = data.readInt();
+					break;
+				case PLAYER_SEARCHING:
+					SearchingPanel.GetInst().ShowPanel(data.readBoolean());
 					break;
 			}
 		}  

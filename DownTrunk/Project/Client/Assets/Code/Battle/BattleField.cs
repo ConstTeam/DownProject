@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -49,6 +50,15 @@ namespace MS
 
 				for(int i = 0; i < _iCurHp; ++i)
 					HpGos[i].SetActive(true);
+
+				if(_iCurHp == 0)
+				{
+					if(BattleManager.GetInst().BattleType == 2)
+					{
+						BattleManager.GetInst().m_RoleM.Disable();
+						CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_LOSE, new ArrayList() { });
+					}
+				}
 			}
 		}
 

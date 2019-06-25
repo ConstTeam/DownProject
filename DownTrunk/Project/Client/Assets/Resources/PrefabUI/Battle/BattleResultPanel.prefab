@@ -175,8 +175,8 @@ GameObject:
   m_Component:
   - component: {fileID: 224935359859012556}
   - component: {fileID: 222387258260520224}
-  - component: {fileID: 114368045086485774}
   - component: {fileID: 95662355405416594}
+  - component: {fileID: 114222670051296308}
   m_Layer: 5
   m_Name: BattleResultPanel
   m_TagString: Untagged
@@ -315,6 +315,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114222670051296308
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751856940742816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9db30046acb49c46bf05a8c211d45d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BackBtn: {fileID: 114870718447285668}
 --- !u!114 &114263217403253592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -410,7 +422,7 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -604,7 +616,7 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -622,21 +634,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &114368045086485774
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1751856940742816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 247fe9d2eef61574fba5efb0846ba3e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UITitel: {fileID: 114263217403253592}
-  UIContent: {fileID: 0}
-  UIOKBtn: {fileID: 0}
-  UICancelBtn: {fileID: 0}
 --- !u!114 &114503341323285546
 MonoBehaviour:
   m_ObjectHideFlags: 1

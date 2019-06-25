@@ -35,7 +35,7 @@ namespace MS
 		private void OnClickPVP()
 		{
 			SceneLoader.IsSingle = false;
-			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_PVP_REQUEST, new ArrayList() { });
+			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_PVP_REQUEST, new ArrayList(){});
 		}
 
 		public void OnClickSceneBtn()

@@ -17,6 +17,10 @@ namespace MS
 
 		public static void Init()
 		{
+			_dicBoxes.Clear();
+			_dicItems.Clear();
+			_dicSkills.Clear();
+
 			for(int i = 0; i < _iSceneTypeCount; ++i)
 			{
 				for(int j = 0; j < ApplicationConst.iPlatTypeCount; ++j)

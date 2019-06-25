@@ -5,7 +5,6 @@ namespace MS
 {
 	public class BattleHeroM : BattleHeroBase
 	{
-		public int		RunningState	{ get; set; }
 		public float	RunSpeed		{ get; set; }
 		public float	SlipSpeed		{ get; set; }
 
@@ -18,11 +17,16 @@ namespace MS
 		{
 			_boxCollider	= gameObject.GetComponent<BoxCollider>();
 			_rigidbody		= gameObject.GetComponent<Rigidbody2D>();
-			RunningState	= 0;
 			RunSpeed		= 0.04f;
 			SlipSpeed		= 0.02f;
 			_vecRun			= Vector3.right * RunSpeed;
 			_vecSlip		= Vector3.right * SlipSpeed;
+		}
+
+		public void Disable()
+		{
+			_rigidbody.simulated = false;
+			enabled = false;
 		}
 
 		public void RunLeft()
@@ -64,9 +68,9 @@ namespace MS
 			_t += Time.deltaTime;
 			if(_t > 0.025f)
 			{
-				if(RunningState == 1)
+				if(BattleManager.GetInst().BattleType == 1)
 					BattleManager.GetInst().SetFieldPos(++_frame);
-				else if(RunningState == 2)
+				else if(BattleManager.GetInst().BattleType == 2)
 				{
 					_roleX = (int)(m_Transform.localPosition.x * 1000);
 					_roleY = (int)(m_Transform.localPosition.y * 1000);
@@ -130,7 +134,7 @@ namespace MS
 			int curHp = BattleManager.GetInst().GetHp(PlayerData.PlayerId);
 			int newHp = Mathf.Max(0, curHp - reduceValue);
 			BattleManager.GetInst().SyncHp(PlayerData.PlayerId, newHp);
-			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_SYNC_HP, new ArrayList() { (byte)newHp });
+			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_SYNC_HP, new ArrayList(){ (byte)newHp });
 		}
 
 		private void RemovePlat(Collider2D collider)

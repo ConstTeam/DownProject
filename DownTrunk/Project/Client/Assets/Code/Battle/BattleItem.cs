@@ -20,7 +20,7 @@ namespace MS
 				ResourceMgr.PushItem(this);
 				BattleHeroBase hero = collision.GetComponent<BattleHeroBase>();
 				BattleManager.GetInst().EnqueueSkill(hero.PlayerId, Type);
-				CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_GET_ITEM, new ArrayList() { (byte)Type });
+				CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_GET_ITEM, new ArrayList(){ (byte)Type });
 			}
 		}
 	}
