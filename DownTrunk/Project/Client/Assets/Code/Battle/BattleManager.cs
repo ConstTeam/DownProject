@@ -126,14 +126,8 @@ namespace MS
 
 		public void SetFieldPos(int frame)
 		{
-			float y = 0;
-			int t = 0;
-			int f = frame / 100;
-			for(; t < f; ++t)
-				y += 100 * Frequency * 0.001f * (t + 1);
-
 			for(int i = 0; i < _lstFields.Count; ++i)
-				_lstFields[i].SetPos(y + (frame - 100 * f) * Frequency * 0.001f * (t + 1));
+				_lstFields[i].SetPos(frame * Frequency * 0.001f);
 		}
 
 		public void SetRolePos(int playerId, float x, float y)

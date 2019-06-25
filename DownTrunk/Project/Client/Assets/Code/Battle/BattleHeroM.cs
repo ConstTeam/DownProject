@@ -9,36 +9,34 @@ namespace MS
 		public float	RunSpeed		{ get; set; }
 		public float	SlipSpeed		{ get; set; }
 
+		private BoxCollider _boxCollider;
 		private Rigidbody2D	_rigidbody;
-		private Vector3		_vecRunLeft;
-		private Vector3		_vecRunRight;
-		private Vector3		_vecSlipLeft;
-		private Vector3		_vecSlipRight;
+		private Vector3		_vecRun;
+		private Vector3		_vecSlip;
 
 		protected override void OnAwake()
 		{
+			_boxCollider	= gameObject.GetComponent<BoxCollider>();
 			_rigidbody		= gameObject.GetComponent<Rigidbody2D>();
 			RunningState	= 0;
 			RunSpeed		= 0.04f;
 			SlipSpeed		= 0.02f;
-			_vecRunLeft		= Vector3.left * RunSpeed;
-			_vecRunRight	= Vector3.right * RunSpeed;
-			_vecSlipLeft	= Vector3.left * SlipSpeed;
-			_vecSlipRight	= Vector3.right * SlipSpeed;
+			_vecRun			= Vector3.right * RunSpeed;
+			_vecSlip		= Vector3.right * SlipSpeed;
 		}
 
 		public void RunLeft()
 		{
 			_spRenderer.flipX = false;
 			_animType = BattleEnum.RoleAnimType.RunLeft;
-			m_Transform.localPosition += _vecRunLeft;
+			m_Transform.localPosition -= _vecRun;
 		}
 
 		public void RunRight()
 		{
 			_spRenderer.flipX = true;
 			_animType = BattleEnum.RoleAnimType.RunRight;
-			m_Transform.localPosition += _vecRunRight;
+			m_Transform.localPosition += _vecRun;
 		}
 
 		public void Idle()
@@ -49,31 +47,20 @@ namespace MS
 
 		public void MoveLeft()
 		{
-			m_Transform.localPosition += _vecSlipLeft;
+			m_Transform.localPosition -= _vecSlip;
 		}
 
 		public void MoveRight()
 		{
-			m_Transform.localPosition += _vecSlipRight;
+			m_Transform.localPosition += _vecSlip;
 		}
 
 		private int _frame = -1;
 		private int _lastX = 0, _lastY = 0;
 		private int _roleX = 0, _roleY = 0;
 		private float _t = 0f;
-		private RaycastHit2D _hit;
-		private Vector3 _vecOffset = Vector3.left * 0.16f;
 		protected override void OnUpdate()
 		{
-			//Debug.DrawLine(m_Transform.position + _vecOffset, m_Transform.position + _vecOffset + Vector3.down * 0.2f, Color.red);
-			_hit = Physics2D.Raycast(m_Transform.position + _vecOffset, Vector3.down, 0.2f, 1 << LayerMask.NameToLayer("Plat"));
-			if(!CheckHit())
-			{
-				//Debug.DrawLine(m_Transform.position - _vecOffset, m_Transform.position - _vecOffset + Vector3.down * 0.2f, Color.red);
-				_hit = Physics2D.Raycast(m_Transform.position - _vecOffset, Vector3.down, 0.2f, 1 << LayerMask.NameToLayer("Plat"));
-				CheckHit();
-			}
-
 			_t += Time.deltaTime;
 			if(_t > 0.025f)
 			{
@@ -99,40 +86,43 @@ namespace MS
 			}
 		}
 
-		private bool CheckHit()
+		private void OnCollisionEnter2D(Collision2D collision)
 		{
-			if(_hit)
+			CheckEnter(collision.collider);
+		}
+
+		private void OnCollisionStay2D(Collision2D collision)
+		{
+			CheckStay(collision.collider);
+		}
+
+		private void CheckEnter(Collider2D collider)
+		{
+			switch(collider.tag)
 			{
-				Collider2D collider = _hit.collider;	
-				if(collider.CompareTag("Plat1"))
-				{
-					MoveLeft();
-					return true;
-				}
-				else if(collider.CompareTag("Plat2"))
-				{
-					MoveRight();
-					return true;
-				}
-				else if(collider.CompareTag("Plat3"))
-				{
-					collider.tag = "Untagged";
+				case "Plat3":
 					RemovePlat(collider);
-					return true;
-				}
-				else if(collider.CompareTag("Plat4"))
-				{
-					_rigidbody.AddForce(Vector2.up * 100, ForceMode2D.Force);
-					return true;
-				}
-				else if(collider.CompareTag("Plat5"))
-				{
-					collider.tag = "Untagged";
+					break;
+				case "Plat4":
+					_rigidbody.AddForce(Vector2.up * 200, ForceMode2D.Force);
+					break;
+				case "Plat5":
 					ReduceHp(1);
-					return true;
-				}
+					break;
 			}
-			return false;
+		}
+
+		private void CheckStay(Collider2D collider)
+		{
+			switch(collider.tag)
+			{
+				case "Plat1":
+					MoveLeft();
+					break;
+				case "Plat2":
+					MoveRight();
+					break;
+			}
 		}
 
 		public void ReduceHp(int reduceValue)
