@@ -18,6 +18,8 @@ namespace MS
 		[HideInInspector]
 		public Transform Background;
 
+		private Transform _transform;
+
 		public int				PlayerId	{ get; set; }
 		public int				SceneId		{ get; set; }
 		public BattleHeroBase	Hero		{ get; set; }
@@ -69,7 +71,13 @@ namespace MS
 
 		private void Awake()
 		{
+			_transform = transform;
 			DisTrigger.TriggerCbFunc = PlatOutField;
+		}
+
+		public void SetScale(float scale)
+		{
+			_transform.localScale = new Vector3(scale, scale, 1f);
 		}
 
 		public void Load()

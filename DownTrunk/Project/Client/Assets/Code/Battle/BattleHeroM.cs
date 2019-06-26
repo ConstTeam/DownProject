@@ -78,8 +78,7 @@ namespace MS
 					{
 						_lastX = _roleX;
 						_lastY = _roleY;
-						ByteBuffer buff = new ByteBuffer(4);
-						buff.writeInt(BattleManager.GetInst().RoomId);
+						ByteBuffer buff = new ByteBuffer(12);
 						buff.writeInt(PlayerData.PlayerId);
 						buff.writeInt(_roleX);
 						buff.writeInt(_roleY);

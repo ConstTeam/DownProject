@@ -34,7 +34,11 @@ namespace MS
 						player.HP			= 5;
 						others.Add(player);
 					}
-					BattleManager.GetInst().LoadDouble(roomId, seed, frequency, stairs, others);
+					if(size == 1)
+						BattleManager.GetInst().LoadDouble(roomId, seed, frequency, stairs, others);
+					else if(size > 1)
+						BattleManager.GetInst().LoadFive(roomId, seed, frequency, stairs, others);
+
 					break;
 				}
 				case START:

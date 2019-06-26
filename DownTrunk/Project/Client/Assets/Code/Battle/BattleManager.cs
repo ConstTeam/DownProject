@@ -65,6 +65,7 @@ namespace MS
 		public void LoadOther(Vector3 pos, BattlePlayerData other, int index)
 		{
 			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosE).GetComponent<BattleField>();
+			field.SetScale(0.4f);
 			field.InitData(other.PlayerId, index, other.PlayerName, other.SceneId, other.HP);
 			_lstFields.Add(field);
 			_lstFields[field.PlayerIndex].Load();
@@ -88,14 +89,14 @@ namespace MS
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
 
-		public void LoadSix(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
+		public void LoadFive(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
 		{
 			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
 
 			for(int i = 0; i < others.Count; ++i)
 			{
-				LoadOther(PositionMgr.vecFieldPosE, others[i], i + 1);
+				LoadOther(PositionMgr.arrVecFieldPosE[i], others[i], i + 1);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}

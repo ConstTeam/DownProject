@@ -48,7 +48,7 @@ namespace MS
 
 			//--大厅服---------------------------------------------------------------------------------------
 			C2S_LOGIN_LONG				= new ArrayList() { "sssssss",	ModuleDataFirst.MODULE_LOGIN,			(byte)1 };
-			C2S_LOGIN_PVP_REQUEST		= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN,			(byte)2 };
+			C2S_LOGIN_PVP_REQUEST		= new ArrayList() { "c",		ModuleDataFirst.MODULE_LOGIN,			(byte)2 };
 			C2S_LOGIN_PVP_CANCEL		= new ArrayList() { "",			ModuleDataFirst.MODULE_LOGIN,			(byte)3 };
 
 			C2S_PLAYER_SET_HERO			= new ArrayList() { "c",		ModuleDataFirst.MODULE_PLAYER,			(byte)1 };

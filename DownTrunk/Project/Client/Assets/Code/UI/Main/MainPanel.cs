@@ -8,6 +8,8 @@ namespace MS
 	{
 		public Button SingleBtn;
 		public Button PVPBtn;
+		public Button MultiBtn;
+		public Button RacingBtn;
 
 		public Button HeroBtn;
 		public Button SceneBtn;
@@ -19,6 +21,8 @@ namespace MS
 		{
 			SingleBtn.onClick.AddListener(OnClickSingle);
 			PVPBtn.onClick.AddListener(OnClickPVP);
+			MultiBtn.onClick.AddListener(OnClickMulti);
+			RacingBtn.onClick.AddListener(OnClickRacing);
 			HeroBtn.onClick.AddListener(OnClickHeroBtnBtn);
 			SceneBtn.onClick.AddListener(OnClickSceneBtn);
 			//ShopBtn.onClick.AddListener(OnClickPVP);
@@ -35,7 +39,18 @@ namespace MS
 		private void OnClickPVP()
 		{
 			SceneLoader.IsSingle = false;
-			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_PVP_REQUEST, new ArrayList(){});
+			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_PVP_REQUEST, new ArrayList(){ (byte)1 });
+		}
+
+		private void OnClickMulti()
+		{
+			SceneLoader.IsSingle = false;
+			CommonCommand.ExecuteLongMain(Client2ServerList.GetInst().C2S_LOGIN_PVP_REQUEST, new ArrayList(){ (byte)2 });
+		}
+
+		private void OnClickRacing()
+		{
+			SceneLoader.IsSingle = false;
 		}
 
 		public void OnClickSceneBtn()
