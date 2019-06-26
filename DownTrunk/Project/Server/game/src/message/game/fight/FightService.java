@@ -44,6 +44,9 @@ public class FightService extends Servicelet {
 			boolean mainSkill = data.readBoolean();
 			useItem(session, deviceId, playerId, targetId, itemId, mainSkill);
 			break;
+		case FightMsgConst.HERO_DIED:
+			heroDied(session, deviceId, playerId);
+			break;
 		}
 	}
 
@@ -194,6 +197,44 @@ public class FightService extends Servicelet {
 			}
 			room.useItemSync(playerId, targetId, itemId, mainSkill);
 			logger.info("玩家：{}，房间Id：{}，目标玩家：{}，道具：{}，使用道具成功。", playerId, roomId, targetId, itemId);
+		} finally {
+			GameRoomManager.getInstance().getLock().unlock(roomId);
+		}
+	}
+	
+	private void heroDied(ISession session, String deviceId, int playerId) {
+		if (deviceId != null && !LoginService.checkDeviceId(playerId, deviceId, session)) {
+			return;
+		}
+		if (session.attachment() == null) {
+			logger.error("session中player信息已失效。");
+			return;
+		}
+		PlayerInfo playerInfo = (PlayerInfo)session.attachment();
+		if (playerInfo == null) {
+			logger.error("玩家：{}，英雄死亡失败。获取玩家信息失败。", playerId);
+			return;
+		}
+		playerId = playerInfo.getPlayerId();
+		if (playerInfo.getRoomId() == 0) {
+			logger.error("玩家：{}，英雄死亡失败。未在游戏房间内。", playerId);
+			return;
+		}
+		int roomId = playerInfo.getRoomId();
+		
+		GameRoomManager.getInstance().getLock().lock(roomId);
+		try {
+			GameRoom room = GameRoomManager.getInstance().getRoom(roomId);
+			if (room == null) {
+				logger.error("玩家：{}，房间Id：{}，英雄死亡失败。游戏房间不存在。", playerId, roomId);
+				return;
+			}
+			if (!room.isInRoom(playerId)) {
+				logger.error("玩家：{}，房间Id：{}，英雄死亡失败。未在游戏房间内。", playerId, roomId);
+				return;
+			}
+			room.heroDied(playerId);
+			logger.info("玩家：{}，房间Id：{}，英雄死亡。", playerId, roomId);
 		} finally {
 			GameRoomManager.getInstance().getLock().unlock(roomId);
 		}

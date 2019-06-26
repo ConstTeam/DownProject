@@ -84,4 +84,14 @@ public class RoleMsgSend {
 		
 		session.send(data);
 	}
+
+	public static void assignRes(ISession session, boolean res) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		data.writeByte(HallMsgModuleConst.ROLE_RESPONSE);
+		data.writeByte(RoleMsgConst.ASSIGN_RES);
+
+		data.writeBoolean(res);
+		
+		session.send(data);
+	}
 }

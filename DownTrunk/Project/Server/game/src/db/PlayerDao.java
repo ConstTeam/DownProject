@@ -376,11 +376,23 @@ public class PlayerDao {
 	}
 	
 	public static int addScene(int playerId, int sceneId, int gold) {
+		
 		Connection con = ServerManager.gameDBConnect.getDBConnect();
 		if (con == null) { // 数据库连接池已满
 			return -1;
 		}
+		
+		String selectSql = "SELECT * FROM player_scene WHERE player_id = ? AND scene = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
+			pstmt = con.prepareStatement(selectSql);
+			pstmt.setInt(1, playerId);
+			pstmt.setInt(2, sceneId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return -1;
+			}
 			con.setAutoCommit(false);
 			addGold(con, playerId, -gold);
 			addScene(con, playerId, sceneId);
@@ -395,6 +407,10 @@ public class PlayerDao {
 		} finally {
 			try {
 				con.setAutoCommit(true);
+				if (rs != null) {
+					rs.close();
+				}
+				pstmt.close();
 			} catch (SQLException e) {
 				ErrorPrint.print(e);
 			}
@@ -432,7 +448,7 @@ public class PlayerDao {
 			int ids = 0;
 			for (int id : ConfigData.sceneModels.keySet()) {
 				if (roles.get(id) != null) {
-					ids = ids + (1 << id);
+					ids = ids | (1 << id);
 				}
 			}
 			return ids;

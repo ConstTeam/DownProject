@@ -18,6 +18,7 @@ import redis.data.PlayerInfo;
 import sys.GameRoomManager;
 import sys.GameSyncManager;
 import sys.GameTimer;
+import sys.UDPMsgManager;
 import util.ErrorPrint;
 import util.Tools;
 
@@ -61,8 +62,11 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	
 	@Override
 	public int joinGame(PlayerInfo player, ISession session) {
+		if (playState != PLAY_STATE_READY) {
+			return -1;
+		}
 		int playerId = player.getPlayerId();
-		if (players.get(playerId) != null || players.size() >= 2) {
+		if (players.get(playerId) != null || players.size() >= this.templet.maxNum) {
 			return -1;
 		}
 		/*
@@ -84,7 +88,8 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		 */
 		logger.info("玩家：{}，房间Id：{}，加入房间。", playerId, this.roomId);
 		RoomMsgSend.intoRoom(session);
-		if (players.size() == 2) {
+		UDPMsgManager.getInstance().setPlayerRoom(playerId, roomId);
+		if (players.size() == this.templet.maxNum) {
 			gameStart();
 		}
 		return SUCCESS;
@@ -129,7 +134,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 			return;
 		}
 		this.ready.put(playerId, true);
-		if (this.ready.size() == 2) {
+		if (this.ready.size() == this.templet.maxNum) {
 			switch (this.getTemplet().type) {
 			case ROOM_TYPE_PVP:
 				future = GameTimer.getScheduled().schedule(() -> pvpStart(), 3, TimeUnit.SECONDS);
@@ -152,6 +157,31 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		Collection<ISession> sessions = this.sessions.values();
 		FightMsgSend.useItemSync(sessions, playerId, targetId, itemId, mainSkill);
 	}
+
+	public boolean heroDied(int playerId) {
+		BattleRole role = getBattleRole(playerId);
+		if (role == null) {
+			return false;
+		}
+		if (role.isDead()) {
+			return false;
+		}
+		role.setDead(true);
+		
+		int winner = 0;
+		for (BattleRole fighter : this.getBattleRoles().values()) {
+			if (!fighter.isDead()) {
+				if (winner != 0) {
+					return true;
+				}
+				winner = fighter.getPlayerId();
+			}
+		}
+		if (winner != 0) {
+			settlement(winner);
+		}
+		return true;
+	}
 	
 	private void pvpStart() {
 		interruptTimer();
@@ -161,7 +191,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	}
 
 	public boolean isInRoom(int playerId) {
-		return fighters.get(playerId) != null;
+		return getBattleRole(playerId) != null;
 	}
 
 	@Override
@@ -175,6 +205,9 @@ public class GameRoom extends RoomConst implements ISceneAction {
 			return;
 		}
 		try {
+			for (BattleRole fighter : this.getBattleRoles().values()) {
+				FightMsgSend.settlement(this.getSession(fighter.getPlayerId()), fighter.getPlayerId() == playerId);
+			}
 		} catch (Exception e) {
 			ErrorPrint.print(e);
 		} finally {

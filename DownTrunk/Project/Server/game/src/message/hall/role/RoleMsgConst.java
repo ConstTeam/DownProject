@@ -21,4 +21,6 @@ public class RoleMsgConst {
 	public static final int ROLE_LIST_SYNC = 5;
 	/** 同步场景列表 */
 	public static final int SCENE_LIST_SYNC = 6;
+	/** 进入匹配队列结果 */
+	public static final int ASSIGN_RES = 7;
 }

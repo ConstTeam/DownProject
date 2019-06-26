@@ -134,4 +134,19 @@ public class FightMsgSend {
 		S2CMessageSend.sendMultiMessage(sessions, data);
 		logger.debug("{} - {}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.USE_ITEM_SYNC);
 	}
+
+	public static void settlement(ISession session, boolean isWin) {
+		if (session == null || session.isClosed()) {
+			return;
+		}
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		
+		data.writeByte(GameMsgModuleConst.FIGHT_RESPONSE);
+		data.writeByte(FightMsgConst.SETTLEMENT);
+
+		data.writeBoolean(isWin);
+		
+		session.send(data);
+		logger.debug("{} - {} isWin:{}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.SETTLEMENT, isWin);
+	}
 }

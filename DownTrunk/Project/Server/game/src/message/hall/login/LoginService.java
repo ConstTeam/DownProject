@@ -72,8 +72,8 @@ public class LoginService extends Servicelet {
 			break;
 			
 		case LoginMessageConst.ASSIGN_INSTANCE_SERVER:
-//			int deckId = data.readInt();
-			assignServer(session, 0);
+			int deckId = data.readByte();
+			assignServer(session, deckId);
 			break;
 			
 		case LoginMessageConst.CANCEL_ASSIGN:
@@ -152,6 +152,7 @@ public class LoginService extends Servicelet {
 		Player player = (Player)session.attachment();
 		PlayerInfo playerInfo = RedisProxy.getInstance().getPlayerInfo(player.getPlayerId());
 		if (playerInfo == null) {
+			RoleMsgSend.assignRes(session, false);
 			logger.error("玩家：{}，进入匹配队列失败，获取玩家信息失败。", player.getPlayerId());
 			return;
 		}
@@ -164,6 +165,7 @@ public class LoginService extends Servicelet {
 //				return;
 //			}
 			if (!GameRoomAssign.getInstance().addPlayerInfo(playerInfo)) {
+				RoleMsgSend.assignRes(session, false);
 				logger.error("玩家：{}，进入匹配队列失败。", player.getPlayerId());
 				return;
 			}
@@ -172,6 +174,7 @@ public class LoginService extends Servicelet {
 			playerInfo.setAssignTime(assignTime);
 			playerInfo.setDeckId(String.valueOf(deckId));
 			RedisProxy.getInstance().updatePlayerInfo(playerInfo, "deckId");
+			RoleMsgSend.assignRes(session, true);
 		} finally {
 			HallServerOnlineManager.getInstance().getLock().unlock(playerId);
 		}
@@ -213,6 +216,7 @@ public class LoginService extends Servicelet {
 		Player player = (Player)session.attachment();
 		PlayerInfo playerInfo = RedisProxy.getInstance().getPlayerInfo(player.getPlayerId());
 		if (playerInfo == null) {
+			RoleMsgSend.assignRes(session, false);
 			logger.error("玩家：{}，进入匹配队列失败，获取玩家信息失败。", player.getPlayerId());
 			return;
 		}
@@ -223,8 +227,8 @@ public class LoginService extends Servicelet {
 				logger.error("玩家：{}，取消匹配失败。", player.getPlayerId());
 				return;
 			}
-			LoginMessageSend.cancelAssign(session);
 			logger.error("玩家：{}，取消匹配。", player.getPlayerId());
+			RoleMsgSend.assignRes(session, false);
 		} finally {
 			HallServerOnlineManager.getInstance().getLock().unlock(playerId);
 		}

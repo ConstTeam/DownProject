@@ -76,7 +76,7 @@ public class GameSyncManager {
 		players.put(playerId, new DatagramPacket(new byte[0], 0));
 	}
 	
-	public void addData(IByteBuffer data, int roomId, int playerId) {
+	public void addData(IByteBuffer data, int playerId) {
 		synchronized (this.roomId) {
 			logger.debug("·¿¼äId£º{}£¬Íæ¼ÒId£º{}", roomId, playerId);
 			this.data.writeInt(playerId);
