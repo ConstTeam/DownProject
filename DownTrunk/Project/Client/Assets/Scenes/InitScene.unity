@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 431423738}
   - component: {fileID: 431423737}
   - component: {fileID: 431423741}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: Canvas
   m_TagString: Canvas
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 808884652}
   - component: {fileID: 808884655}
   - component: {fileID: 808884653}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: UICamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ Camera:
   m_Depth: 10
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32
+    m_Bits: 2147483648
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 1336072237}
   - component: {fileID: 1336072239}
   - component: {fileID: 1336072238}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: UIRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

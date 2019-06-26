@@ -7,7 +7,6 @@ namespace MS
 {
 	public class SceneLoader : MonoBehaviour
 	{
-		public GameObject DarkBg;
 		public GameObject BG;
 		public Text ProgressTxt;
 
@@ -93,9 +92,7 @@ namespace MS
 			if(_sCurSceneName == "BattleScene") return;
 			_sCurSceneName = "BattleScene";
 
-			_inst.DarkBg.SetActive(true);
 			SceneManager.LoadScene("BattleScene", LoadSceneMode.Additive);
-			_inst.DarkBg.SetActive(false);
 		}
 
 		public static void UnloadBattleScene()

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224000011041804370}
   - component: {fileID: 222000014081294454}
   - component: {fileID: 114000011048836446}
-  m_Layer: 22
+  m_Layer: 31
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 224000011160002756}
   - component: {fileID: 222000011537933222}
   - component: {fileID: 114000010325642790}
-  m_Layer: 22
+  m_Layer: 31
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224000010709158996}
-  m_Layer: 22
+  m_Layer: 31
   m_Name: BorderPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

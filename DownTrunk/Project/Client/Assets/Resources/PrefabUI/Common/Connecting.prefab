@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224000010115582258}
   - component: {fileID: 222000011291944396}
   - component: {fileID: 114000010649561390}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: Ani
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114000011157878768}
   - component: {fileID: 65448860341678034}
   - component: {fileID: 114181654807132316}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: Connecting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 224000010150603528}
   - component: {fileID: 222000013902137798}
   - component: {fileID: 114000013710588764}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
