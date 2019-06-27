@@ -411,8 +411,8 @@ public class RedisProxy {
 	public RoomInfo addRoomInfo(TempletBase templet, String serverId) {
 		RoomInfo roomInfo = new RoomInfo(serverId);
 		roomInfo.randomRoomId();
-		roomInfo.setArg1(templet.arg1);
 		roomInfo.setType(templet.type);
+		roomInfo.setArg1(templet.assignType);
 		
 		Jedis jedis = redisSession.getJedis();
 		if (jedis != null) {

@@ -354,7 +354,7 @@ public class ByteBuffer implements Cloneable, IByteBuffer {
 			char c = s.charAt(k);
 			if (c < 0x007F)
 				j++;
-			else if (c > 0x07FF)
+			else if (c > 0x007F)
 				j += 3;
 			else {
 				j += 2;
