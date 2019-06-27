@@ -12,7 +12,6 @@ namespace MS
 				if(BattleManager.GetInst().BattleType == 2)
 				{
 					BattleManager.GetInst().m_RoleM.Disable();
-					Debug.Log("BattleColliderBottom");
 					CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { });
 				}
 			}	

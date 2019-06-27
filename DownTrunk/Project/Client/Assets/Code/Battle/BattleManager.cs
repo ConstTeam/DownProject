@@ -17,8 +17,11 @@ namespace MS
 		public int	Frequency	{ get; set; }
 		public int	Stairs		{ get; set; }
 
-		private Dictionary<int, int> _dicPlayerIndex = new Dictionary<int, int>();
-		private List<BattleField> _lstFields = new List<BattleField>();
+		public Dictionary<int, BattleHeroBase>  m_dicHeros = new Dictionary<int, BattleHeroBase>(); 
+
+		private Dictionary<int, int>			_dicPlayerIndex	= new Dictionary<int, int>();
+		private Dictionary<int, BattleField>	_dicField		= new Dictionary<int, BattleField>();
+		private Dictionary<int, BattleHeroInfo>	_dicHeroInfo	= new Dictionary<int, BattleHeroInfo>();
 		public BattleHeroM m_RoleM;
 
 		private System.Random _rand;
@@ -52,27 +55,31 @@ namespace MS
 
 		public void LoadMy(Vector3 pos)
 		{
+			int playerId = PlayerData.PlayerId, index = 0;
+			_dicPlayerIndex.Add(playerId, index);
+
 			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, pos).GetComponent<BattleField>();
-			field.InitData(PlayerData.PlayerId, 0, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP);
-			_lstFields.Add(field);
-			_lstFields[field.PlayerIndex].Load();
-			_dicPlayerIndex.Add(PlayerData.PlayerId, field.PlayerIndex);
-			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _lstFields[0].ForegroundTran).GetComponent<BattleHeroM>();
-			m_RoleM.Init(PlayerData.PlayerId, PlayerData.CurHero);
-			_lstFields[field.PlayerIndex].SetHero(m_RoleM);
+			field.Load(playerId, PlayerData.CurScene);
+			_dicField.Add(playerId, field);
+
+			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _dicField[0].ForegroundTran).GetComponent<BattleHeroM>();
+			m_RoleM.Init(playerId, PlayerData.CurHero);
+			m_dicHeros.Add(playerId, m_RoleM);
 		}
 
 		public void LoadOther(Vector3 pos, BattlePlayerData other, int index, float scale)
 		{
+			int playerId = other.PlayerId;
+			_dicPlayerIndex.Add(playerId, index);
+
 			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, pos).GetComponent<BattleField>();
 			field.SetScale(scale);
-			field.InitData(other.PlayerId, index, other.PlayerName, other.SceneId, other.HP);
-			_lstFields.Add(field);
-			_lstFields[field.PlayerIndex].Load();
-			_dicPlayerIndex.Add(other.PlayerId, field.PlayerIndex);
-			BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _lstFields[index].ForegroundTran).GetComponent<BattleHeroBase>();
-			heroE.Init(other.PlayerId, other.HeroId);
-			_lstFields[field.PlayerIndex].SetHero(heroE);
+			field.Load(playerId, other.SceneId);
+			_dicField.Add(playerId, field);
+
+			BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[index].ForegroundTran).GetComponent<BattleHeroBase>();
+			heroE.Init(playerId, other.HeroId);
+			m_dicHeros.Add(playerId, heroE);
 		}
 
 		public void LoadSingle(int roomId, int seed, int frequency, int stairs)
@@ -97,6 +104,20 @@ namespace MS
 			for(int i = 0; i < others.Count; ++i)
 			{
 				LoadOther(PositionMgr.arrVecFieldPosE[i], others[i], i + 1, 0.4f);
+			}
+			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
+		}
+
+		public void LoadRacing(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
+		{
+			SetData(roomId, seed, frequency, stairs, false);
+			LoadMy(Vector3.zero);
+			for(int i = 0; i < others.Count; ++i)
+			{
+				_dicPlayerIndex.Add(others[i].PlayerId, 0);
+				BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[0].ForegroundTran).GetComponent<BattleHeroBase>();
+				heroE.Init(others[i].PlayerId, others[i].HeroId);
+				m_dicHeros.Add(heroE.PlayerId, heroE);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
@@ -129,49 +150,49 @@ namespace MS
 
 		public void SetFieldPos(int frame)
 		{
-			for(int i = 0; i < _lstFields.Count; ++i)
-				_lstFields[i].SetPos(frame * Frequency * 0.001f);
+			for(int i = 0; i < _dicField.Count; ++i)
+				_dicField[i].SetPos(frame * Frequency * 0.001f);
 		}
 
 		public void SetRolePos(int playerId, float x, float y)
 		{
 			if(PlayerData.PlayerId != playerId)
-				_lstFields[_dicPlayerIndex[playerId]].Hero.SetPos(x, y);
+				m_dicHeros[playerId].SetPos(x, y);
 		}
 
 		public void RemovePlat(int playerId, BattlePlat plat)
 		{
-			_lstFields[_dicPlayerIndex[playerId]].RemovePlat(plat);
+			_dicField[_dicPlayerIndex[playerId]].RemovePlat(plat);
 		}
 
 		public void SyncHp(int playerId, int hp)
 		{
-			_lstFields[_dicPlayerIndex[playerId]].CurHP = hp;
+			//_lstFields[_dicPlayerIndex[playerId]].CurHP = hp;
 		}
 
 		public int GetHp(int playerId)
 		{
-			return _lstFields[_dicPlayerIndex[playerId]].CurHP;
+			return 0;//_lstFields[_dicPlayerIndex[playerId]].CurHP;
 		}
 
 		public void EnqueueSkill(int playerId, int skillType)
 		{
-			_lstFields[_dicPlayerIndex[playerId]].EnqueueSkill(skillType);
+			_dicField[_dicPlayerIndex[playerId]].EnqueueSkill(skillType);
 		}
 
 		public void DequeueSkill(int playerId)
 		{
-			_lstFields[_dicPlayerIndex[playerId]].DequeueSkill();
+			_dicField[_dicPlayerIndex[playerId]].DequeueSkill();
 		}
 
 		public int GetPlayerIdByIndex(int index)
 		{
-			return _lstFields[index].PlayerId;
+			return _dicField[index].PlayerId;
 		}
 
 		public void SetFailed(int playerId)
 		{
-			_lstFields[_dicPlayerIndex[playerId]].IsFailed = true;
+			_dicField[_dicPlayerIndex[playerId]].IsFailed = true;
 		}
 
 		#region --Skill----------------------------------------------------------
@@ -180,16 +201,16 @@ namespace MS
 			switch(type)
 			{
 				case 0:
-					_lstFields[_dicPlayerIndex[toId]].ChangePlatType(3, 0);
+					_dicField[_dicPlayerIndex[toId]].ChangePlatType(3, 0, m_dicHeros[toId]);
 					break;
 				case 1:
-					_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(1);
+					//_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(1);
 					break;
 				case 2:
-					_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(-1);
+					//_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(-1);
 					break;
 				case 3:
-					_lstFields[_dicPlayerIndex[toId]].ChangePlatScale(5);
+					_dicField[_dicPlayerIndex[toId]].ChangePlatScale(5, m_dicHeros[toId]);
 					break;
 			}
 			

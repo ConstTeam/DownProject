@@ -10,10 +10,8 @@ namespace MS
 		public Transform			SpriteMaskTran;
 		public Transform			ForegroundTran;
 		public Transform			SkillBarTran;
-		public TextMeshPro			PlayerIndexText;
-		public TextMesh				PlayerNameText;
 		public GameObject			FailedTextGo;
-		public GameObject[]			HpGos;
+		
 		public BattleColliderTop	DisTrigger;
 
 		[HideInInspector]
@@ -21,9 +19,8 @@ namespace MS
 
 		private Transform _transform;
 
-		public int				PlayerId	{ get; set; }
-		public int				SceneId		{ get; set; }
-		public BattleHeroBase	Hero		{ get; set; }
+		public int	PlayerId	{ get; set; }
+		public int	SceneId		{ get; set; }
 
 		private bool _bFailed;
 		public bool	IsFailed
@@ -31,46 +28,6 @@ namespace MS
 			get { return _bFailed; }
 			set { _bFailed = value; FailedTextGo.SetActive(value); }
 				
-		}
-
-		private string _sPlayerName;
-		public string PlayerName
-		{
-			get { return _sPlayerName; }
-			set { _sPlayerName = value; PlayerNameText.text = value; }
-		}
-
-		private int _sPlayerIndex;
-		public int PlayerIndex
-		{
-			get { return _sPlayerIndex; }
-			set { _sPlayerIndex = value; PlayerIndexText.text = (value + 1).ToString(); }
-		}
-
-		public int MaxHP { get; set; }
-
-		private int _iCurHp;
-		public int CurHP
-		{
-			get { return _iCurHp; }
-			set
-			{
-				_iCurHp = Mathf.Min(value, MaxHP);
-				for(int i = 0; i < HpGos.Length; ++i)
-					HpGos[i].SetActive(false);
-
-				for(int i = 0; i < _iCurHp; ++i)
-					HpGos[i].SetActive(true);
-
-				if(_iCurHp == 0)
-				{
-					if(BattleManager.GetInst().BattleType == 2 && PlayerId == PlayerData.PlayerId)
-					{
-						BattleManager.GetInst().m_RoleM.Disable();
-						CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { });
-					}
-				}
-			}
 		}
 
 		private Material _matBg;
@@ -90,29 +47,18 @@ namespace MS
 			_transform.localScale = new Vector3(scale, scale, 1f);
 		}
 
-		public void Load()
+		public void Load(int playerId, int sceneId)
 		{
+			PlayerId = playerId;
+			SceneId = sceneId;
+
 			ResourceLoader.LoadAssetAndInstantiate(string.Format("Prefab/Scene/{0}/Nails", SceneId), SpriteMaskTran);
 			Background = ResourceLoader.LoadAssetAndInstantiate(string.Format("Prefab/Scene/{0}/Background", SceneId), SpriteMaskTran).GetComponent<Transform>();
 			_matBg = Background.GetComponent<SpriteRenderer>().material;
-			for (int i = 0; i < 30; ++i)
+			for(int i = 0; i < 30; ++i)
 				AddPlat();
-		}
 
-		public void InitData(int playerId, int playerIndex, string playerName, int sceneId, int hp)
-		{
-			PlayerId	= playerId;
-			PlayerIndex	= playerIndex;
-			PlayerName	= playerName;
-			SceneId		= sceneId;
-			MaxHP		= hp;
-			CurHP		= hp;
-		}
-
-		public void SetHero(BattleHeroBase hero)
-		{
-			Hero = hero;
-			SetMainSkill(Hero.HeroId);
+			SetMainSkill(PlayerId);
 		}
 
 		public void SetPos(float y)
@@ -168,7 +114,7 @@ namespace MS
 		}
 
 		#region --Skill------------------------------------------------------------------
-		public void SetMainSkill(int skillId)
+		private void SetMainSkill(int skillId)
 		{
 			BattleSkillBtn skill = ResourceMgr.PopSkill(skillId);
 			skill.IsMainSkill = true;
@@ -207,9 +153,9 @@ namespace MS
 		}
 
 		//------
-		public void ChangePlatType(int count, int type)
+		public void ChangePlatType(int count, int type, BattleHeroBase hero)
 		{
-			float curHeroY = Hero.m_Transform.localPosition.y;
+			float curHeroY = hero.m_Transform.localPosition.y;
 			for(int i = _iCurMinIndex; i < count; ++i)
 			{
 				if(_dicPlat.ContainsKey(i))
@@ -221,9 +167,9 @@ namespace MS
 		}
 
 		private Vector3 _vecScale = new Vector3(0.5f, 1f, 1f);
-		public void ChangePlatScale(int count)
+		public void ChangePlatScale(int count, BattleHeroBase hero)
 		{
-			float curHeroY = Hero.m_Transform.localPosition.y;
+			float curHeroY = hero.m_Transform.localPosition.y;
 			for(int i = _iCurMinIndex; i < count; ++i)
 			{
 				if(_dicPlat.ContainsKey(i))
@@ -232,11 +178,6 @@ namespace MS
 						_dicPlat[i].m_Transform.localScale = _vecScale;
 				}
 			}
-		}
-
-		public void ChangeHeroHp(int changeValue)
-		{
-			CurHP += changeValue;
 		}
 		#endregion
 	}

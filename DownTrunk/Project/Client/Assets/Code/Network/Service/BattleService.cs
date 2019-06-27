@@ -19,11 +19,12 @@ namespace MS
 			{
 				case LOAD:
 				{
-					int roomId = data.readInt();
-					int seed = data.readInt();
-					int frequency = data.readByte();
-					int stairs = data.readInt();
-					int size = data.readByte();
+					int type		= data.readByte();
+					int roomId		= data.readInt();
+					int seed		= data.readInt();
+					int frequency	= data.readByte();
+					int stairs		= data.readInt();
+					int size		= data.readByte();
 					List<BattlePlayerData> others = new List<BattlePlayerData>();
 					for(int i = 0; i < size; ++i)
 					{
@@ -35,10 +36,12 @@ namespace MS
 						player.HP			= 5;
 						others.Add(player);
 					}
-					if(size == 1)
+					if(type == 1)
 						BattleManager.GetInst().LoadDouble(roomId, seed, frequency, stairs, others);
-					else if(size > 1)
+					else if(type == 2)
 						BattleManager.GetInst().LoadFive(roomId, seed, frequency, stairs, others);
+					else if(type == 3)
+						BattleManager.GetInst().LoadRacing(roomId, seed, frequency, stairs, others);
 
 					break;
 				}
