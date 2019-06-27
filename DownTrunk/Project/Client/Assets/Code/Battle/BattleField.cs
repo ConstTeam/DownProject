@@ -12,6 +12,7 @@ namespace MS
 		public Transform			SkillBarTran;
 		public TextMeshPro			PlayerIndexText;
 		public TextMesh				PlayerNameText;
+		public GameObject			FailedTextGo;
 		public GameObject[]			HpGos;
 		public BattleColliderTop	DisTrigger;
 
@@ -23,6 +24,14 @@ namespace MS
 		public int				PlayerId	{ get; set; }
 		public int				SceneId		{ get; set; }
 		public BattleHeroBase	Hero		{ get; set; }
+
+		private bool _bFailed;
+		public bool	IsFailed
+		{
+			get { return _bFailed; }
+			set { _bFailed = value; FailedTextGo.SetActive(value); }
+				
+		}
 
 		private string _sPlayerName;
 		public string PlayerName
@@ -55,10 +64,10 @@ namespace MS
 
 				if(_iCurHp == 0)
 				{
-					if(BattleManager.GetInst().BattleType == 2)
+					if(BattleManager.GetInst().BattleType == 2 && PlayerId == PlayerData.PlayerId)
 					{
 						BattleManager.GetInst().m_RoleM.Disable();
-						CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_LOSE, new ArrayList() { });
+						CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { });
 					}
 				}
 			}
@@ -73,6 +82,7 @@ namespace MS
 		{
 			_transform = transform;
 			DisTrigger.TriggerCbFunc = PlatOutField;
+			IsFailed = false;
 		}
 
 		public void SetScale(float scale)
@@ -107,6 +117,9 @@ namespace MS
 
 		public void SetPos(float y)
 		{
+			if(IsFailed)
+				return;
+
 			_tempPos.y = y;
 			ForegroundTran.localPosition = _tempPos;
 
@@ -139,6 +152,7 @@ namespace MS
 			plat.Y = field.Y;
 			plat.m_Transform.SetParent(ForegroundTran);
 			plat.m_Transform.localPosition = new Vector3(field.X, field.Y, 0f);
+			plat.m_Transform.localScale = Vector3.one;
 			if(field.Item > 0)
 			{
 				string itemId = ConfigData.GetValue("Scene_Common", SceneId.ToString(), string.Format("Item{0}", field.Item));
@@ -159,6 +173,7 @@ namespace MS
 			BattleSkillBtn skill = ResourceMgr.PopSkill(skillId);
 			skill.IsMainSkill = true;
 			skill.m_Transform.SetParent(SkillBarTran);
+			skill.SetToLargerScale();
 			skill.SetPosImmediately(-4.7f);
 		}
 

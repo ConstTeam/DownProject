@@ -42,6 +42,7 @@ namespace MS
 			SceneLoaderMain.GetInst().DestroyBattleUI();
 			SceneLoader.UnloadBattleScene();
 			SearchingPanel.GetInst().ShowPanel(false);
+			ResourceMgr.Clear();
 		}
 	}
 }

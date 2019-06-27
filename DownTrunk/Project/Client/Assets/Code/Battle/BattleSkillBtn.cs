@@ -9,6 +9,7 @@ namespace MS
 		private Animation _anim;
 		private Vector3 _vecTemp = new Vector3();
 		private Vector3 _oriScale = new Vector3(1.5f, 1.5f, 1f);
+		private Vector3 _largerScale = new Vector3(1.8f, 1.8f, 1f);
 		private Ray _ray;
 		private RaycastHit _hit;
 
@@ -41,6 +42,11 @@ namespace MS
 			_anim["SkillBtn2"].time = _anim["SkillBtn2"].length;
 			_anim["SkillBtn2"].speed = -1;
 			_anim.Play("SkillBtn2");
+		}
+
+		public void SetToLargerScale()
+		{
+			m_Transform.localScale = _largerScale;
 		}
 
 		public void SetToOriScale()

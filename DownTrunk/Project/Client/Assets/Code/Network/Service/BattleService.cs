@@ -10,6 +10,7 @@ namespace MS
 		private const int GET_ITEM		= 4;
 		private const int RELEASE_SKILL	= 5;
 		private const int RESULT		= 6;
+		private const int HERO_FAILED	= 7;
 
 		public override void ProcessMessage(ConnectBase conn, ByteBuffer data)
 		{
@@ -78,6 +79,12 @@ namespace MS
 				{
 					bool bWin = data.readBoolean();
 					BattleResultPanel.GetInst().ShowPanel(bWin);
+					break;
+				}
+				case HERO_FAILED:
+				{
+					int playerId = data.readInt();
+					BattleManager.GetInst().SetFailed(playerId);
 					break;
 				}
 			}

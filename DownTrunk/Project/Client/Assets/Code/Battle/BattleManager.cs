@@ -62,10 +62,10 @@ namespace MS
 			_lstFields[field.PlayerIndex].SetHero(m_RoleM);
 		}
 
-		public void LoadOther(Vector3 pos, BattlePlayerData other, int index)
+		public void LoadOther(Vector3 pos, BattlePlayerData other, int index, float scale)
 		{
-			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, PositionMgr.vecFieldPosE).GetComponent<BattleField>();
-			field.SetScale(0.4f);
+			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, pos).GetComponent<BattleField>();
+			field.SetScale(scale);
 			field.InitData(other.PlayerId, index, other.PlayerName, other.SceneId, other.HP);
 			_lstFields.Add(field);
 			_lstFields[field.PlayerIndex].Load();
@@ -85,7 +85,7 @@ namespace MS
 		{
 			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
-			LoadOther(PositionMgr.vecFieldPosE, others[0], 1);
+			LoadOther(PositionMgr.vecFieldPosE, others[0], 1, 0.8f);
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
 
@@ -96,7 +96,7 @@ namespace MS
 
 			for(int i = 0; i < others.Count; ++i)
 			{
-				LoadOther(PositionMgr.arrVecFieldPosE[i], others[i], i + 1);
+				LoadOther(PositionMgr.arrVecFieldPosE[i], others[i], i + 1, 0.4f);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
@@ -167,6 +167,11 @@ namespace MS
 		public int GetPlayerIdByIndex(int index)
 		{
 			return _lstFields[index].PlayerId;
+		}
+
+		public void SetFailed(int playerId)
+		{
+			_lstFields[_dicPlayerIndex[playerId]].IsFailed = true;
 		}
 
 		#region --Skill----------------------------------------------------------

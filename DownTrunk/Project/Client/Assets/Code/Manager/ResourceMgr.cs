@@ -17,10 +17,7 @@ namespace MS
 
 		public static void Init()
 		{
-			_dicBoxes.Clear();
-			_dicItems.Clear();
-			_dicSkills.Clear();
-
+			Clear();
 			for(int i = 0; i < _iSceneTypeCount; ++i)
 			{
 				for(int j = 0; j < ApplicationConst.iPlatTypeCount; ++j)
@@ -34,6 +31,13 @@ namespace MS
 			{
 				_skills[i] = ResourceLoader.LoadAssets(string.Format("Prefab/SkillBtn/{0}", i));
 			}
+		}
+
+		public static void Clear()
+		{
+			_dicBoxes.Clear();
+			_dicItems.Clear();
+			_dicSkills.Clear();
 		}
 
 		public static BattlePlat PopBox(int scene, int type)

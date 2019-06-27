@@ -7,6 +7,7 @@ namespace MS
 		private GameObject _gameObject;
 		private Vector2 _beginPos;
 		private float _fDis;
+		private float _fLastDis;
 
 		private void Awake()
 		{
@@ -22,21 +23,44 @@ namespace MS
 		private void OnMouseDown()
 		{
 			_beginPos = Input.mousePosition;
+			_fLastDis = 0;
 		}
 
+		private int _iDirection = 0;
 		private void OnMouseDrag()
 		{
-			_fDis = Input.mousePosition.x - _beginPos.x;
-			if(_fDis < -10)
-				BattleManager.GetInst().m_RoleM.RunLeft();
-			else if(_fDis > 10)
-				BattleManager.GetInst().m_RoleM.RunRight();
+			_fDis = Input.mousePosition.x - _beginPos.x;	
+			if(_fDis * _fLastDis <= 0)
+			{
+				if(_fDis < -10)
+				{
+					_iDirection = -1;
+					_beginPos = Input.mousePosition;
+					_fLastDis = _fDis;
+				}
+				else if(_fDis > 10)
+				{
+					_iDirection = 1;
+					_beginPos = Input.mousePosition;
+					_fLastDis = _fDis;
+				}
+			}
 			else
-				BattleManager.GetInst().m_RoleM.Idle();
+			{
+				_beginPos = Input.mousePosition;
+				_fLastDis = _fDis;
+			}
+			
+			if(_iDirection == -1)
+				BattleManager.GetInst().m_RoleM.RunLeft();
+			else if(_iDirection == 1)
+				BattleManager.GetInst().m_RoleM.RunRight();
 		}
 
 		private void OnMouseUp()
 		{
+			_iDirection = 0;
+			_fLastDis = 0;
 			BattleManager.GetInst().m_RoleM.Idle();
 		}
 	}
