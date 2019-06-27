@@ -27,7 +27,7 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 		this.setPlayerId(playerId);
 		this.setUid(uid);
 		this.setHp(hp);
-		this.setNickname(nickname);
+		this.setNickname(String.valueOf(playerId));
 	}
 	
 	public void addHp(int defence) {

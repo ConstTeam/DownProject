@@ -31,6 +31,8 @@ public class FightMsgConst {
 	public static final int USE_ITEM_SYNC = 5;
 	/** 结算信息 */
 	public static final int SETTLEMENT = 6;
+	/** 英雄死亡同步 */
+	public static final int HERO_DIED_SYNC = 7;
 
 	/** 提示消息 */
 	public static final int MSG_BOX = 14;

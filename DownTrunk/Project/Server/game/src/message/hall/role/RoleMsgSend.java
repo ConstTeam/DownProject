@@ -28,7 +28,7 @@ public class RoleMsgSend {
 		
 		data.writeBoolean(GMHallService.gmPanel(platform, player.getDeviceId()));
 		data.writeInt(player.getPlayerId());
-		data.writeUTF(player.getNickname());
+		data.writeUTF(String.valueOf(player.getPlayerId()));
 		data.writeInt(player.getGold());
 		data.writeUTF(player.getIcon());
 		

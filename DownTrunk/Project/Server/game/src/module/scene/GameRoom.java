@@ -31,12 +31,12 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	/** 房主 */
 	private int owner;
 	/** 房间状态 */
-	private int state = ROOM_STATE_PLAYING;
+	private int state = ROOM_STATE_JOIN;
 	/** 房间状态 */
 	private int playState = PLAY_STATE_READY;
 	/** 回合数 */
 	private int round = 0;
-
+	
 	/** 玩家Session列表<玩家id, ISession> */
 	private HashMap<Integer, ISession> sessions = new HashMap<>();
 	/** 玩家表 <玩家id, Player> */
@@ -62,7 +62,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	
 	@Override
 	public int joinGame(PlayerInfo player, ISession session) {
-		if (playState != PLAY_STATE_READY) {
+		if (state != ROOM_STATE_JOIN) {
 			return -1;
 		}
 		int playerId = player.getPlayerId();
@@ -110,6 +110,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	@Override
 	public void gameStart() {
 		logger.info("房间Id：{}，准备开始游戏。", this.roomId);
+		state = ROOM_STATE_READY;
 		playState = PLAY_STATE_START;
 		
 		switch (this.getTemplet().type) {
@@ -133,8 +134,12 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		if (this.ready.get(playerId) != null) {
 			return;
 		}
+		if (state != ROOM_STATE_READY) {
+			return;
+		}
 		this.ready.put(playerId, true);
-		if (this.ready.size() == this.templet.maxNum) {
+		if (this.ready.size() == this.players.size()) {
+			state = ROOM_STATE_PLAYING;
 			switch (this.getTemplet().type) {
 			case ROOM_TYPE_PVP:
 				future = GameTimer.getScheduled().schedule(() -> pvpStart(), 3, TimeUnit.SECONDS);
@@ -157,6 +162,11 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		Collection<ISession> sessions = this.sessions.values();
 		FightMsgSend.useItemSync(sessions, playerId, targetId, itemId, mainSkill);
 	}
+	
+	public void heroDiedSync(int playerId) {
+		Collection<ISession> sessions = this.sessions.values();
+		FightMsgSend.heroDiedSync(sessions, playerId);
+	}
 
 	public boolean heroDied(int playerId) {
 		BattleRole role = getBattleRole(playerId);
@@ -167,6 +177,8 @@ public class GameRoom extends RoomConst implements ISceneAction {
 			return false;
 		}
 		role.setDead(true);
+		
+		heroDiedSync(playerId);
 		
 		int winner = 0;
 		for (BattleRole fighter : this.getBattleRoles().values()) {
@@ -201,12 +213,13 @@ public class GameRoom extends RoomConst implements ISceneAction {
 
 	@Override
 	public void settlement(int playerId) {
-		if (getState() == ROOM_DESTORY) {
+		if (getState() == ROOM_DESTORY || getState() == ROOM_STATE_END) {
 			return;
 		}
+		state = ROOM_STATE_END;
 		try {
 			for (BattleRole fighter : this.getBattleRoles().values()) {
-				FightMsgSend.settlement(this.getSession(fighter.getPlayerId()), fighter.getPlayerId() == playerId);
+				FightMsgSend.settlement(this.getSession(fighter.getPlayerId()), fighter.getPlayerId(), fighter.getPlayerId() == playerId);
 			}
 		} catch (Exception e) {
 			ErrorPrint.print(e);

@@ -120,6 +120,11 @@ public class RedisProxy {
 	private static final String PLAYER_MATCHING_KEY = "player_matching";
 	
 	/**
+	 * 匹配队列
+	 */
+	private static final String MATCHING_QUEUE_KEY = "matching_queue";
+	
+	/**
 	 * 玩家指引信息
 	 */
 	private static final String PLAYER_GUIDE_KEY = "player_guide_info";
@@ -1161,30 +1166,6 @@ public class RedisProxy {
 		return null;
 	}
 
-	/*
-	 * 获取最先进入匹配列表里的玩家
-	 */
-	public Integer getPlayerMatchingList(int playerId) {
-		Jedis jedis = redisSession.getJedis();
-		if (jedis != null) {
-			try {
-				Set<String> hkeys = jedis.hkeys(PLAYER_MATCHING_KEY);
-				for (String id : hkeys) {
-					int pid = Integer.parseInt(id);
-					if (pid != playerId) {
-						return pid;
-					}
-				}
-				return null;
-			} catch (Exception e) {
-				ErrorPrint.print(e);
-			} finally {
-				jedis.close();
-			}
-		}
-		return null;
-	}
-	
 	public boolean addPlayerMatching(int playerId) {
 		Jedis jedis = redisSession.getJedis();
 		if (jedis != null) {
@@ -1213,6 +1194,60 @@ public class RedisProxy {
 			}
 		}
 		return -1l;
+	}
+
+	public boolean addPlayerInMatchingQueue(int playerId, int type) {
+		Jedis jedis = redisSession.getJedis();
+		if (jedis != null) {
+			try {
+				String key = String.format("%s:%d", MATCHING_QUEUE_KEY, type);
+				Long res = jedis.hsetnx(key, String.valueOf(playerId), String.valueOf(Calendar.getInstance().getTimeInMillis()));
+				return res == 1;
+			} catch (Exception e) {
+				ErrorPrint.print(e);
+			} finally {
+				jedis.close();
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * 获取匹配列表里的玩家
+	 */
+	public ArrayList<Integer> getPlayerMatchingList(int type) {
+		ArrayList<Integer> result = new ArrayList<>();
+		Jedis jedis = redisSession.getJedis();
+		if (jedis != null) {
+			try {
+				String key = String.format("%s:%d", MATCHING_QUEUE_KEY, type);
+				Set<String> hkeys = jedis.hkeys(key);
+				for (String id : hkeys) {
+					int pid = Integer.parseInt(id);
+					result.add(pid);
+				}
+				return result;
+			} catch (Exception e) {
+				ErrorPrint.print(e);
+			} finally {
+				jedis.close();
+			}
+		}
+		return result;
+	}
+	
+	public void removePlayerInMatchingQueue(int playerId, int type) {
+		Jedis jedis = redisSession.getJedis();
+		if (jedis != null) {
+			try {
+				String key = String.format("%s:%d", MATCHING_QUEUE_KEY, type);
+				jedis.hdel(key, String.valueOf(playerId));
+			} catch (Exception e) {
+				ErrorPrint.print(e);
+			} finally {
+				jedis.close();
+			}
+		}
 	}
 	
 	public boolean savePlayerGuide(int playerId) {

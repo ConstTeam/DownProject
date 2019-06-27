@@ -73,6 +73,7 @@ public class GameRoomManager {
 		switch (roomType) {
 		case RoomConst.ROOM_TYPE_PVP:
 			templet = new PVPTemplet();
+			templet.maxNum = roomInfo.getArg1();
 			gameRoom.setTemplet(templet);
 			break;
 		}

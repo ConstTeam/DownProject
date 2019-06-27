@@ -72,8 +72,8 @@ public class LoginService extends Servicelet {
 			break;
 			
 		case LoginMessageConst.ASSIGN_INSTANCE_SERVER:
-			int deckId = data.readByte();
-			assignServer(session, deckId);
+			int assignType = data.readByte();
+			assignServer(session, assignType);
 			break;
 			
 		case LoginMessageConst.CANCEL_ASSIGN:
@@ -143,7 +143,7 @@ public class LoginService extends Servicelet {
 		login(platformId, deviceId, session, platform, channel, uuid, logStr, nickname, icon, sex, unionId);
 	}
 	
-	private void assignServer(ISession session, int deckId) {
+	private void assignServer(ISession session, int assignType) {
 		
 		if (session.attachment() == null) {
 			logger.error("session中player信息已失效。");
@@ -159,21 +159,16 @@ public class LoginService extends Servicelet {
 		int playerId = playerInfo.getPlayerId();
 		HallServerOnlineManager.getInstance().getLock().lock(playerId);
 		try {
-//			CardDeckModel cardDeck = CardGroupDao.getCardDeck(player.getPlayerId(), String.valueOf(deckId));
-//			if (cardDeck == null) {
-//				logger.info("玩家：{}，卡组Id:{}。设置卡组失败，获取卡组信息失败。", player.getPlayerId(), deckId);
-//				return;
-//			}
+			playerInfo.setAssignType(assignType);
+			Calendar assignTime = Calendar.getInstance();
+			assignTime.add(Calendar.SECOND, GameRoomAssign.LAST_ASSIGN_TIME);
+			playerInfo.setAssignTime(assignTime);
+			
 			if (!GameRoomAssign.getInstance().addPlayerInfo(playerInfo)) {
 				RoleMsgSend.assignRes(session, false);
 				logger.error("玩家：{}，进入匹配队列失败。", player.getPlayerId());
 				return;
 			}
-			Calendar assignTime = Calendar.getInstance();
-			assignTime.add(Calendar.SECOND, GameRoomAssign.LAST_ASSIGN_TIME);
-			playerInfo.setAssignTime(assignTime);
-			playerInfo.setDeckId(String.valueOf(deckId));
-			RedisProxy.getInstance().updatePlayerInfo(playerInfo, "deckId");
 			RoleMsgSend.assignRes(session, true);
 		} finally {
 			HallServerOnlineManager.getInstance().getLock().unlock(playerId);
