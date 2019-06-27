@@ -1,6 +1,7 @@
 package sys;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,13 +36,16 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 
 	private static final int INTERVAL = 1000;
 
-	public static final int LAST_ASSIGN_TIME = 180;
+	/** 分配超时时间（秒） */
+	public static final int LAST_ASSIGN_TIME = 30;
 	
 	private static GameRoomAssign instance;
 
 	private static HashMap<Integer, PlayerInfo> players;
 
 	private static LinkedBlockingQueue<Integer> queue;
+
+	private static HashMap<Integer, Integer> numbers;
 
 	public static GameRoomAssign getInstance() {
 		if (instance == null) {
@@ -57,7 +61,10 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 	public static void start() {
 		GameRoomAssign inst = GameRoomAssign.getInstance();
 		players = new HashMap<>();
+		numbers = new HashMap<>();
 		queue = new LinkedBlockingQueue<>();
+		numbers.put(1, 2);
+		numbers.put(2, 5);
 		Thread thread = new Thread(inst, "GameRoomAssign");
 		thread.setUncaughtExceptionHandler(inst);
 		thread.start();
@@ -86,28 +93,45 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 					}
 					Calendar now = Calendar.getInstance();
 					Calendar assignTime = playerInfoA.getAssignTime();
+					
+					/*
+					 * 是否已超时
+					 */
+					boolean timeOver = false;
 					if (now.after(assignTime)) {
-						if (assignRobot(playerInfoA)) {
-							Thread.sleep(INTERVAL);
-						} else {
-							Thread.sleep(INTERVAL * 3);
-						}
-						continue;
+						timeOver = true;
 					}
-
-					Integer playerIdB = RedisProxy.getInstance().getPlayerMatchingList(playerIdA);
-					if (playerIdB == null) {
+					
+					/*
+					 * 按类型获取匹配队列中的玩家列表
+					 */
+					int assignType = playerInfoA.getAssignType();
+					ArrayList<Integer> list = RedisProxy.getInstance().getPlayerMatchingList(playerInfoA.getAssignType());
+					
+					/*
+					 * 需在玩家数量达到房间人数上限或分配超时，进入下一步
+					 * 未达到条件则继续等待
+					 */
+					if (list.size() < numbers.get(assignType) && !timeOver) {
 						queue.add(playerIdA);
 						Thread.sleep(INTERVAL);
 						continue;
 					}
-					if (RedisProxy.getInstance().removePlayerMatching(playerIdA) == 0) {
-						players.remove(playerIdA);
-						Thread.sleep(INTERVAL);
-						continue;
+					
+					ArrayList<Integer> roomPlayerList = new ArrayList<>();
+					for (int playerId : list) {
+						RedisProxy.getInstance().removePlayerInMatchingQueue(playerId, assignType);
+						if (RedisProxy.getInstance().removePlayerMatching(playerId) > 0) {
+							roomPlayerList.add(playerId);
+						} else {
+							players.remove(playerId);
+							Thread.sleep(INTERVAL);
+						}
 					}
-					if (RedisProxy.getInstance().removePlayerMatching(playerIdB) == 0) {
-						addPlayerInfo(playerInfoA);
+					
+					if (roomPlayerList.size() < 2) {
+						// 将已分配玩家重塞回分配队伍。
+						addPlayerInMatchingList(roomPlayerList, assignType, playerInfoA);
 						Thread.sleep(INTERVAL);
 						continue;
 					}
@@ -118,50 +142,72 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 					ServerInfo serverInfo = distributeServer();
 					if (serverInfo == null) {
 						logger.error("创建房间失败。无可分配的游戏服。");
-						// TODO 尝试重创建房间，或直接将A B 重塞回分配队伍。
-						RedisProxy.getInstance().addPlayerMatching(playerIdB);
-						addPlayerInfo(playerInfoA);
+						// 尝试重创建房间，或直接将已分配玩家重塞回分配队伍。
+						addPlayerInMatchingList(roomPlayerList, assignType, playerInfoA);
 						Thread.sleep(INTERVAL * 3);
 						continue;
 					}
 					String serverId = serverInfo.getServerId();
+					templet.arg1 = numbers.get(assignType);
 					RoomInfo roomInfo = RedisProxy.getInstance().addRoomInfo(templet, serverId);
 					
 					if (roomInfo == null) {
 						logger.error("创建房间失败。");
-						// TODO 尝试重创建房间，或直接将A B 重塞回分配队伍。
-						RedisProxy.getInstance().addPlayerMatching(playerIdB);
-						addPlayerInfo(playerInfoA);
+						// 尝试重创建房间，或直接将已分配玩家重塞回分配队伍。
+						addPlayerInMatchingList(roomPlayerList, assignType, playerInfoA);
 						Thread.sleep(INTERVAL * 3);
 						continue;
 					}
+					
+					/*
+					 * 房间创建成功
+					 * 通知各个玩家连接游戏服，进入房间 
+					 */
 					playerInfoA.setRoomId(roomInfo.getRoomId());
 					RedisProxy.getInstance().updatePlayerInfo(playerInfoA, "roomId");
-					PlayerInfo playerInfoB = players.get(playerIdB);
-					if (playerInfoB == null) {
-						playerInfoB = RedisProxy.getInstance().getPlayerInfo(playerIdB);
-					}
-					playerInfoB.setRoomId(roomInfo.getRoomId());
-					RedisProxy.getInstance().updatePlayerInfo(playerInfoB, "roomId");
-					logger.info("匹配成功。玩家A：{}，玩家B：{}，分配至游戏服：{}", playerIdA, playerIdB, serverInfo.getServerId());
 					// 向playerA发送消息，serverInfo
 					ISession session = SessionMemory.getInstance().getSession(playerIdA);
 					LoginMessageSend.assignSuccess(session);
 					LoginMessageSend.connGameServer(session, serverInfo);
+					logger.info("匹配成功。玩家Id：{}，RoomId：{}，分配至游戏服：{}", playerInfoA, roomInfo.getRoomId(), serverInfo.getServerId());
 					
-					ISession sessionB = SessionMemory.getInstance().getSession(playerIdB);
-					if (sessionB == null) {
-						// 向playerB所在服广播，serverInfo
-						RedisProxy.getInstance().playerNotice(playerInfoB.getServerId(), playerIdB, serverInfo.toString());
-					} else {
-						LoginMessageSend.assignSuccess(sessionB);
-						LoginMessageSend.connGameServer(sessionB, serverInfo);
+					for (int playerId : list) {
+						if (playerId == playerIdA) {
+							continue;
+						}
+						PlayerInfo playerInfo = players.get(playerId);
+						if (playerInfo == null) {
+							playerInfo = RedisProxy.getInstance().getPlayerInfo(playerId);
+						}
+						playerInfo.setRoomId(roomInfo.getRoomId());
+						RedisProxy.getInstance().updatePlayerInfo(playerInfo, "roomId");
+						logger.info("匹配成功。玩家Id：{}，RoomId：{}，分配至游戏服：{}", playerId, roomInfo.getRoomId(), serverInfo.getServerId());
+						
+						ISession sessionB = SessionMemory.getInstance().getSession(playerId);
+						if (sessionB == null) {
+							// 向playerB所在服广播，serverInfo
+							RedisProxy.getInstance().playerNotice(playerInfo.getServerId(), playerId, serverInfo.toString());
+						} else {
+							LoginMessageSend.assignSuccess(sessionB);
+							LoginMessageSend.connGameServer(sessionB, serverInfo);
+						}
 					}
 				}
 			} catch (Exception e) {
 				ErrorPrint.print(e);
 			}
 			
+		}
+	}
+	
+	public void addPlayerInMatchingList(ArrayList<Integer> list, int assignType, PlayerInfo playerInfo) {
+		for (int playerId : list) {
+			if (playerId == playerInfo.getPlayerId()) {
+				addPlayerInfo(playerInfo);
+				continue;
+			}
+			RedisProxy.getInstance().addPlayerMatching(playerId);
+			RedisProxy.getInstance().addPlayerInMatchingQueue(playerId, assignType);
 		}
 	}
 	
@@ -213,6 +259,12 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 	}
 	
 	public boolean addPlayerInfo(PlayerInfo playerInfo) {
+		if (SessionMemory.getInstance().getSession(playerInfo.getPlayerId()) == null) {
+			return false;
+		}
+		if (numbers.get(playerInfo.getAssignType()) == null) {
+			return false;
+		}
 		if (!RedisProxy.getInstance().addPlayerMatching(playerInfo.getPlayerId())) {
 			return false;
 		}
@@ -221,6 +273,7 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 			players.remove(playerInfo.getPlayerId(), playerInfo);
 			return false;
 		}
+		RedisProxy.getInstance().addPlayerInMatchingQueue(playerInfo.getPlayerId(), playerInfo.getAssignType());
 		logger.info("玩家：{}，进入匹配队列。", playerInfo.getPlayerId());
 		return true;
 	}

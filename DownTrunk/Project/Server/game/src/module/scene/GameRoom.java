@@ -18,6 +18,7 @@ import redis.data.PlayerInfo;
 import sys.GameRoomManager;
 import sys.GameSyncManager;
 import sys.GameTimer;
+import sys.UDPMsgManager;
 import util.ErrorPrint;
 import util.Tools;
 
@@ -30,12 +31,12 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	/** 房主 */
 	private int owner;
 	/** 房间状态 */
-	private int state = ROOM_STATE_PLAYING;
+	private int state = ROOM_STATE_JOIN;
 	/** 房间状态 */
 	private int playState = PLAY_STATE_READY;
 	/** 回合数 */
 	private int round = 0;
-
+	
 	/** 玩家Session列表<玩家id, ISession> */
 	private HashMap<Integer, ISession> sessions = new HashMap<>();
 	/** 玩家表 <玩家id, Player> */
@@ -61,8 +62,11 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	
 	@Override
 	public int joinGame(PlayerInfo player, ISession session) {
+		if (state != ROOM_STATE_JOIN) {
+			return -1;
+		}
 		int playerId = player.getPlayerId();
-		if (players.get(playerId) != null || players.size() >= 2) {
+		if (players.get(playerId) != null || players.size() >= this.templet.maxNum) {
 			return -1;
 		}
 		/*
@@ -84,7 +88,8 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		 */
 		logger.info("玩家：{}，房间Id：{}，加入房间。", playerId, this.roomId);
 		RoomMsgSend.intoRoom(session);
-		if (players.size() == 2) {
+		UDPMsgManager.getInstance().setPlayerRoom(playerId, roomId);
+		if (players.size() == this.templet.maxNum) {
 			gameStart();
 		}
 		return SUCCESS;
@@ -105,6 +110,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	@Override
 	public void gameStart() {
 		logger.info("房间Id：{}，准备开始游戏。", this.roomId);
+		state = ROOM_STATE_READY;
 		playState = PLAY_STATE_START;
 		
 		switch (this.getTemplet().type) {
@@ -128,8 +134,12 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		if (this.ready.get(playerId) != null) {
 			return;
 		}
+		if (state != ROOM_STATE_READY) {
+			return;
+		}
 		this.ready.put(playerId, true);
-		if (this.ready.size() == 2) {
+		if (this.ready.size() == this.players.size()) {
+			state = ROOM_STATE_PLAYING;
 			switch (this.getTemplet().type) {
 			case ROOM_TYPE_PVP:
 				future = GameTimer.getScheduled().schedule(() -> pvpStart(), 3, TimeUnit.SECONDS);
@@ -153,6 +163,38 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		FightMsgSend.useItemSync(sessions, playerId, targetId, itemId, mainSkill);
 	}
 	
+	public void heroDiedSync(int playerId) {
+		Collection<ISession> sessions = this.sessions.values();
+		FightMsgSend.heroDiedSync(sessions, playerId);
+	}
+
+	public boolean heroDied(int playerId) {
+		BattleRole role = getBattleRole(playerId);
+		if (role == null) {
+			return false;
+		}
+		if (role.isDead()) {
+			return false;
+		}
+		role.setDead(true);
+		
+		heroDiedSync(playerId);
+		
+		int winner = 0;
+		for (BattleRole fighter : this.getBattleRoles().values()) {
+			if (!fighter.isDead()) {
+				if (winner != 0) {
+					return true;
+				}
+				winner = fighter.getPlayerId();
+			}
+		}
+		if (winner != 0) {
+			settlement(winner);
+		}
+		return true;
+	}
+	
 	private void pvpStart() {
 		interruptTimer();
 		Collection<ISession> sessions = this.sessions.values();
@@ -161,7 +203,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 	}
 
 	public boolean isInRoom(int playerId) {
-		return fighters.get(playerId) != null;
+		return getBattleRole(playerId) != null;
 	}
 
 	@Override
@@ -171,10 +213,14 @@ public class GameRoom extends RoomConst implements ISceneAction {
 
 	@Override
 	public void settlement(int playerId) {
-		if (getState() == ROOM_DESTORY) {
+		if (getState() == ROOM_DESTORY || getState() == ROOM_STATE_END) {
 			return;
 		}
+		state = ROOM_STATE_END;
 		try {
+			for (BattleRole fighter : this.getBattleRoles().values()) {
+				FightMsgSend.settlement(this.getSession(fighter.getPlayerId()), fighter.getPlayerId(), fighter.getPlayerId() == playerId);
+			}
 		} catch (Exception e) {
 			ErrorPrint.print(e);
 		} finally {

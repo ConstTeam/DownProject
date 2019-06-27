@@ -11,10 +11,10 @@ public class LoginMessageConst {
 	public static final int LOGIN = 1;
 	/** 分配游戏服 */
 	public static final int ASSIGN_INSTANCE_SERVER = 2;
-	/** 断线重连 */
-	public static final int RE_LOGIN = 3;
 	/** 取消分配 */
-	public static final int CANCEL_ASSIGN = 4;
+	public static final int CANCEL_ASSIGN = 3;
+	/** 断线重连 */
+	public static final int RE_LOGIN = 4;
 	/** 新手分配游戏服 */
 	public static final int ASSIGN_GUIDE_INSTANCE_SERVER = 5;
 	

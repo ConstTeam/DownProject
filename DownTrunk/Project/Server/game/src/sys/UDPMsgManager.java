@@ -22,6 +22,8 @@ public class UDPMsgManager implements Runnable, UncaughtExceptionHandler {
 	private static HashMap<Integer, InetAddress> ips = new HashMap<>();
 	
 	private static HashMap<Integer, Integer> ports = new HashMap<>();
+	
+	private HashMap<Integer, Integer> roomIdMap = new HashMap<>();
 
 	private static UDPMsgManager instance;
 	
@@ -31,7 +33,6 @@ public class UDPMsgManager implements Runnable, UncaughtExceptionHandler {
 		if (instance == null) {
 			instance = new UDPMsgManager();
 		}
-
 		return instance;
 	}
 
@@ -66,14 +67,19 @@ public class UDPMsgManager implements Runnable, UncaughtExceptionHandler {
 				datagramSocket.receive(datagramPacket);
 				byte[] byteData = datagramPacket.getData();
 				IByteBuffer data = ByteBufferFactory.getNewByteBuffer(byteData);
-				int roomId = data.readInt();
 				int playerId = data.readInt();
+				
+				Integer roomId = this.roomIdMap.get(playerId);
+				if (roomId == null || roomId == 0) {
+					continue;
+				}
 				ports.put(playerId, datagramPacket.getPort());
 				ips.put(playerId, datagramPacket.getAddress());
 				GameRoom room = GameRoomManager.getInstance().getRoom(roomId);
-				if (room != null) {
-					room.getSyncManager().addData(data, roomId, playerId);
+				if (room == null) {
+					continue;
 				}
+				room.getSyncManager().addData(data, playerId);
 			} catch (Exception e) {
 				ErrorPrint.print(e);
 			}
@@ -108,4 +114,7 @@ public class UDPMsgManager implements Runnable, UncaughtExceptionHandler {
 		UDPMsgManager.datagramSocket = datagramSocket;
 	}
 
+	public void setPlayerRoom(int playerId, int roomId) {
+		roomIdMap.put(playerId, roomId);
+	}
 }

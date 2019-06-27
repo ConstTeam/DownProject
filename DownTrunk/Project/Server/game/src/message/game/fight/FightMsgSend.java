@@ -134,4 +134,31 @@ public class FightMsgSend {
 		S2CMessageSend.sendMultiMessage(sessions, data);
 		logger.debug("{} - {}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.USE_ITEM_SYNC);
 	}
+
+	public static void settlement(ISession session, int playerId, boolean isWin) {
+		if (session == null || session.isClosed()) {
+			return;
+		}
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		
+		data.writeByte(GameMsgModuleConst.FIGHT_RESPONSE);
+		data.writeByte(FightMsgConst.SETTLEMENT);
+
+		data.writeBoolean(isWin);
+		
+		session.send(data);
+		logger.debug("{} - {} playerId:{} isWin:{}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.SETTLEMENT, playerId, isWin);
+	}
+
+	public static void heroDiedSync(Collection<ISession> sessions, int playerId) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		
+		data.writeByte(GameMsgModuleConst.FIGHT_RESPONSE);
+		data.writeByte(FightMsgConst.HERO_DIED_SYNC);
+
+		data.writeInt(playerId);
+		
+		S2CMessageSend.sendMultiMessage(sessions, data);
+		logger.debug("{} - {} playerId:{}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.HERO_DIED_SYNC, playerId);
+	}
 }

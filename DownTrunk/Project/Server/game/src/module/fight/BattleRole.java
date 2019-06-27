@@ -20,12 +20,14 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 	private int roleId;
 	/** 是否为机器人 */
 	private boolean robot = false;
+	/** 死亡 */
+	private boolean dead = false;
 	
 	public BattleRole(int playerId, String nickname, int hp, int uid) {
 		this.setPlayerId(playerId);
 		this.setUid(uid);
 		this.setHp(hp);
-		this.setNickname(nickname);
+		this.setNickname(String.valueOf(playerId));
 	}
 	
 	public void addHp(int defence) {
@@ -111,5 +113,13 @@ public class BattleRole extends BattleRoleBase implements IBattleRoleStatus {
 
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+
+	public boolean isDead() {
+		return dead;
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 }

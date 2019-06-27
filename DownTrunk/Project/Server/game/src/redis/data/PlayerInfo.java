@@ -48,6 +48,8 @@ public class PlayerInfo {
 	private transient int gold;
 	/** 卡组Id */
 	private String deckId;
+	/** 分配类型 */
+	private transient int assignType;
 
 	public void setPlayerId(int playerId) {
 		this.playerId = playerId;
@@ -207,5 +209,13 @@ public class PlayerInfo {
 
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+
+	public int getAssignType() {
+		return assignType;
+	}
+
+	public void setAssignType(int assignType) {
+		this.assignType = assignType;
 	}
 }

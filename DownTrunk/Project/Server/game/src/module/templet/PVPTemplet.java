@@ -6,5 +6,6 @@ public class PVPTemplet extends TempletBase {
 	
 	public PVPTemplet() {
 		this.type = RoomConst.ROOM_TYPE_PVP;
+		this.maxNum = 2;
 	}
 }

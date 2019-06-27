@@ -28,7 +28,7 @@ public class RoleMsgSend {
 		
 		data.writeBoolean(GMHallService.gmPanel(platform, player.getDeviceId()));
 		data.writeInt(player.getPlayerId());
-		data.writeUTF(player.getNickname());
+		data.writeUTF(String.valueOf(player.getPlayerId()));
 		data.writeInt(player.getGold());
 		data.writeUTF(player.getIcon());
 		
@@ -81,6 +81,16 @@ public class RoleMsgSend {
 		data.writeByte(RoleMsgConst.SCENE_LIST_SYNC);
 
 		data.writeInt(sceneList);
+		
+		session.send(data);
+	}
+
+	public static void assignRes(ISession session, boolean res) {
+		IByteBuffer data = ByteBufferFactory.getNewByteBuffer();
+		data.writeByte(HallMsgModuleConst.ROLE_RESPONSE);
+		data.writeByte(RoleMsgConst.ASSIGN_RES);
+
+		data.writeBoolean(res);
 		
 		session.send(data);
 	}

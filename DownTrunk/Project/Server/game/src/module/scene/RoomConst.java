@@ -27,10 +27,14 @@ public class RoomConst {
 	/*
 	 * 房间状态
 	 */
+	/** 房间状态-等待进入 */
+	public static final int ROOM_STATE_JOIN = 0;
+	/** 房间状态-等待准备 */
+	public static final int ROOM_STATE_READY = 1;
 	/** 房间状态-游戏中 */
-	public static final int ROOM_STATE_PLAYING = 1;
+	public static final int ROOM_STATE_PLAYING = 2;
 	/** 房间状态-游戏结束 */
-	public static final int ROOM_STATE_END = 2;
+	public static final int ROOM_STATE_END = 3;
 	/** 房间状态-房间已销毁 */
 	public static final int ROOM_DESTORY = -1;
 	
