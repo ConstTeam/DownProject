@@ -12,4 +12,6 @@ public abstract class TempletBase {
 	public int arg1;
 	/** 房间类型 */
 	public int type;
+	/** 房间类型 */
+	public int assignType;
 }

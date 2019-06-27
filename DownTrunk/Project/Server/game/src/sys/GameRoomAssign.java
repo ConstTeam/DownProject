@@ -45,26 +45,25 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 
 	private static LinkedBlockingQueue<Integer> queue;
 
-	private static HashMap<Integer, Integer> numbers;
-
+	private HashMap<Integer, Integer> numbers = new HashMap<>();
+	
 	public static GameRoomAssign getInstance() {
 		if (instance == null) {
 			instance = new GameRoomAssign();
 		}
-
 		return instance;
 	}
 	
 	private GameRoomAssign() {
+		numbers.put(1, 2);
+		numbers.put(2, 5);
 	}
 
 	public static void start() {
 		GameRoomAssign inst = GameRoomAssign.getInstance();
 		players = new HashMap<>();
-		numbers = new HashMap<>();
 		queue = new LinkedBlockingQueue<>();
-		numbers.put(1, 2);
-		numbers.put(2, 5);
+		
 		Thread thread = new Thread(inst, "GameRoomAssign");
 		thread.setUncaughtExceptionHandler(inst);
 		thread.start();
@@ -148,7 +147,7 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 						continue;
 					}
 					String serverId = serverInfo.getServerId();
-					templet.arg1 = numbers.get(assignType);
+					templet.assignType = assignType;
 					RoomInfo roomInfo = RedisProxy.getInstance().addRoomInfo(templet, serverId);
 					
 					if (roomInfo == null) {
@@ -287,6 +286,10 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 		return true;
 	}
 
+	public Integer getNumber(int type) {
+		return numbers.get(type);
+	}
+	
 	@Override
 	public void uncaughtException(Thread t, Throwable e) {
 		ErrorPrint.print(e);

@@ -63,6 +63,7 @@ public class FightMsgSend {
 		data.writeByte(GameMsgModuleConst.FIGHT_RESPONSE);
 		data.writeByte(FightMsgConst.INTO_ROOM);
 
+		data.writeByte(room.getTemplet().assignType);
 		data.writeInt(room.getRoomId());
 		data.writeInt(room.getSeed());
 		data.writeByte(GameSyncManager.INTERVAL);
