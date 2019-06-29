@@ -20,7 +20,9 @@ namespace MS
 		private Transform _transform;
 
 		public int	PlayerId	{ get; set; }
+		public int	HeroId		{ get; set; }
 		public int	SceneId		{ get; set; }
+		
 
 		private bool _bFailed;
 		public bool	IsFailed
@@ -47,9 +49,10 @@ namespace MS
 			_transform.localScale = new Vector3(scale, scale, 1f);
 		}
 
-		public void Load(int playerId, int sceneId)
+		public void Load(int playerId, int heroId, int sceneId)
 		{
 			PlayerId = playerId;
+			HeroId = heroId;
 			SceneId = sceneId;
 
 			ResourceLoader.LoadAssetAndInstantiate(string.Format("Prefab/Scene/{0}/Nails", SceneId), SpriteMaskTran);
@@ -58,7 +61,7 @@ namespace MS
 			for(int i = 0; i < 30; ++i)
 				AddPlat();
 
-			SetMainSkill(PlayerId);
+			SetMainSkill(HeroId);
 		}
 
 		public void SetPos(float y)

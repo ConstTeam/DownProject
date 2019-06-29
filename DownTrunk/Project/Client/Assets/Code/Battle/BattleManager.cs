@@ -56,13 +56,13 @@ namespace MS
 		public void LoadMy(Vector3 pos)
 		{
 			int playerId = PlayerData.PlayerId, index = 0;
-			_dicPlayerIndex.Add(playerId, index);
+			_dicPlayerIndex.Add(index, playerId);
 
 			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, pos).GetComponent<BattleField>();
-			field.Load(playerId, PlayerData.CurScene);
+			field.Load(playerId, PlayerData.CurHero, PlayerData.CurScene);
 			_dicField.Add(playerId, field);
 
-			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _dicField[0].ForegroundTran).GetComponent<BattleHeroM>();
+			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _dicField[playerId].ForegroundTran).GetComponent<BattleHeroM>();
 			m_RoleM.Init(playerId, PlayerData.CurHero);
 			m_dicHeros.Add(playerId, m_RoleM);
 		}
@@ -70,14 +70,14 @@ namespace MS
 		public void LoadOther(Vector3 pos, BattlePlayerData other, int index, float scale)
 		{
 			int playerId = other.PlayerId;
-			_dicPlayerIndex.Add(playerId, index);
+			_dicPlayerIndex.Add(index, playerId);
 
 			BattleField field = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleFiled", BattleRootTran, pos).GetComponent<BattleField>();
 			field.SetScale(scale);
-			field.Load(playerId, other.SceneId);
+			field.Load(playerId, other.HeroId, other.SceneId);
 			_dicField.Add(playerId, field);
 
-			BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[index].ForegroundTran).GetComponent<BattleHeroBase>();
+			BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[playerId].ForegroundTran).GetComponent<BattleHeroBase>();
 			heroE.Init(playerId, other.HeroId);
 			m_dicHeros.Add(playerId, heroE);
 		}
@@ -114,10 +114,10 @@ namespace MS
 			LoadMy(Vector3.zero);
 			for(int i = 0; i < others.Count; ++i)
 			{
-				_dicPlayerIndex.Add(others[i].PlayerId, 0);
-				BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[0].ForegroundTran).GetComponent<BattleHeroBase>();
+				_dicPlayerIndex.Add(i + 1, others[i].PlayerId);
+				BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[others[i].PlayerId].ForegroundTran).GetComponent<BattleHeroBase>();
 				heroE.Init(others[i].PlayerId, others[i].HeroId);
-				m_dicHeros.Add(heroE.PlayerId, heroE);
+				m_dicHeros.Add(others[i].PlayerId, heroE);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
@@ -150,8 +150,8 @@ namespace MS
 
 		public void SetFieldPos(int frame)
 		{
-			for(int i = 0; i < _dicField.Count; ++i)
-				_dicField[i].SetPos(frame * Frequency * 0.001f);
+			for(int i = 0; i < _dicPlayerIndex.Count; ++i)
+				_dicField[_dicPlayerIndex[i]].SetPos(frame * Frequency * 0.001f);
 		}
 
 		public void SetRolePos(int playerId, float x, float y)
@@ -162,7 +162,7 @@ namespace MS
 
 		public void RemovePlat(int playerId, BattlePlat plat)
 		{
-			_dicField[_dicPlayerIndex[playerId]].RemovePlat(plat);
+			_dicField[playerId].RemovePlat(plat);
 		}
 
 		public void SyncHp(int playerId, int hp)
@@ -177,22 +177,22 @@ namespace MS
 
 		public void EnqueueSkill(int playerId, int skillType)
 		{
-			_dicField[_dicPlayerIndex[playerId]].EnqueueSkill(skillType);
+			_dicField[playerId].EnqueueSkill(skillType);
 		}
 
 		public void DequeueSkill(int playerId)
 		{
-			_dicField[_dicPlayerIndex[playerId]].DequeueSkill();
+			_dicField[playerId].DequeueSkill();
 		}
 
-		public int GetPlayerIdByIndex(int index)
+		public int IndexToPlayer(int index)
 		{
-			return _dicField[index].PlayerId;
+			return _dicPlayerIndex[index];
 		}
 
 		public void SetFailed(int playerId)
 		{
-			_dicField[_dicPlayerIndex[playerId]].IsFailed = true;
+			_dicField[playerId].IsFailed = true;
 		}
 
 		#region --Skill----------------------------------------------------------
@@ -201,16 +201,16 @@ namespace MS
 			switch(type)
 			{
 				case 0:
-					_dicField[_dicPlayerIndex[toId]].ChangePlatType(3, 0, m_dicHeros[toId]);
+					_dicField[toId].ChangePlatType(3, 0, m_dicHeros[toId]);
 					break;
 				case 1:
-					//_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(1);
+					//_lstFields[toId].ChangeHeroHp(1);
 					break;
 				case 2:
-					//_lstFields[_dicPlayerIndex[toId]].ChangeHeroHp(-1);
+					//_lstFields[toId].ChangeHeroHp(-1);
 					break;
 				case 3:
-					_dicField[_dicPlayerIndex[toId]].ChangePlatScale(5, m_dicHeros[toId]);
+					_dicField[toId].ChangePlatScale(5, m_dicHeros[toId]);
 					break;
 			}
 			
