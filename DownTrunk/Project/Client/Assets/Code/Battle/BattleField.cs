@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace MS
@@ -19,9 +17,10 @@ namespace MS
 
 		private Transform _transform;
 
-		public int	PlayerId	{ get; set; }
-		public int	HeroId		{ get; set; }
-		public int	SceneId		{ get; set; }
+		public int		PlayerId	{ get; set; }
+		public int		HeroId		{ get; set; }
+		public int		SceneId		{ get; set; }
+		public Vector3	Pos			{ get; set;}
 		
 
 		private bool _bFailed;
@@ -51,6 +50,7 @@ namespace MS
 
 		public void Load(int playerId, int heroId, int sceneId)
 		{
+			Pos = transform.localPosition;
 			PlayerId = playerId;
 			HeroId = heroId;
 			SceneId = sceneId;

@@ -19,9 +19,9 @@ namespace MS
 
 		public Dictionary<int, BattleHeroBase>  m_dicHeros = new Dictionary<int, BattleHeroBase>(); 
 
-		private Dictionary<int, int>			_dicPlayerIndex	= new Dictionary<int, int>();
-		private Dictionary<int, BattleField>	_dicField		= new Dictionary<int, BattleField>();
-		private Dictionary<int, BattleHeroInfo>	_dicHeroInfo	= new Dictionary<int, BattleHeroInfo>();
+		private Dictionary<int, int>				_dicPlayerIndex	= new Dictionary<int, int>();
+		private Dictionary<int, BattleField>		_dicField		= new Dictionary<int, BattleField>();
+		private Dictionary<int, BattlePlayerInfo>	_dicPlayerInfo	= new Dictionary<int, BattlePlayerInfo>();
 		public BattleHeroM m_RoleM;
 
 		private System.Random _rand;
@@ -82,10 +82,18 @@ namespace MS
 			m_dicHeros.Add(playerId, heroE);
 		}
 
+		private void LoadPlayerInfo(int playerId, string playerName, int sceneId, int hp, int playerIndex)
+		{
+			BattlePlayerInfo playerInfo = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattlePlayerInfo", BattleRootTran, _dicField[playerId].Pos + Vector3.up * 4.3f).GetComponent<BattlePlayerInfo>();
+			playerInfo.InitData(playerId, playerName, sceneId, hp, playerIndex);
+			_dicPlayerInfo.Add(playerId, playerInfo);
+		}
+
 		public void LoadSingle(int roomId, int seed, int frequency, int stairs)
 		{
 			SetData(roomId, seed, frequency, stairs, false);
 			LoadMy(Vector3.zero);
+			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0);
 		}
 
 		public void LoadDouble(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
@@ -93,6 +101,8 @@ namespace MS
 			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
 			LoadOther(PositionMgr.vecFieldPosE, others[0], 1, 0.8f);
+			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0);
+			LoadPlayerInfo(others[0].PlayerId, others[0].PlayerName, others[0].SceneId, others[0].HP, 1);
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
 
@@ -104,6 +114,7 @@ namespace MS
 			for(int i = 0; i < others.Count; ++i)
 			{
 				LoadOther(PositionMgr.arrVecFieldPosE[i], others[i], i + 1, 0.4f);
+				LoadPlayerInfo(others[i].PlayerId, others[i].PlayerName, others[i].SceneId, others[i].HP, i + 1);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
@@ -167,12 +178,12 @@ namespace MS
 
 		public void SyncHp(int playerId, int hp)
 		{
-			//_lstFields[_dicPlayerIndex[playerId]].CurHP = hp;
+			_dicPlayerInfo[playerId].CurHP = hp;
 		}
 
 		public int GetHp(int playerId)
 		{
-			return 0;//_lstFields[_dicPlayerIndex[playerId]].CurHP;
+			return _dicPlayerInfo[playerId].CurHP;
 		}
 
 		public void EnqueueSkill(int playerId, int skillType)

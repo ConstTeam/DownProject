@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MS
 {
-	public class BattleHeroInfo : MonoBehaviour
+	public class BattlePlayerInfo : MonoBehaviour
 	{
 		public GameObject[] HpGos;
 		public TextMeshPro PlayerIndexText;
@@ -59,7 +59,7 @@ namespace MS
 			_transform = transform;
 		}
 
-		public void InitData(int playerId, int playerIndex, string playerName, int sceneId, int hp)
+		public void InitData(int playerId, string playerName, int sceneId, int hp, int playerIndex)
 		{
 			PlayerId = playerId;
 			PlayerIndex = playerIndex;
