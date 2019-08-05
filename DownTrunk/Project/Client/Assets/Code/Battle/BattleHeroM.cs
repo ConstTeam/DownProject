@@ -74,7 +74,14 @@ namespace MS
 				{
 					_roleX = (int)(m_Transform.localPosition.x * 1000);
 					_roleY = (int)(m_Transform.localPosition.y * 1000);
-					if (_roleX != _lastX || _roleY != _lastY)
+
+					if(BattleManager.GetInst().BattleType == 3)
+					{
+						if(_roleY != _lastY)
+							BattleManager.GetInst().SetFieldPos(-m_Transform.localPosition.y + 2f);
+					}
+
+					if(_roleX != _lastX || _roleY != _lastY)
 					{
 						_lastX = _roleX;
 						_lastY = _roleY;

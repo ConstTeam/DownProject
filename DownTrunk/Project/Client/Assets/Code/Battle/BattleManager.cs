@@ -168,13 +168,13 @@ namespace MS
 
 		public void SetFieldPos(int frame)
 		{
-			if(BattleType == 2)
-			{
-				for(int i = 0; i < _dicPlayerIndex.Count; ++i)
-					_dicField[_dicPlayerIndex[i]].SetPos(frame * Frequency * 0.001f);
-			}
-			else if(BattleType == 3)
-				_dicField[PlayerData.PlayerId].SetPos(frame * Frequency * 0.001f);
+			for(int i = 0; i < _dicPlayerIndex.Count; ++i)
+				_dicField[_dicPlayerIndex[i]].SetPos(frame * Frequency * 0.001f);
+		}
+
+		public void SetFieldPos(float y)
+		{
+			_dicField[PlayerData.PlayerId].SetPos(y);
 		}
 
 		public void SetRolePos(int playerId, float x, float y)

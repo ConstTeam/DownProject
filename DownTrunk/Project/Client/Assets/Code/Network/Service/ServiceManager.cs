@@ -97,7 +97,8 @@ namespace MS
 						float roleY = data.readInt() / 1000f;
 						BattleManager.GetInst().SetRolePos(playerId, roleX, roleY);
 					}
-					BattleManager.GetInst().SetFieldPos(frame);
+					if(BattleManager.GetInst().BattleType == 2)
+						BattleManager.GetInst().SetFieldPos(frame);
 				}
 			}
 		}
