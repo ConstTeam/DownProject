@@ -48,6 +48,9 @@ namespace MS
 		private int _runCurFrame = 1;
 		private void Update()
 		{
+			if(!BattleManager.GetInst().IsBattleRun)
+				return;
+
 			OnUpdate();
 			switch(_animType)
 			{

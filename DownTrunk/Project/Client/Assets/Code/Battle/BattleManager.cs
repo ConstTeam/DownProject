@@ -82,53 +82,60 @@ namespace MS
 			m_dicHeros.Add(playerId, heroE);
 		}
 
-		private void LoadPlayerInfo(int playerId, string playerName, int sceneId, int hp, int playerIndex)
+		private void LoadPlayerInfo(int playerId, string playerName, int sceneId, int hp, int playerIndex, Vector3 pos)
 		{
-			BattlePlayerInfo playerInfo = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattlePlayerInfo", BattleRootTran, _dicField[playerId].Pos + Vector3.up * 4.3f).GetComponent<BattlePlayerInfo>();
+			BattlePlayerInfo playerInfo = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattlePlayerInfo", BattleRootTran, pos).GetComponent<BattlePlayerInfo>();
 			playerInfo.InitData(playerId, playerName, sceneId, hp, playerIndex);
 			_dicPlayerInfo.Add(playerId, playerInfo);
 		}
 
 		public void LoadSingle(int roomId, int seed, int frequency, int stairs)
 		{
+			BattleType = 1;
 			SetData(roomId, seed, frequency, stairs, false);
 			LoadMy(Vector3.zero);
-			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0);
+			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0, _dicField[PlayerData.PlayerId].Pos + Vector3.up * 4.3f);
 		}
 
 		public void LoadDouble(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
 		{
+			BattleType = 2;
 			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
 			LoadOther(PositionMgr.vecFieldPosE, others[0], 1, 0.8f);
-			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0);
-			LoadPlayerInfo(others[0].PlayerId, others[0].PlayerName, others[0].SceneId, others[0].HP, 1);
+			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0, _dicField[PlayerData.PlayerId].Pos + Vector3.up * 4.3f);
+			LoadPlayerInfo(others[0].PlayerId, others[0].PlayerName, others[0].SceneId, others[0].HP, 1, _dicField[others[0].PlayerId].Pos + Vector3.up * 4.3f);
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
 
 		public void LoadFive(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
 		{
+			BattleType = 2;
 			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
 
 			for(int i = 0; i < others.Count; ++i)
 			{
 				LoadOther(PositionMgr.arrVecFieldPosE[i], others[i], i + 1, 0.4f);
-				LoadPlayerInfo(others[i].PlayerId, others[i].PlayerName, others[i].SceneId, others[i].HP, i + 1);
+				LoadPlayerInfo(others[i].PlayerId, others[i].PlayerName, others[i].SceneId, others[i].HP, i + 1, _dicField[others[i].PlayerId].Pos + Vector3.up * 4.3f);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
 
+		private Vector3 _playInfoPos = new Vector3(6f, 3f, 0f);
 		public void LoadRacing(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
 		{
+			BattleType = 3;
 			SetData(roomId, seed, frequency, stairs, false);
 			LoadMy(Vector3.zero);
+			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0, _playInfoPos);
 			for(int i = 0; i < others.Count; ++i)
 			{
 				_dicPlayerIndex.Add(i + 1, others[i].PlayerId);
-				BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[others[i].PlayerId].ForegroundTran).GetComponent<BattleHeroBase>();
+				BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[PlayerData.PlayerId].ForegroundTran).GetComponent<BattleHeroBase>();
 				heroE.Init(others[i].PlayerId, others[i].HeroId);
 				m_dicHeros.Add(others[i].PlayerId, heroE);
+				LoadPlayerInfo(others[i].PlayerId, others[i].PlayerName, others[i].SceneId, others[i].HP, i + 1, _playInfoPos + Vector3.down * 1.2f);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
@@ -161,8 +168,13 @@ namespace MS
 
 		public void SetFieldPos(int frame)
 		{
-			for(int i = 0; i < _dicPlayerIndex.Count; ++i)
-				_dicField[_dicPlayerIndex[i]].SetPos(frame * Frequency * 0.001f);
+			if(BattleType == 2)
+			{
+				for(int i = 0; i < _dicPlayerIndex.Count; ++i)
+					_dicField[_dicPlayerIndex[i]].SetPos(frame * Frequency * 0.001f);
+			}
+			else if(BattleType == 3)
+				_dicField[PlayerData.PlayerId].SetPos(frame * Frequency * 0.001f);
 		}
 
 		public void SetRolePos(int playerId, float x, float y)

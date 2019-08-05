@@ -70,7 +70,7 @@ namespace MS
 			{
 				if(BattleManager.GetInst().BattleType == 1)
 					BattleManager.GetInst().SetFieldPos(++_frame);
-				else if(BattleManager.GetInst().BattleType == 2)
+				else
 				{
 					_roleX = (int)(m_Transform.localPosition.x * 1000);
 					_roleY = (int)(m_Transform.localPosition.y * 1000);
