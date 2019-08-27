@@ -36,6 +36,7 @@ namespace MS
 		private void Awake()
 		{
 			_inst = this;
+			IsBattleRun = false;
 			BattleCam.orthographicSize /= ApplicationConst.screenRatio;
 		}
 
@@ -63,7 +64,7 @@ namespace MS
 			_dicField.Add(playerId, field);
 
 			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _dicField[playerId].ForegroundTran).GetComponent<BattleHeroM>();
-			m_RoleM.Init(playerId, PlayerData.CurHero);
+			m_RoleM.Init(playerId, false, PlayerData.CurHero);
 			m_dicHeros.Add(playerId, m_RoleM);
 		}
 
@@ -78,15 +79,21 @@ namespace MS
 			_dicField.Add(playerId, field);
 
 			BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[playerId].ForegroundTran).GetComponent<BattleHeroBase>();
-			heroE.Init(playerId, other.HeroId);
+			heroE.Init(playerId, other.IsRobot, other.HeroId);
 			m_dicHeros.Add(playerId, heroE);
 		}
 
-		private void LoadPlayerInfo(int playerId, string playerName, int sceneId, int hp, int playerIndex, Vector3 pos)
+		private void LoadPlayerInfo(int playerId, string playerName, int sceneId, int hp, int playerIndex)
 		{
+			Vector3 pos = _dicField[playerId].Pos + Vector3.up * 4.3f;
 			BattlePlayerInfo playerInfo = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattlePlayerInfo", BattleRootTran, pos).GetComponent<BattlePlayerInfo>();
 			playerInfo.InitData(playerId, playerName, sceneId, hp, playerIndex);
 			_dicPlayerInfo.Add(playerId, playerInfo);
+		}
+
+		private void LoadPlayerInfo(BattlePlayerData data, int playerIndex)
+		{
+			LoadPlayerInfo(data.PlayerId, data.PlayerName, data.SceneId, data.HP, playerIndex);
 		}
 
 		public void LoadSingle(int roomId, int seed, int frequency, int stairs)
@@ -94,7 +101,7 @@ namespace MS
 			BattleType = 1;
 			SetData(roomId, seed, frequency, stairs, false);
 			LoadMy(Vector3.zero);
-			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0, _dicField[PlayerData.PlayerId].Pos + Vector3.up * 4.3f);
+			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0);
 		}
 
 		public void LoadDouble(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
@@ -103,8 +110,8 @@ namespace MS
 			SetData(roomId, seed, frequency, stairs, true);
 			LoadMy(PositionMgr.vecFieldPosM);
 			LoadOther(PositionMgr.vecFieldPosE, others[0], 1, 0.8f);
-			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0, _dicField[PlayerData.PlayerId].Pos + Vector3.up * 4.3f);
-			LoadPlayerInfo(others[0].PlayerId, others[0].PlayerName, others[0].SceneId, others[0].HP, 1, _dicField[others[0].PlayerId].Pos + Vector3.up * 4.3f);
+			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0);
+			LoadPlayerInfo(others[0], 1);
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}
 
@@ -117,25 +124,7 @@ namespace MS
 			for(int i = 0; i < others.Count; ++i)
 			{
 				LoadOther(PositionMgr.arrVecFieldPosE[i], others[i], i + 1, 0.4f);
-				LoadPlayerInfo(others[i].PlayerId, others[i].PlayerName, others[i].SceneId, others[i].HP, i + 1, _dicField[others[i].PlayerId].Pos + Vector3.up * 4.3f);
-			}
-			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
-		}
-
-		private Vector3 _playInfoPos = new Vector3(6f, 3f, 0f);
-		public void LoadRacing(int roomId, int seed, int frequency, int stairs, List<BattlePlayerData> others)
-		{
-			BattleType = 3;
-			SetData(roomId, seed, frequency, stairs, false);
-			LoadMy(Vector3.zero);
-			LoadPlayerInfo(PlayerData.PlayerId, PlayerData.Nickname, PlayerData.CurScene, PlayerData.CurHP, 0, _playInfoPos);
-			for(int i = 0; i < others.Count; ++i)
-			{
-				_dicPlayerIndex.Add(i + 1, others[i].PlayerId);
-				BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[PlayerData.PlayerId].ForegroundTran).GetComponent<BattleHeroBase>();
-				heroE.Init(others[i].PlayerId, others[i].HeroId);
-				m_dicHeros.Add(others[i].PlayerId, heroE);
-				LoadPlayerInfo(others[i].PlayerId, others[i].PlayerName, others[i].SceneId, others[i].HP, i + 1, _playInfoPos + Vector3.down * 1.2f);
+				LoadPlayerInfo(others[i], i + 1);
 			}
 			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_LOADED, new ArrayList(){});
 		}

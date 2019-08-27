@@ -10,8 +10,9 @@ namespace MS
 		protected SpriteRenderer _spRenderer;
 		private Sprite[] _sp;
 
-		public int PlayerId	{ get; set; }
-		public int HeroId	{ get; set; }
+		public int	PlayerId	{ get; set; }
+		public bool IsRobot		{ get; set; }
+		public int	HeroId		{ get; set; }
 
 		private void Awake()
 		{
@@ -20,9 +21,10 @@ namespace MS
 			OnAwake();
 		}
 
-		public void Init(int playerId, int heroId)
+		public void Init(int playerId, bool bRobot, int heroId)
 		{
 			PlayerId = playerId;
+			IsRobot = bRobot;
 			SetHeroId(heroId);
 		}
 
@@ -35,7 +37,6 @@ namespace MS
 		}
 
 		protected virtual void OnAwake()	{ }
-		protected virtual void OnUpdate()	{ }
 
 		private Vector3 _tempPos = new Vector3();
 		public void SetPos(float x, float y)
@@ -62,6 +63,14 @@ namespace MS
 					_spRenderer.sprite = _sp[_runCurFrame];
 					if(++_runCurFrame > 4) _runCurFrame = 1;
 					break;
+			}
+		}
+
+		protected virtual void OnUpdate()
+		{
+			if(IsRobot)
+			{
+
 			}
 		}
 	}

@@ -30,6 +30,7 @@ namespace MS
 					{
 						BattlePlayerData player = new BattlePlayerData();
 						player.PlayerId		= data.readInt();
+						player.IsRobot		= true;
 						player.PlayerName	= data.readUTF();
 						player.SceneId		= data.readByte();
 						player.HeroId		= data.readByte();
@@ -40,8 +41,6 @@ namespace MS
 						BattleManager.GetInst().LoadDouble(roomId, seed, frequency, stairs, others);
 					else if(type == 2)
 						BattleManager.GetInst().LoadFive(roomId, seed, frequency, stairs, others);
-					else if(type == 3)
-						BattleManager.GetInst().LoadRacing(roomId, seed, frequency, stairs, others);
 
 					break;
 				}
@@ -79,6 +78,7 @@ namespace MS
 				}
 				case RESULT:
 				{
+					BattleManager.GetInst().IsBattleRun = false;
 					bool bWin = data.readBoolean();
 					BattleResultPanel.GetInst().ShowPanel(bWin);
 					break;

@@ -10,7 +10,8 @@ namespace MS
 		public TextMeshPro PlayerIndexText;
 		public TextMesh PlayerNameText;
 
-		public int PlayerId { get; set; }
+		public bool	IsRobot		{ get; set; }
+		public int	PlayerId	{ get; set; }
 
 		private string _sPlayerName;
 		public string PlayerName
@@ -61,11 +62,11 @@ namespace MS
 
 		public void InitData(int playerId, string playerName, int sceneId, int hp, int playerIndex)
 		{
-			PlayerId = playerId;
-			PlayerIndex = playerIndex;
-			PlayerName = playerName;
-			MaxHP = hp;
-			CurHP = hp;
+			PlayerId	= playerId;
+			PlayerIndex	= playerIndex;
+			PlayerName	= playerName;
+			MaxHP		= hp;
+			CurHP		= hp;
 		}
 
 		public void ChangeHeroHp(int changeValue)

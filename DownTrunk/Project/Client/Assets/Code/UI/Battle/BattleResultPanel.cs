@@ -38,6 +38,7 @@ namespace MS
 
 		private void BackToMainScene()
 		{
+			BattleManager.GetInst().IsBattleRun = false;
 			SceneLoaderMain.GetInst().ShowMainScene();
 			SceneLoaderMain.GetInst().DestroyBattleUI();
 			SceneLoader.UnloadBattleScene();

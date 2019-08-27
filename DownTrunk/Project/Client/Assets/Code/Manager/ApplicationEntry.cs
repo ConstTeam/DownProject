@@ -1,4 +1,5 @@
 using MS;
+using System.Collections;
 using UnityEngine;
 
 public class ApplicationEntry : MonoBehaviour
@@ -87,4 +88,14 @@ public class ApplicationEntry : MonoBehaviour
 #endif
         PlatformBase.Init();
     }
+
+	private void OnApplicationPause(bool pause)
+	{
+		BattleManager mgr = BattleManager.GetInst();
+		if(mgr != null && mgr.IsBattleRun && pause)
+		{
+			BattleManager.GetInst().m_RoleM.Disable();
+			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { });
+		}
+	}
 }
