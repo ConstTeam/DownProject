@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4802702012719282}
   - component: {fileID: 61096616217620642}
   - component: {fileID: 50375459854469800}
-  - component: {fileID: 114742055721030588}
+  - component: {fileID: 114727515520994340}
   m_Layer: 0
-  m_Name: BattleHeroM
+  m_Name: BattleHero
   m_TagString: Role
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
---- !u!114 &114742055721030588
+--- !u!114 &114727515520994340
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

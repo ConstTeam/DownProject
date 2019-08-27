@@ -10,7 +10,7 @@ namespace MS
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			if(collision.CompareTag("Role"))
-				BattleManager.GetInst().m_RoleM.ReduceHp(1);
+				collision.GetComponent<BattleHero>().ReduceHp(1);
 			else
 			{
 				BattlePlat plat = collision.GetComponent<BattlePlat>();

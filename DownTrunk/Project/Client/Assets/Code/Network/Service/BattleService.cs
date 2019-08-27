@@ -46,8 +46,7 @@ namespace MS
 				}
 				case START:
 				{
-					BattleManager.GetInst().IsBattleRun = true;
-					BattleManager.GetInst().JoyStick.Show(true);
+					BattleManager.GetInst().BattleStart();
 					SocketHandler.GetInst().UdpStart();
 					break;
 				}

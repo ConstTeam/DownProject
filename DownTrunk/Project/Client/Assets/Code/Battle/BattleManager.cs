@@ -17,12 +17,12 @@ namespace MS
 		public int	Frequency	{ get; set; }
 		public int	Stairs		{ get; set; }
 
-		public Dictionary<int, BattleHeroBase>  m_dicHeros = new Dictionary<int, BattleHeroBase>(); 
+		public Dictionary<int, BattleHero>  m_dicHeros = new Dictionary<int, BattleHero>(); 
 
 		private Dictionary<int, int>				_dicPlayerIndex	= new Dictionary<int, int>();
 		private Dictionary<int, BattleField>		_dicField		= new Dictionary<int, BattleField>();
 		private Dictionary<int, BattlePlayerInfo>	_dicPlayerInfo	= new Dictionary<int, BattlePlayerInfo>();
-		public BattleHeroM m_RoleM;
+		public BattleHero m_RoleM;
 
 		private System.Random _rand;
 		private List<BattleFieldData> _lstFieldData = new List<BattleFieldData>();
@@ -63,7 +63,7 @@ namespace MS
 			field.Load(playerId, PlayerData.CurHero, PlayerData.CurScene);
 			_dicField.Add(playerId, field);
 
-			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroM", _dicField[playerId].ForegroundTran).GetComponent<BattleHeroM>();
+			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHero", _dicField[playerId].ForegroundTran).GetComponent<BattleHero>();
 			m_RoleM.Init(playerId, false, PlayerData.CurHero);
 			m_dicHeros.Add(playerId, m_RoleM);
 		}
@@ -78,7 +78,7 @@ namespace MS
 			field.Load(playerId, other.HeroId, other.SceneId);
 			_dicField.Add(playerId, field);
 
-			BattleHeroBase heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHeroE", _dicField[playerId].ForegroundTran).GetComponent<BattleHeroBase>();
+			BattleHero heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHero", _dicField[playerId].ForegroundTran).GetComponent<BattleHero>();
 			heroE.Init(playerId, other.IsRobot, other.HeroId);
 			m_dicHeros.Add(playerId, heroE);
 		}
@@ -153,6 +153,15 @@ namespace MS
 		public BattleFieldData GetFieldData(int index)
 		{
 			return _lstFieldData[index];
+		}
+
+		public void BattleStart()
+		{
+			for(int i = 0; i < _dicPlayerIndex.Count; ++i)
+				m_dicHeros[_dicPlayerIndex[i]].BattleStart();
+
+			IsBattleRun = true;
+			JoyStick.Show(true);
 		}
 
 		public void SetFieldPos(int frame)

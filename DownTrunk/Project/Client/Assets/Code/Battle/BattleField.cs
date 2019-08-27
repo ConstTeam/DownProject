@@ -156,7 +156,7 @@ namespace MS
 		}
 
 		//------
-		public void ChangePlatType(int count, int type, BattleHeroBase hero)
+		public void ChangePlatType(int count, int type, BattleHero hero)
 		{
 			float curHeroY = hero.m_Transform.localPosition.y;
 			for(int i = _iCurMinIndex; i < count; ++i)
@@ -170,7 +170,7 @@ namespace MS
 		}
 
 		private Vector3 _vecScale = new Vector3(0.5f, 1f, 1f);
-		public void ChangePlatScale(int count, BattleHeroBase hero)
+		public void ChangePlatScale(int count, BattleHero hero)
 		{
 			float curHeroY = hero.m_Transform.localPosition.y;
 			for(int i = _iCurMinIndex; i < count; ++i)
