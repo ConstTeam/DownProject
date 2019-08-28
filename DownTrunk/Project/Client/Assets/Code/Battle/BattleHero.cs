@@ -8,6 +8,7 @@ namespace MS
 		public Transform m_Transform;
 
 		private BattleEnum.RoleAnimType _animType;
+		private GameObject		_gameObject;
 		private BattleHeroSp	_roleSp;
 		private SpriteRenderer	_spRenderer;
 		private Sprite[]		_sp;
@@ -15,19 +16,24 @@ namespace MS
 		private Rigidbody2D		_rigidbody;
 		private Vector3			_vecRun;
 		private Vector3			_vecSlip;
+		
 		private bool			_bMine;
+		private BattleRobot		_robot;
 
-		public int PlayerId		{ get; set; }
-		public bool IsRobot		{ get; set; }
-		public int HeroId		{ get; set; }
-		public float RunSpeed	{ get; set; }
-		public float SlipSpeed	{ get; set; }
+		public int			PlayerId	{ get; set; }
+		public bool			IsRobot		{ get; set; }
+		public int			HeroId		{ get; set; }
+		public float		RunSpeed	{ get; set; }
+		public float		SlipSpeed	{ get; set; }
+		public BattlePlat	CurPlat		{ get; set; }
 
 		private void Awake()
 		{
 			m_Transform		= transform;
-			_boxCollider	= gameObject.GetComponent<BoxCollider2D>();
-			_rigidbody		= gameObject.GetComponent<Rigidbody2D>();
+			_gameObject		= gameObject;
+			_boxCollider	= _gameObject.GetComponent<BoxCollider2D>();
+			_rigidbody		= _gameObject.GetComponent<Rigidbody2D>();
+			_robot			= _gameObject.AddComponent<BattleRobot>();
 
 			RunSpeed		= 0.04f;
 			SlipSpeed		= 0.02f;
@@ -96,6 +102,7 @@ namespace MS
 		private int _lastX = 0, _lastY = 0;
 		private int _roleX = 0, _roleY = 0;
 		private float _t = 0f;
+		
 		private void OnUpdate()
 		{
 			_t += Time.deltaTime;
@@ -109,7 +116,12 @@ namespace MS
 					{
 						_roleX = (int)(m_Transform.localPosition.x * 1000);
 						_roleY = (int)(m_Transform.localPosition.y * 1000);
+					}
+					else if(IsRobot)
+						_robot.RobotControl(this);
 
+					if(_bMine)
+					{
 						if(_roleX != _lastX || _roleY != _lastY)
 						{
 							_lastX = _roleX;
@@ -121,12 +133,8 @@ namespace MS
 							SocketHandler.GetInst().UdpSend(buff);
 						}
 					}
-					else if(IsRobot)
-					{
-
-					}
 				}
-				_t = 0f;
+				_t -= 0.025f;
 			}
 		}
 
@@ -136,18 +144,29 @@ namespace MS
 			enabled = false;
 		}
 
+		float _runT = 0;
 		public void RunLeft()
 		{
-			_spRenderer.flipX = false;
-			_animType = BattleEnum.RoleAnimType.RunLeft;
-			m_Transform.localPosition -= _vecRun;
+			_runT += Time.deltaTime;
+			if(_runT > 0.025f)
+			{
+				_spRenderer.flipX = false;
+				_animType = BattleEnum.RoleAnimType.RunLeft;
+				m_Transform.localPosition -= _vecRun * _runT / 0.025f;
+				_runT = 0;
+			}	
 		}
 
 		public void RunRight()
 		{
-			_spRenderer.flipX = true;
-			_animType = BattleEnum.RoleAnimType.RunRight;
-			m_Transform.localPosition += _vecRun;
+			_runT += Time.deltaTime;
+			if(_runT > 0.025f)
+			{
+				_spRenderer.flipX = true;
+				_animType = BattleEnum.RoleAnimType.RunRight;
+				m_Transform.localPosition += _vecRun * _runT / 0.025f;
+				_runT = 0;
+			}
 		}
 
 		public void Idle()
@@ -156,14 +175,25 @@ namespace MS
 			_animType = BattleEnum.RoleAnimType.Idle;
 		}
 
+		float _moveT = 0;
 		public void MoveLeft()
 		{
-			m_Transform.localPosition -= _vecSlip;
+			_moveT += Time.deltaTime;
+			if(_moveT > 0.025f)
+			{
+				m_Transform.localPosition -= _vecSlip * _moveT / 0.025f;
+				_moveT = 0;
+			}
 		}
 
 		public void MoveRight()
 		{
-			m_Transform.localPosition += _vecSlip;
+			_moveT += Time.deltaTime;
+			if(_moveT > 0.025f)
+			{
+				m_Transform.localPosition += _vecSlip * _moveT / 0.025f;
+				_moveT = 0;
+			}
 		}
 
 		private void OnCollisionEnter2D(Collision2D collision)
@@ -178,30 +208,38 @@ namespace MS
 
 		private void CheckEnter(Collider2D collider)
 		{
-			switch(collider.tag)
+			if(collider.tag == "Plat")
 			{
-				case "Plat3":
-					RemovePlat(collider);
-					break;
-				case "Plat4":
-					_rigidbody.AddForce(Vector2.up * 200, ForceMode2D.Force);
-					break;
-				case "Plat5":
-					ReduceHp(1);
-					break;
+				CurPlat = collider.GetComponent<BattlePlat>();
+				switch(CurPlat.Type)
+				{
+					case 3:
+						RemovePlat(collider);
+						break;
+					case 4:
+						_rigidbody.AddForce(Vector2.up * 200, ForceMode2D.Force);
+						break;
+					case 5:
+						ReduceHp(1);
+						break;
+				}
 			}
 		}
 
 		private void CheckStay(Collider2D collider)
 		{
-			switch(collider.tag)
+			if(collider.tag == "Plat")
 			{
-				case "Plat1":
-					MoveLeft();
-					break;
-				case "Plat2":
-					MoveRight();
-					break;
+				BattlePlat plat = collider.GetComponent<BattlePlat>();
+				switch(plat.Type)
+				{
+					case 1:
+						MoveLeft();
+						break;
+					case 2:
+						MoveRight();
+						break;
+				}
 			}
 		}
 

@@ -30,7 +30,7 @@ namespace MS
 					{
 						BattlePlayerData player = new BattlePlayerData();
 						player.PlayerId		= data.readInt();
-						player.IsRobot		= true;
+						player.IsRobot		= data.readBoolean();
 						player.PlayerName	= data.readUTF();
 						player.SceneId		= data.readByte();
 						player.HeroId		= data.readByte();

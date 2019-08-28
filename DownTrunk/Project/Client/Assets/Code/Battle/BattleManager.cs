@@ -170,9 +170,14 @@ namespace MS
 				_dicField[_dicPlayerIndex[i]].SetPos(frame * Frequency * 0.001f);
 		}
 
-		public void SetFieldPos(float y)
+		public float GetFieldPos(int playerId)
 		{
-			_dicField[PlayerData.PlayerId].SetPos(y);
+			return _dicField[playerId].GetPos();
+		}
+
+		public BattlePlat GetPlat(int playerId, int index)
+		{
+			return _dicField[playerId].GetPlat(index);
 		}
 
 		public void SetRolePos(int playerId, float x, float y)

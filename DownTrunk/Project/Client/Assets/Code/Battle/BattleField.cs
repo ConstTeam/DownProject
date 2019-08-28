@@ -76,6 +76,11 @@ namespace MS
 			_matBg.mainTextureOffset = _tempPos;
 		}
 
+		public float GetPos()
+		{
+			return ForegroundTran.localPosition.y;
+		}
+
 		public void PlatOutField(BattlePlat plat)
 		{
 			RemovePlat(plat);
@@ -89,6 +94,14 @@ namespace MS
 			AddPlat();
 		}
 
+		public BattlePlat GetPlat(int Index)
+		{
+			if(_dicPlat.ContainsKey(Index))
+				return _dicPlat[Index];
+			else
+				return null;
+		}
+
 		private int _iPlatIndex = -1;
 		public void AddPlat()
 		{
@@ -98,6 +111,7 @@ namespace MS
 			BattleFieldData field = BattleManager.GetInst().GetFieldData(_iPlatIndex);
 			BattlePlat plat = ResourceMgr.PopBox(SceneId, field.Type);
 			plat.Index = _iPlatIndex;
+			plat.X = field.X;
 			plat.Y = field.Y;
 			plat.m_Transform.SetParent(ForegroundTran);
 			plat.m_Transform.localPosition = new Vector3(field.X, field.Y, 0f);

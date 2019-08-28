@@ -14,7 +14,7 @@ namespace MS
 					BattleManager.GetInst().m_RoleM.Disable();
 					CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { });
 				}
-			}	
+			}
 		}
 	}
 }

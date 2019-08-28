@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114161811837811764}
   m_Layer: 9
   m_Name: Plat3
-  m_TagString: Plat3
+  m_TagString: Plat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
