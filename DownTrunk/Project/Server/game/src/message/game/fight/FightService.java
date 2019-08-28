@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import message.hall.login.LoginService;
+import module.fight.BattleRole;
 import module.scene.GameRoom;
 import net.DataAccessException;
 import net.IByteBuffer;
@@ -45,7 +46,8 @@ public class FightService extends Servicelet {
 			useItem(session, deviceId, playerId, targetId, itemId, mainSkill);
 			break;
 		case FightMsgConst.HERO_DIED:
-			heroDied(session, deviceId, playerId);
+			int deadPlayerId = data.readInt();
+			heroDied(session, deviceId, playerId, deadPlayerId);
 			break;
 		}
 	}
@@ -202,7 +204,7 @@ public class FightService extends Servicelet {
 		}
 	}
 	
-	private void heroDied(ISession session, String deviceId, int playerId) {
+	private void heroDied(ISession session, String deviceId, int playerId, int deadPlayerId) {
 		if (deviceId != null && !LoginService.checkDeviceId(playerId, deviceId, session)) {
 			return;
 		}
@@ -229,12 +231,17 @@ public class FightService extends Servicelet {
 				logger.error("玩家：{}，房间Id：{}，英雄死亡失败。游戏房间不存在。", playerId, roomId);
 				return;
 			}
-			if (!room.isInRoom(playerId)) {
+			BattleRole role = room.getBattleRole(deadPlayerId);
+			if (role == null) {
 				logger.error("玩家：{}，房间Id：{}，英雄死亡失败。未在游戏房间内。", playerId, roomId);
 				return;
 			}
-			room.heroDied(playerId);
-			logger.info("玩家：{}，房间Id：{}，英雄死亡。", playerId, roomId);
+			if (!role.isRobot() && playerId != deadPlayerId) {
+				logger.error("玩家：{}，房间Id：{}，英雄死亡失败。非已方英雄死亡，死亡玩家Id：{}。", playerId, roomId, deadPlayerId);
+				return;
+			}
+			room.heroDied(role);
+			logger.info("玩家：{}，房间Id：{}，英雄死亡，死亡玩家Id：{}。", playerId, roomId, deadPlayerId);
 		} finally {
 			GameRoomManager.getInstance().getLock().unlock(roomId);
 		}

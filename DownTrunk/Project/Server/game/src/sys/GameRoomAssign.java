@@ -37,7 +37,7 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 	private static final int INTERVAL = 1000;
 
 	/** 分配超时时间（秒） */
-	public static final int LAST_ASSIGN_TIME = 30;
+	public static final int LAST_ASSIGN_TIME = 5;
 	
 	private static GameRoomAssign instance;
 
@@ -128,12 +128,12 @@ public class GameRoomAssign implements Runnable, UncaughtExceptionHandler {
 						}
 					}
 					
-					if (roomPlayerList.size() < 2) {
-						// 将已分配玩家重塞回分配队伍。
-						addPlayerInMatchingList(roomPlayerList, assignType, playerInfoA);
-						Thread.sleep(INTERVAL);
-						continue;
-					}
+//					if (roomPlayerList.size() < 2) {
+//						// 将已分配玩家重塞回分配队伍。
+//						addPlayerInMatchingList(roomPlayerList, assignType, playerInfoA);
+//						Thread.sleep(INTERVAL);
+//						continue;
+//					}
 					
 					/*
 					 *  分配服务器，Redis创建房间，生成房间号

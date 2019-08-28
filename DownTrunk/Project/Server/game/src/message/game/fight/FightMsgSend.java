@@ -77,6 +77,7 @@ public class FightMsgSend {
 				continue;
 			}
 			data.writeInt(role.getPlayerId());
+			data.writeBoolean(role.isRobot());
 			data.writeUTF(role.getNickname());
 			data.writeByte(role.getSceneId());
 			data.writeByte(role.getRoleId());
@@ -145,7 +146,7 @@ public class FightMsgSend {
 		data.writeByte(GameMsgModuleConst.FIGHT_RESPONSE);
 		data.writeByte(FightMsgConst.SETTLEMENT);
 
-		data.writeBoolean(isWin);
+		data.writeInt(playerId);
 		
 		session.send(data);
 		logger.debug("{} - {} playerId:{} isWin:{}", GameMsgModuleConst.FIGHT_RESPONSE, FightMsgConst.SETTLEMENT, playerId, isWin);

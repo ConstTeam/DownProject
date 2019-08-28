@@ -2,6 +2,8 @@ package module.scene;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -91,6 +93,36 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		UDPMsgManager.getInstance().setPlayerRoom(playerId, roomId);
 		if (players.size() == this.templet.maxNum) {
 			gameStart();
+		} else if (players.size() == 1) {
+			autoJoinRobot();
+		}
+		return SUCCESS;
+	}
+	
+	public int joinGameByRobot() {
+		if (state != ROOM_STATE_JOIN) {
+			return -1;
+		}
+		if (players.size() >= this.templet.maxNum) {
+			return -1;
+		}
+		Iterator<Entry<Integer, PlayerInfo>> iterator = players.entrySet().iterator();
+		PlayerInfo playerInfo = iterator.next().getValue();
+		BattleRole battleRole = new BattleRole(this.heroUId, "Robot", this.templet.initHp, this.heroUId);
+		battleRole.setRoomId(this.roomId);
+		battleRole.setIcon(playerInfo.getIcon());
+		battleRole.setSceneId(playerInfo.getSceneId());
+		battleRole.setRoleId(playerInfo.getRoleId());
+		battleRole.setRobot(true);
+		fighters.put(battleRole.getPlayerId(), battleRole);
+		fightersByUid.put(battleRole.getUid(), battleRole);
+		this.heroUId++;
+		
+		logger.info("Robot：{}，房间Id：{}，加入房间。", this.heroUId, this.roomId);
+		if (fighters.size() >= this.templet.maxNum) {
+			gameStart();
+		} else {
+			autoJoinRobot();
 		}
 		return SUCCESS;
 	}
@@ -109,6 +141,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 
 	@Override
 	public void gameStart() {
+		interruptTimer();
 		logger.info("房间Id：{}，准备开始游戏。", this.roomId);
 		state = ROOM_STATE_READY;
 		playState = PLAY_STATE_START;
@@ -168,11 +201,8 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		FightMsgSend.heroDiedSync(sessions, playerId);
 	}
 
-	public boolean heroDied(int playerId) {
-		BattleRole role = getBattleRole(playerId);
-		if (role == null) {
-			return false;
-		}
+	public boolean heroDied(BattleRole role) {
+		int playerId = role.getPlayerId();
 		if (role.isDead()) {
 			return false;
 		}
@@ -219,7 +249,7 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		state = ROOM_STATE_END;
 		try {
 			for (BattleRole fighter : this.getBattleRoles().values()) {
-				FightMsgSend.settlement(this.getSession(fighter.getPlayerId()), fighter.getPlayerId(), fighter.getPlayerId() == playerId);
+				FightMsgSend.settlement(this.getSession(fighter.getPlayerId()), playerId, fighter.getPlayerId() == playerId);
 			}
 		} catch (Exception e) {
 			ErrorPrint.print(e);
@@ -346,6 +376,15 @@ public class GameRoom extends RoomConst implements ISceneAction {
 		future = GameTimer.getScheduled().schedule(() -> autoReady(), seconds, TimeUnit.MILLISECONDS);
 	}
 	
+	private void autoJoinRobot() {
+		/*
+		 * 倒计时5秒
+		 */
+		logger.info("房间：{}，倒计时2秒后自动安放机器人。", this.roomId);
+		int seconds = 2000;
+		future = GameTimer.getScheduled().schedule(() -> joinGameByRobot(), seconds, TimeUnit.MILLISECONDS);
+	}
+
 	private void autoReady() {
 		GameRoomManager.getInstance().getLock().lock(getRoomId());
 		try {
