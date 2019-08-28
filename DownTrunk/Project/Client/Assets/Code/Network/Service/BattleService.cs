@@ -78,8 +78,9 @@ namespace MS
 				case RESULT:
 				{
 					BattleManager.GetInst().IsBattleRun = false;
-					bool bWin = data.readBoolean();
-					BattleResultPanel.GetInst().ShowPanel(bWin);
+					int playerId = data.readInt();
+					BattleManager.GetInst().DisableHero(playerId);
+					BattleResultPanel.GetInst().ShowPanel(playerId);
 					break;
 				}
 				case HERO_FAILED:

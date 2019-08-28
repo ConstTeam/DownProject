@@ -94,8 +94,8 @@ public class ApplicationEntry : MonoBehaviour
 		BattleManager mgr = BattleManager.GetInst();
 		if(mgr != null && mgr.IsBattleRun && pause)
 		{
-			BattleManager.GetInst().m_RoleM.Disable();
-			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { });
+			BattleManager.GetInst().DisableHero(PlayerData.PlayerId);
+			CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { PlayerData.PlayerId });
 		}
 	}
 }

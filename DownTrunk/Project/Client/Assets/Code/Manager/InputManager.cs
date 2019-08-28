@@ -39,11 +39,11 @@ namespace MS
 			if(BattleManager.GetInst() != null && BattleManager.GetInst().IsBattleRun)
 			{
 				if(Input.GetKey(KeyCode.A))
-					BattleManager.GetInst().m_RoleM.RunLeft();
+					BattleManager.GetInst().RunLeft(PlayerData.PlayerId);
 				else if(Input.GetKey(KeyCode.D))
-					BattleManager.GetInst().m_RoleM.RunRight();
+					BattleManager.GetInst().RunRight(PlayerData.PlayerId);
 				else if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-					BattleManager.GetInst().m_RoleM.Idle();
+					BattleManager.GetInst().Idle(PlayerData.PlayerId);
 			}
 #endif
 		}

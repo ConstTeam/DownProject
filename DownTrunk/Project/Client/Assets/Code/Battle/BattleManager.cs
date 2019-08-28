@@ -17,12 +17,10 @@ namespace MS
 		public int	Frequency	{ get; set; }
 		public int	Stairs		{ get; set; }
 
-		public Dictionary<int, BattleHero>  m_dicHeros = new Dictionary<int, BattleHero>(); 
-
+		private Dictionary<int, BattleHero>			_dicHeros		= new Dictionary<int, BattleHero>(); 
 		private Dictionary<int, int>				_dicPlayerIndex	= new Dictionary<int, int>();
 		private Dictionary<int, BattleField>		_dicField		= new Dictionary<int, BattleField>();
 		private Dictionary<int, BattlePlayerInfo>	_dicPlayerInfo	= new Dictionary<int, BattlePlayerInfo>();
-		public BattleHero m_RoleM;
 
 		private System.Random _rand;
 		private List<BattleFieldData> _lstFieldData = new List<BattleFieldData>();
@@ -63,9 +61,9 @@ namespace MS
 			field.Load(playerId, PlayerData.CurHero, PlayerData.CurScene);
 			_dicField.Add(playerId, field);
 
-			m_RoleM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHero", _dicField[playerId].ForegroundTran).GetComponent<BattleHero>();
-			m_RoleM.Init(playerId, false, PlayerData.CurHero);
-			m_dicHeros.Add(playerId, m_RoleM);
+			BattleHero heroM = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHero", _dicField[playerId].ForegroundTran).GetComponent<BattleHero>();
+			heroM.Init(playerId, false, PlayerData.CurHero);
+			_dicHeros.Add(playerId, heroM);
 		}
 
 		public void LoadOther(Vector3 pos, BattlePlayerData other, int index, float scale)
@@ -80,7 +78,7 @@ namespace MS
 
 			BattleHero heroE = ResourceLoader.LoadAssetAndInstantiate("Prefab/BattleHero", _dicField[playerId].ForegroundTran).GetComponent<BattleHero>();
 			heroE.Init(playerId, other.IsRobot, other.HeroId);
-			m_dicHeros.Add(playerId, heroE);
+			_dicHeros.Add(playerId, heroE);
 		}
 
 		private void LoadPlayerInfo(int playerId, string playerName, int sceneId, int hp, int playerIndex)
@@ -158,7 +156,7 @@ namespace MS
 		public void BattleStart()
 		{
 			for(int i = 0; i < _dicPlayerIndex.Count; ++i)
-				m_dicHeros[_dicPlayerIndex[i]].BattleStart();
+				_dicHeros[_dicPlayerIndex[i]].BattleStart();
 
 			IsBattleRun = true;
 			JoyStick.Show(true);
@@ -183,7 +181,7 @@ namespace MS
 		public void SetRolePos(int playerId, float x, float y)
 		{
 			if(PlayerData.PlayerId != playerId)
-				m_dicHeros[playerId].SetPos(x, y);
+				_dicHeros[playerId].SetPos(x, y);
 		}
 
 		public void RemovePlat(int playerId, BattlePlat plat)
@@ -219,6 +217,27 @@ namespace MS
 		public void SetFailed(int playerId)
 		{
 			_dicField[playerId].IsFailed = true;
+			DisableHero(playerId);
+		}
+
+		public void DisableHero(int playerId)
+		{
+			_dicHeros[playerId].Disable();
+		}
+
+		public void Idle(int playerId)
+		{
+			_dicHeros[playerId].Idle();
+		}
+
+		public void RunLeft(int playerId)
+		{
+			_dicHeros[playerId].RunLeft();
+		}
+
+		public void RunRight(int playerId)
+		{
+			_dicHeros[playerId].RunRight();
 		}
 
 		#region --Skill----------------------------------------------------------
@@ -227,7 +246,7 @@ namespace MS
 			switch(type)
 			{
 				case 0:
-					_dicField[toId].ChangePlatType(3, 0, m_dicHeros[toId]);
+					_dicField[toId].ChangePlatType(3, 0, _dicHeros[toId]);
 					break;
 				case 1:
 					//_lstFields[toId].ChangeHeroHp(1);
@@ -236,7 +255,7 @@ namespace MS
 					//_lstFields[toId].ChangeHeroHp(-1);
 					break;
 				case 3:
-					_dicField[toId].ChangePlatScale(5, m_dicHeros[toId]);
+					_dicField[toId].ChangePlatScale(5, _dicHeros[toId]);
 					break;
 			}
 			

@@ -25,8 +25,9 @@ namespace MS
 			BackBtn.onClick.AddListener(BackToMainScene);
 		}
 
-		public void ShowPanel(bool bWin)
+		public void ShowPanel(int playerId)
 		{
+			bool bWin = playerId == PlayerData.PlayerId;
 			StartCoroutine(PlayAnim(bWin));
 		}
 

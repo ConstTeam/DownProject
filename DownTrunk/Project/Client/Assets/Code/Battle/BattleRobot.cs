@@ -34,9 +34,9 @@ namespace MS
 						hero.Idle();
 					else
 					{
-						if(hero.m_Transform.localPosition.x > nextPlat.X + 0.9f)
+						if(hero.m_Transform.localPosition.x > nextPlat.X + 1.1f)
 							hero.RunLeft();
-						else if(hero.m_Transform.localPosition.x < nextPlat.X - 0.9f)
+						else if(hero.m_Transform.localPosition.x < nextPlat.X - 1.1f)
 							hero.RunRight();
 						else
 						{

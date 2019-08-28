@@ -52,16 +52,16 @@ namespace MS
 			}
 			
 			if(_iDirection == -1)
-				BattleManager.GetInst().m_RoleM.RunLeft();
+				BattleManager.GetInst().RunLeft(PlayerData.PlayerId);
 			else if(_iDirection == 1)
-				BattleManager.GetInst().m_RoleM.RunRight();
+				BattleManager.GetInst().RunRight(PlayerData.PlayerId);
 		}
 
 		private void OnMouseUp()
 		{
 			_iDirection = 0;
 			_fLastDis = 0;
-			BattleManager.GetInst().m_RoleM.Idle();
+			BattleManager.GetInst().Idle(PlayerData.PlayerId);
 		}
 	}
 }

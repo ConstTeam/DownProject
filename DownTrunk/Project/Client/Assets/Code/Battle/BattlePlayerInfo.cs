@@ -44,11 +44,8 @@ namespace MS
 
 				if(_iCurHp == 0)
 				{
-					if(BattleManager.GetInst().BattleType == 2 && PlayerId == PlayerData.PlayerId)
-					{
-						BattleManager.GetInst().m_RoleM.Disable();
-						CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { });
-					}
+					if(BattleManager.GetInst().BattleType == 2)
+						CommonCommand.ExecuteLongBattle(Client2ServerList.GetInst().C2S_BATTLE_HERO_FAILED, new ArrayList() { PlayerId });
 				}
 			}
 		}
